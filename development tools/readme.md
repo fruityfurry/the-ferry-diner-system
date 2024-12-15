@@ -1,0 +1,1 @@
+These files are for development purposes only. They are tools to create the base files with things like usernames and passwords and such so that the actual program can be tested. They MUST be removed when the system is deployed as they contain usernames and passwords in plain text which is a huge security risk. 
