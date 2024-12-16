@@ -19,7 +19,7 @@ class Login(tk.Tk):
         logo = ttk.Label(self, image=logoImg)
         logo.place(x=240, y=80)
         
-        userEntry = ttk.Entry(self, textvariable=self.user)
+        userEntry = ttk.Entry(self, textvariable=self.user, style="TEntry")
         userEntry.place(x=280, y=300)
         
         self.mainloop()
