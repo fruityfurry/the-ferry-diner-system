@@ -9,11 +9,22 @@ class Entry(tk.Entry):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         
-        self.config(bg=colors.GUTTER,
+        self.config(bg=colors.ITEM,
                     fg=colors.FOREGROUND,
-                    borderwidth=10,
+                    borderwidth=3,
                     relief="flat",
                     highlightbackground=colors.OUTLINE,
                     highlightcolor=colors.HIGHLIGHT,
-                    highlightthickness=4,
+                    highlightthickness=3,
+                    font=("Verdana", 14))
+        
+class Button(tk.Button):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        
+        self.config(bg=colors.ITEM,
+                    fg=colors.FOREGROUND,
+                    relief="flat",
+                    activebackground=colors.HIGHLIGHT,
+                    activeforeground=colors.FOREGROUND,
                     font=("Verdana", 14))
