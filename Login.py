@@ -1,8 +1,7 @@
 import tkinter as tk
-from tkinter import ttk
 from hashlib import sha256 as hash
 import colors
-import styles
+import widgets
 
 class Login(tk.Tk):
     def __init__(self, *args, **kwargs) -> None:
@@ -11,15 +10,13 @@ class Login(tk.Tk):
         self.geometry("800x600")
         self.config(bg=colors.BACKGROUND)
         
-        styles.defineAllStyles(self)
-        
         self.user = tk.StringVar();
         
         logoImg = tk.PhotoImage(file="resources/diner.png")
-        logo = ttk.Label(self, image=logoImg)
-        logo.place(x=240, y=80)
+        logo = tk.Label(self, image=logoImg, borderwidth=0)
+        logo.place(x=400, y=40, anchor="n")
         
-        userEntry = ttk.Entry(self, textvariable=self.user, style="TEntry")
-        userEntry.place(x=280, y=300)
+        userEntry = widgets.Entry(self, textvariable=self.user)
+        userEntry.place(x=282, y=300)
         
         self.mainloop()
