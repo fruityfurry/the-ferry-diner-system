@@ -11,13 +11,15 @@ class Login(tk.Tk):
         self.geometry("800x600")
         self.config(bg=colors.BACKGROUND)
         
-        self.user = tk.StringVar(self);
+        styles.defineAllStyles(self)
         
-        logoImg = tk.PhotoImage(master=self, file="resources/diner.png")
+        self.user = tk.StringVar();
+        
+        logoImg = tk.PhotoImage(file="resources/diner.png")
         logo = ttk.Label(self, image=logoImg)
         logo.place(x=240, y=80)
         
-        userEntry = ttk.Entry(self, textvariable=self.user, width=20)
+        userEntry = ttk.Entry(self, textvariable=self.user)
         userEntry.place(x=280, y=300)
         
         self.mainloop()
