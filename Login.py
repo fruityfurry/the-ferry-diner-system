@@ -17,6 +17,6 @@ class Login(tk.Tk):
         logo.place(x=400, y=40, anchor="n")
         
         userEntry = widgets.Entry(self, textvariable=self.user)
-        userEntry.place(x=282, y=300)
+        userEntry.place(x=265, y=300)
         
         self.mainloop()

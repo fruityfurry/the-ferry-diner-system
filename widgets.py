@@ -14,5 +14,6 @@ class Entry(tk.Entry):
                     borderwidth=10,
                     relief="flat",
                     highlightbackground=colors.OUTLINE,
+                    highlightcolor=colors.HIGHLIGHT,
                     highlightthickness=4,
                     font=("Verdana", 14))
