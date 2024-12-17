@@ -5,6 +5,14 @@ Shortcuts to make tkinter widgets with my particular style options to save on co
 import tkinter as tk
 import colors
 
+class Label(tk.Label):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        
+        self.config(bg=colors.BACKGROUND,
+                    fg=colors.FOREGROUND,
+                    font=("Verdana", 14))
+
 class Entry(tk.Entry):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
