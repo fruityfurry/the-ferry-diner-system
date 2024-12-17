@@ -14,6 +14,7 @@ class Login(tk.Tk):
         self.resizable(False, False)
         self.config(bg=colors.BACKGROUND)
         
+        # Types explicitly stated for clarity.
         self.employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
         self.usernames: List[str] = [employee.username for employee in self.employees]
         self.passwordHashes: Dict[str, int] = pickle.load(open("data/passwordHashes.dat", "rb"))
@@ -54,7 +55,6 @@ class Login(tk.Tk):
     def logInButtonPress(self) -> None:
         username = self.username.get()
         password = self.password.get()
-        print(self.usernames)
         
         if username == "":
             self.error("Username empty")
