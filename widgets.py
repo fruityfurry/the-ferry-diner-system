@@ -45,4 +45,4 @@ class Spinbox(tk.Spinbox):
                     fg=colors.FOREGROUND,
                     buttonbackground=colors.ITEM,
                     state="readonly",  # Removes the ability to type into the text box.
-                    font=("Verdana", 14))
+                    font=("Verdana", 28))

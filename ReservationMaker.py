@@ -14,5 +14,5 @@ class ReservationMaker(tk.Tk):
         self.user = user
         
         self.peopleNum = widgets.Spinbox(self, from_=1, to=9, width=5)
-        self.peopleNum.place(x=600, y=400)
+        self.peopleNum.place(x=580, y=460)
         
