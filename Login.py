@@ -2,6 +2,7 @@ import tkinter as tk
 import pickle
 from hashing import hash
 from typing import List, Dict
+from Employee import Employee
 import colors
 import widgets
 
@@ -13,7 +14,8 @@ class Login(tk.Tk):
         self.resizable(False, False)
         self.config(bg=colors.BACKGROUND)
         
-        self.usernames: List[str] = pickle.load(open("data/usernames.dat", "rb"))
+        self.employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
+        self.usernames: List[str] = [employee.name for employee in self.employees]
         self.passwordHashes: Dict[str, int] = pickle.load(open("data/passwordHashes.dat", "rb"))
         
         self.username = tk.StringVar()
@@ -50,13 +52,16 @@ class Login(tk.Tk):
         self.logInButton.config(fg=colors.FOREGROUND)
         
     def logInButtonPress(self) -> None:
-        if self.username.get() == "":
+        username = self.username.get()
+        password = self.password.get()
+        
+        if username == "":
             self.error("Username empty")
-        elif self.password.get() == "":
+        elif password == "":
             self.error("Password empty")
+        elif username not in self.usernames:
+            self.error("Incorrect username")
+        elif self.passwordHashes[username] != hash(password):
+            self.error("Incorrect password")
         else:
-            if self.username.get() not in self.usernames:
-                self.error("Incorrect username")
-            elif self.passwordHashes[self.username.get()] != hash:
-                self.error("Incorrect password")
-            else 
+            ...
