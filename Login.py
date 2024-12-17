@@ -40,6 +40,8 @@ class Login(tk.Tk):
         self.logInButton = widgets.Button(self, textvariable=self.logInButtonText, width=20, height=2, command=self.logInButtonPress)
         self.logInButton.place(x=400, y=496, anchor="n")
         
+        self.bind("<Return>", self.onReturn)
+        
         self.mainloop()
         
     def error(self, message: str) -> None:
@@ -53,6 +55,9 @@ class Login(tk.Tk):
     def resetLogInButton(self) -> None:
         self.logInButtonText.set("Log In")
         self.logInButton.config(fg=colors.FOREGROUND)
+        
+    def onReturn(self, event: tk.Event) -> None:
+        self.logInButtonPress()
         
     def logInButtonPress(self) -> None:
         username = self.username.get()
@@ -71,7 +76,10 @@ class Login(tk.Tk):
             # Validation was carried out earlier to ensure this never fails.
             user = self.employees[self.usernames.index(username)]
             
+            self.destroy()  # Destroy this window as it is no longer needed.
+            
             # Go to correct menu depending on type of user.
+            # All windows from now on will take an extra "user" parameter so they know which user is logged in.
             if username == "colinr83":
                 AdminMenu(user)
             else:
