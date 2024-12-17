@@ -14,6 +14,7 @@ class AdminMenu(tk.Tk):
         
         self.user = user
         
-        
+        logOutButton = widgets.Button(self, text="Log Out", width=10, height=2)
+        logOutButton.place(x=18, y=18)
         
         self.mainloop()
