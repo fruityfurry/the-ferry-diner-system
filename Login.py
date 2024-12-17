@@ -15,7 +15,7 @@ class Login(tk.Tk):
         self.config(bg=colors.BACKGROUND)
         
         self.employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
-        self.usernames: List[str] = [employee.name for employee in self.employees]
+        self.usernames: List[str] = [employee.username for employee in self.employees]
         self.passwordHashes: Dict[str, int] = pickle.load(open("data/passwordHashes.dat", "rb"))
         
         self.username = tk.StringVar()
