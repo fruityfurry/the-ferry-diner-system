@@ -54,6 +54,7 @@ class Login(tk.Tk):
     def logInButtonPress(self) -> None:
         username = self.username.get()
         password = self.password.get()
+        print(self.usernames)
         
         if username == "":
             self.error("Username empty")
@@ -64,4 +65,4 @@ class Login(tk.Tk):
         elif self.passwordHashes[username] != hash(password):
             self.error("Incorrect password")
         else:
-            ...
+            self.error("hooray!")
