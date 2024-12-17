@@ -41,8 +41,8 @@ class Spinbox(tk.Spinbox):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         
-        self.config(bg=colors.ITEM,
+        self.config(readonlybackground=colors.ITEM,
                     fg=colors.FOREGROUND,
-                    relief="flat",
+                    buttonbackground=colors.ITEM,
+                    state="readonly",  # Removes the ability to type into the text box.
                     font=("Verdana", 14))
-        

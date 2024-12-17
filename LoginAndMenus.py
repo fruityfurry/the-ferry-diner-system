@@ -124,15 +124,16 @@ class AdminMenu(tk.Tk):
         viewCustomersButton = widgets.Button(self, text="View Customers", width=20, height=2, command=self.viewCustomers)
         viewCustomersButton.place(x=400, y=510, anchor="n")
         
-        self.after(3 * 60 * 1000, self.logOut)  # Return to login after three minutes of inactivity.
+        # Return to login after three minutes of inactivity.
+        self.timeout = self.after(3 * 60 * 1000, self.logOut)  # Store to member variable so this can be cancelled later.
         self.bind("<Motion>", self.resetTimeOut)  # Reset timeout every time the mouse is moved.
         
         self.mainloop()
         
     def resetTimeOut(self, event: tk.Event) -> None:
         # Cancel timeout and start timer again.
-        self.after_cancel("logOut")
-        self.after(3 * 60 * 1000, self.logOut)
+        self.after_cancel(self.timeout)
+        self.timeout = self.after(3 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
         self.destroy()
@@ -142,6 +143,7 @@ class AdminMenu(tk.Tk):
         ...  # TODO: revenue tally 
         
     def makeReservation(self) -> None:
+        self.destroy()
         ReservationMaker(self.user)
         
     def createMeal(self) -> None:
