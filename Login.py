@@ -3,6 +3,8 @@ import pickle
 from hashing import hash
 from typing import List, Dict
 from Employee import Employee
+from AdminMenu import AdminMenu
+from EmployeeMenu import EmployeeMenu
 import colors
 import widgets
 
@@ -65,4 +67,12 @@ class Login(tk.Tk):
         elif self.passwordHashes[username] != hash(password):
             self.error("Incorrect password")
         else:
-            self.error("hooray!")
+            # Set user equal to employee object with username entered.
+            # Validation was carried out earlier to ensure this never fails.
+            user = self.employees[self.usernames.index(username)]
+            
+            # Go to correct menu depending on type of user.
+            if username == "colinr83":
+                AdminMenu(user)
+            else:
+                EmployeeMenu(user)
