@@ -95,9 +95,6 @@ class AdminMenu(tk.Tk):
         self.config(bg=colors.BACKGROUND)
         
         self.user = user
-        print(user.username)
-        print(user.name)
-        print(user.reservationsMade)
         
         logOutButton = widgets.Button(self, text="Log Out", width=10, height=2, command=self.logOut)
         logOutButton.place(x=15, y=15)
@@ -106,28 +103,22 @@ class AdminMenu(tk.Tk):
         tallyRevenueButton.place(x=785, y=15, anchor="ne")
         
         makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
-        makeReservationButton.place(x=380, y=110, anchor="ne")
+        makeReservationButton.place(x=380, y=120, anchor="ne")
         
-        createMealButton = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
-        createMealButton.place(x=380, y=210, anchor="ne")
+        createMealButton = widgets.Button(self, text="Create Meal", width=20, height=2, command=self.createMeal)
+        createMealButton.place(x=380, y=253, anchor="ne")
         
-        addEmployeeButton2 = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
-        addEmployeeButton2.place(x=380, y=310, anchor="ne")
+        addEmployeeButton = widgets.Button(self, text="Add Employee", width=20, height=2, command=self.addEmployee)
+        addEmployeeButton.place(x=380, y=386, anchor="ne")
         
-        makeReservationButton3 = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
-        makeReservationButton3.place(x=380, y=410, anchor="ne")
+        viewReservationsButton = widgets.Button(self, text="View Reservations", width=20, height=2, command=self.viewReservations)
+        viewReservationsButton.place(x=420, y=120, anchor="nw")
         
-        makeReservationButton4 = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
-        makeReservationButton4.place(x=420, y=110, anchor="nw")
+        viewMealsButton = widgets.Button(self, text="View Meals", width=20, height=2, command=self.viewMeals)
+        viewMealsButton.place(x=420, y=253, anchor="nw")
         
-        makeReservationButton5 = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
-        makeReservationButton5.place(x=420, y=210, anchor="nw")
-        
-        makeReservationButton6 = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
-        makeReservationButton6.place(x=420, y=310, anchor="nw")
-        
-        makeReservationButton7 = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
-        makeReservationButton7.place(x=420, y=410, anchor="nw")
+        viewEmployeesButton = widgets.Button(self, text="View Employees", width=20, height=2, command=self.viewEmployees)
+        viewEmployeesButton.place(x=420, y=386, anchor="nw")
         
         viewCustomersButton = widgets.Button(self, text="View Customers", width=20, height=2, command=self.viewCustomers)
         viewCustomersButton.place(x=400, y=510, anchor="n")
@@ -151,6 +142,21 @@ class AdminMenu(tk.Tk):
         
     def makeReservation(self) -> None:
         ...  # TODO: reservation maker
+        
+    def createMeal(self) -> None:
+        ...  # TODO: meal creator
+        
+    def addEmployee(self) -> None:
+        ...  # TODO: employee adder
+        
+    def viewReservations(self) -> None:
+        ...  # TODO: reservation viewer
+        
+    def viewMeals(self) -> None:
+        ...  # TODO: meal viewer
+        
+    def viewEmployees(self) -> None:
+        ...  # TODO: employee viewer
     
     def viewCustomers(self) -> None:
         ...  # TODO: customer viewer
