@@ -36,3 +36,13 @@ class Button(tk.Button):
                     activebackground=colors.HIGHLIGHT,
                     activeforeground=colors.FOREGROUND,
                     font=("Verdana", 14))
+        
+class Spinbox(tk.Spinbox):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        
+        self.config(bg=colors.ITEM,
+                    fg=colors.FOREGROUND,
+                    relief="flat",
+                    font=("Verdana", 14))
+        

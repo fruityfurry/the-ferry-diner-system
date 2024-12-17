@@ -3,6 +3,7 @@ import pickle
 from hashing import hash
 from typing import List, Dict
 from Employee import Employee
+from ReservationMaker import ReservationMaker
 import colors
 import widgets
 
@@ -89,7 +90,7 @@ class Login(tk.Tk):
 class AdminMenu(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.title("Employee Login")
+        self.title("Admin Menu")
         self.geometry("800x600")
         self.resizable(False, False)
         self.config(bg=colors.BACKGROUND)
@@ -141,7 +142,7 @@ class AdminMenu(tk.Tk):
         ...  # TODO: revenue tally 
         
     def makeReservation(self) -> None:
-        ...  # TODO: reservation maker
+        ReservationMaker(self.user)
         
     def createMeal(self) -> None:
         ...  # TODO: meal creator
