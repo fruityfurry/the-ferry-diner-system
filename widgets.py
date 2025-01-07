@@ -19,11 +19,11 @@ class Entry(tk.Entry):
         
         self.config(bg=colors.ITEM,
                     fg=colors.FOREGROUND,
-                    borderwidth=3,
+                    borderwidth=1,
                     relief="flat",
                     highlightbackground=colors.OUTLINE,
                     highlightcolor=colors.HIGHLIGHT,
-                    highlightthickness=3,
+                    highlightthickness=1,
                     font=("Verdana", 14))
         
 class Button(tk.Button):

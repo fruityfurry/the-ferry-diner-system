@@ -25,10 +25,10 @@ class ReservationMaker(tk.Tk):
         self.time  = tk.StringVar()
         
         fNameEntry = widgets.Entry(self, textvariable=self.fName, width=20)
-        fNameEntry.place(x=20, y=20)
+        fNameEntry.place(x=160, y=78)
         
         sNameEntry = widgets.Entry(self, textvariable=self.sName, width=20)
-        sNameEntry.place(x=20, y=120)
+        sNameEntry.place(x=160, y=160)
         
         self.peopleNum = widgets.Spinbox(self, from_=1, to=9, width=5)
         self.peopleNum.place(x=580, y=460)
