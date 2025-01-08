@@ -6,8 +6,9 @@ from Meal import Meal
 
 meals = [
     Meal(0, "Steamed Oysters", 14.99),
-    Meal(1, "Cheeseboard", 12.99),
-    Meal(2, "Scrambled Eggs", 6.99)
+    Meal(1, "Cheeseboard", 6.99),
+    Meal(2, "Scrambled Eggs", 6.99),
+    Meal(3, "Tomato Soup", 8.99)
 ]
 
 with open("data/meals.dat", "wb+") as file:

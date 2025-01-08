@@ -51,6 +51,13 @@ class Dropdown(tk.OptionMenu):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         
-        self.config(bg=colors.BACKGROUND,
+        self.config(bg=colors.ITEM,
                     fg=colors.FOREGROUND,
-                    font=("Verdana", 26))
+                    borderwidth=2,
+                    relief="flat",
+                    activebackground=colors.HIGHLIGHT,
+                    highlightbackground=colors.OUTLINE,
+                    highlightcolor=colors.HIGHLIGHT,
+                    highlightthickness=2,
+                    width=17,
+                    font=("Verdana", 14))

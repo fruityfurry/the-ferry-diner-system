@@ -24,11 +24,13 @@ class ReservationMaker(tk.Tk):
         self.sName = tk.StringVar()
         self.sName.trace_add("write", self.nameChange)
         self.phone = tk.StringVar()
-        self.meals: List[Meal] = []
+        self.meals: List[Meal] = pickle.load(open("data/meals.dat", "rb"))
+        print(self.meals)
         self.mealNames = [meal.name for meal in self.meals]
         self.time  = tk.StringVar()
         
-        self.selectedMeal = self.meals[0].name
+        self.selectedMeal = tk.StringVar()
+        self.selectedMeal.set(self.meals[0].name)
         
         fNameLabel = widgets.Label(self, text="First Name", width=10, height=1)
         fNameLabel.place(x=160, y=78, anchor="ne")
@@ -45,7 +47,8 @@ class ReservationMaker(tk.Tk):
         phoneEntry = widgets.Entry(self, textvariable=self.phone, width=20)
         phoneEntry.place(x=160, y=240)
         
-        self.mealDropdown = widgets.Dropdown(self, self.selectedMeal, *self.mealNames)
+        mealDropdown = widgets.Dropdown(self, self.selectedMeal, *self.mealNames)
+        mealDropdown.place(x=160, y=320)
         
         self.peopleNum = widgets.Spinbox(self, from_=1, to=9, width=5)
         self.peopleNum.place(x=580, y=460)
