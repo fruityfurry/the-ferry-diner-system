@@ -9,6 +9,8 @@ def levenstein(a: str, b: str) -> int:
         return len(b)
     elif len(b) == 0:
         return len(a)
+    elif _head(a) == _head(b):
+        return levenstein(_tail(a), _tail(b))
     else:
         return 1 + min([levenstein(_tail(a), b),
                         levenstein(a, _tail(b)),

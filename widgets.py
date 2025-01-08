@@ -3,6 +3,7 @@ Shortcuts to make tkinter widgets with my particular style options to save on co
 """
 
 import tkinter as tk
+from tkinter import scrolledtext
 import colors
 
 class Label(tk.Label):
@@ -45,7 +46,7 @@ class Spinbox(tk.Spinbox):
                     fg=colors.FOREGROUND,
                     buttonbackground=colors.ITEM,
                     state="readonly",  # Removes the ability to type into the text box.
-                    font=("Verdana", 26))
+                    font=("Verdana", 22))
         
 class Dropdown(tk.OptionMenu):
     def __init__(self, *args, **kwargs) -> None:
@@ -61,3 +62,22 @@ class Dropdown(tk.OptionMenu):
                     highlightthickness=2,
                     width=17,
                     font=("Verdana", 14))
+        
+class TextBox(scrolledtext.ScrolledText):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        
+        self.config(bg=colors.ITEM,
+                    fg=colors.FOREGROUND,
+                    relief="flat",
+                    highlightbackground=colors.OUTLINE,
+                    highlightcolor=colors.OUTLINE,
+                    highlightthickness=2,
+                    state=tk.DISABLED,
+                    font=("Verdana", 14))
+        
+    def setText(self, text: str) -> None:
+        self.config(state=tk.NORMAL)
+        self.delete("1.0", tk.END)
+        self.insert("1.0", text)
+        self.config(state=tk.DISABLED)
