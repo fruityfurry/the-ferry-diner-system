@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(1, "C:/Users/kasss/Documents/My Code/Python/The Ferry Diner")  # Allows import of files in parent directory.
 import pickle
 from Employee import Employee
 

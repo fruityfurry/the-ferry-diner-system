@@ -19,11 +19,11 @@ class Entry(tk.Entry):
         
         self.config(bg=colors.ITEM,
                     fg=colors.FOREGROUND,
-                    borderwidth=1,
+                    borderwidth=2,
                     relief="flat",
                     highlightbackground=colors.OUTLINE,
                     highlightcolor=colors.HIGHLIGHT,
-                    highlightthickness=1,
+                    highlightthickness=2,
                     font=("Verdana", 14))
         
 class Button(tk.Button):
@@ -45,4 +45,12 @@ class Spinbox(tk.Spinbox):
                     fg=colors.FOREGROUND,
                     buttonbackground=colors.ITEM,
                     state="readonly",  # Removes the ability to type into the text box.
-                    font=("Verdana", 28))
+                    font=("Verdana", 26))
+        
+class Dropdown(tk.OptionMenu):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        
+        self.config(bg=colors.BACKGROUND,
+                    fg=colors.FOREGROUND,
+                    font=("Verdana", 26))
