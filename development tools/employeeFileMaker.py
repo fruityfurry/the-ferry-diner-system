@@ -9,4 +9,3 @@ reservationsMade = 2
 
 with open("data/employees.dat", "wb+") as file:
     pickle.dump([Employee(username, name, reservationsMade)], file)
-    

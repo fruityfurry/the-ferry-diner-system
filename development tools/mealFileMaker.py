@@ -8,7 +8,8 @@ meals = [
     Meal(0, "Steamed Oysters", 14.99),
     Meal(1, "Cheeseboard", 6.99),
     Meal(2, "Scrambled Eggs", 6.99),
-    Meal(3, "Tomato Soup", 8.99)
+    Meal(3, "Tomato Soup", 8.99),
+    Meal(4, "Fresh Scampi and Chips", 11.99)
 ]
 
 with open("data/meals.dat", "wb+") as file:
