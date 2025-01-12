@@ -247,9 +247,6 @@ class ReservationMaker(tk.Tk):
             
             employees = EmployeeDB()
             employees.incrementReservationsMade(self.user.username)
-                    
-            with open("data/employees.dat", "wb") as file:
-                pickle.dump(employees, file)
                 
             self.makeReservationButton.config(text="Success!", disabledforeground=colors.HIGHLIGHT, state=tk.DISABLED)
             
