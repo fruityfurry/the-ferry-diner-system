@@ -60,7 +60,6 @@ class Dropdown(tk.OptionMenu):
                     highlightbackground=colors.OUTLINE,
                     highlightcolor=colors.HIGHLIGHT,
                     highlightthickness=2,
-                    width=17,
                     font=("Verdana", 14))
         
 class TextBox(scrolledtext.ScrolledText):
@@ -88,6 +87,8 @@ class Listbox(tk.Listbox):
         
         self.config(bg=colors.ITEM,
                     fg=colors.FOREGROUND,
+                    activestyle="dotbox",
+                    selectmode=tk.EXTENDED,
                     relief="flat",
                     highlightbackground=colors.OUTLINE,
                     highlightcolor=colors.OUTLINE,

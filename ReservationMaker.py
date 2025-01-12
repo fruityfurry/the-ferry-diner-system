@@ -65,6 +65,7 @@ class ReservationMaker(tk.Tk):
         mealLabel = widgets.Label(self, text="Meal", width=5, height=1)
         mealLabel.place(x=160, y=320, anchor="ne")
         mealDropdown = widgets.Dropdown(self, self.selectedMeal, *mealNames)
+        mealDropdown.config(width=17)
         mealDropdown.place(x=160, y=320)
         
         removeButton = widgets.Button(self, text="Remove", width=9, height=1, command=self.removeMeal)
@@ -75,8 +76,9 @@ class ReservationMaker(tk.Tk):
         
         timeLabel = widgets.Label(self, text="Time", width=5, height=1)
         timeLabel.place(x=160, y=460, anchor="ne")
-        timeEntry = widgets.Dropdown(self, self.time, *timeslots)
-        timeEntry.place(x=160, y=460)
+        timeDropdown = widgets.Dropdown(self, self.time, *timeslots)
+        timeDropdown.config(width=17)
+        timeDropdown.place(x=160, y=460)
         
         customerSearch = widgets.Label(self, textvariable=self.customerSearchText, width=25, height=4, wraplength=280)
         customerSearch.config(bg=colors.ITEM, highlightbackground=colors.OUTLINE, highlightthickness=2,)

@@ -2,8 +2,8 @@ from __future__ import annotations
 from Reservation import Reservation
 
 class ReservationSearch:
-    def __init__(self, reservationID: int | None, customerID: int | None, employeeUser: str | None,
-                 time: str | None, peopleNum: int | None) -> None:
+    def __init__(self, reservationID: int | None = None, customerID: int | None = None, employeeUser: str | None = None,
+                 time: str | None = None, peopleNum: int | None = None) -> None:
         self.reservationID = reservationID
         self.customerID = customerID
         self.employeeUser = employeeUser
@@ -11,15 +11,15 @@ class ReservationSearch:
         self.peopleNum = peopleNum
         
     def matches(self, reservation: Reservation) -> bool:
-        if reservation.reservationID == self.reservationID:
-            return True
-        if reservation.customerID == self.customerID:
-            return True
-        if reservation.employeeUser == self.employeeUser:
-            return True
-        if reservation.time == self.time:
-            return True
-        if reservation.peopleNum == self.peopleNum:
-            return True
+        if reservation.reservationID != self.reservationID and self.reservationID is not None:
+            return False
+        if reservation.customerID != self.customerID and self.customerID is not None:
+            return False
+        if reservation.employeeUser != self.employeeUser and self.employeeUser is not None:
+            return False
+        if reservation.time != self.time and self.time is not None:
+            return False
+        if reservation.peopleNum != self.peopleNum and self.peopleNum is not None:
+            return False
         
-        return False
+        return True

@@ -72,7 +72,8 @@ class AdminMenu(tk.Tk):
         ...  # TODO: employee adder
         
     def viewReservations(self) -> None:
-        ReservationViewer.ReservationViewer(self.user, None)
+        self.destroy()
+        ReservationViewer.ReservationViewer(self.user)
         
     def viewMeals(self) -> None:
         ...  # TODO: meal viewer

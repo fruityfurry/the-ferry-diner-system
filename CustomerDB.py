@@ -41,6 +41,13 @@ class CustomerDB:
                 return customer.customerID
         
         raise ValueError(f"Customer {fName} {sName} (Phone: {phone}) was not found.")
+    
+    def getByID(self, customerID: int) -> Customer:
+        for customer in self.customers:
+            if customer.customerID == customerID:
+                return customer
+        
+        raise ValueError(f"Customer with ID {customerID} was not found.")
         
     def saveChanges(self) -> None:
         with open("data/customers.dat", "wb") as file:
