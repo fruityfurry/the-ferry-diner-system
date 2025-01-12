@@ -81,3 +81,15 @@ class TextBox(scrolledtext.ScrolledText):
         self.delete("1.0", tk.END)
         self.insert("1.0", text)
         self.config(state=tk.DISABLED)
+        
+class Listbox(tk.Listbox):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        
+        self.config(bg=colors.ITEM,
+                    fg=colors.FOREGROUND,
+                    relief="flat",
+                    highlightbackground=colors.OUTLINE,
+                    highlightcolor=colors.OUTLINE,
+                    highlightthickness=2,
+                    font=("Verdana", 14))

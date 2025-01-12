@@ -4,6 +4,7 @@ import colors
 import widgets
 import Login
 import ReservationMaker
+import ReservationViewer
 
 class AdminMenu(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -71,7 +72,7 @@ class AdminMenu(tk.Tk):
         ...  # TODO: employee adder
         
     def viewReservations(self) -> None:
-        ...  # TODO: reservation viewer
+        ReservationViewer.ReservationViewer(self.user, None)
         
     def viewMeals(self) -> None:
         ...  # TODO: meal viewer

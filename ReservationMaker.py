@@ -1,7 +1,6 @@
 import tkinter as tk
 import pickle
-from hashing import hash
-from typing import List, Dict
+from typing import List
 from Employee import Employee
 from Customer import Customer
 import colors
@@ -97,7 +96,7 @@ class ReservationMaker(tk.Tk):
         self.makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
         self.makeReservationButton.place(x=400, y=520, anchor="n")
         
-        backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.logOut)
+        backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
         backButton.place(x=20, y=540)
         
         self.timeout = self.after(3 * 60 * 1000, self.logOut)
@@ -122,7 +121,7 @@ class ReservationMaker(tk.Tk):
             EmployeeMenu.EmployeeMenu(self.user)
         
     def error(self, message: str) -> None:
-        # Display error message on log in button and remove after three seconds.
+        # Display error message on Make Reservation button and remove after three seconds.
         self.makeReservationButton.config(text=message)
         self.makeReservationButton.config(fg=colors.ERROR)
         self.after(3000, self.resetMakeReservationButton)
@@ -273,4 +272,4 @@ class ReservationMaker(tk.Tk):
                 
             self.makeReservationButton.config(text="Success!", disabledforeground=colors.HIGHLIGHT, state=tk.DISABLED)
             
-            self.after(3 * 1000, self.returnToMenu)
+            self.after(1 * 1000, self.returnToMenu)
