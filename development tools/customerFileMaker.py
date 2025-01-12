@@ -9,7 +9,8 @@ customers = [
     Customer(2, "Tom", "Dave", "07625633390"),
     Customer(3, "Kenneth", "Taylor", "07622911108"),
     Customer(4, "Adam", "Lock-it", "07262822918"),
-    Customer(5, "Carly", "Gomery", "07724822276")
+    Customer(5, "Carly", "Gomery", "07724822276"),
+    Customer(6, "Wren", "Butler", "07837299319")
 ]
 
 with open("data/customers.dat", "wb+") as file:

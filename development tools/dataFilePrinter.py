@@ -13,7 +13,8 @@ filepaths = [
     "data/meals.dat",
     "data/passwordHashes.dat",
     "data/reservations.dat",
-    "data/timeslots.dat"
+    "data/timeslots.dat",
+    "data/orders.dat"
 ]
 
 for filepath in filepaths:

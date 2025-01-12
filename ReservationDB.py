@@ -19,8 +19,11 @@ class ReservationDB:
         return matches
     
     def add(self, customerID: int, employeeUser: str, time: str, peopleNum: int, meals: List[Meal]) -> None:
-        reservationID = self.reservations[-1].reservationID + 1  # Reservations are stored in ascending PK order so this will
-                                                                 # always produce a unique ID.
+        if len(self.reservations) == 0:
+            reservationID = 0
+        else:
+            reservationID = self.reservations[-1].reservationID + 1  # Reservations are stored in ascending PK order so this will
+                                                                     # always produce a unique ID.
 
         self.reservations.append(Reservation(reservationID, customerID, employeeUser, time, peopleNum))
         
@@ -41,6 +44,10 @@ class ReservationDB:
         orders.deleteAssociated(reservationID)
         
         self.saveChanges()
+        
+    def getAssociatedMeals(self, reservationID: int) -> List[Meal]:
+        orders = OrderDB()
+        return orders.getAssociatedMeals(reservationID)
         
     def saveChanges(self) -> None:
         with open("data/reservations.dat", "wb") as file:

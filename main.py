@@ -8,4 +8,4 @@ from typing import List
 
 employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
 user = employees[0]  # Admin user.
-AdminMenu.AdminMenu(user)  # Skip straight to admin menu. For testing purposes only.
+AdminMenu.AdminMenu(user)  # Skip straight to admin menu. For testing purposes only.w

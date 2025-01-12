@@ -9,7 +9,10 @@ class OrderDB:
         self.orders: List[Order] = pickle.load(open("data/orders.dat", "rb"))
         
     def add(self, reservationID: int, mealID: int) -> None:
-        orderID = self.orders[-1].orderID + 1
+        if len(self.orders) == 0:
+            orderID = 0
+        else:
+            orderID = self.orders[-1].orderID + 1
         
         self.orders.append(Order(orderID, reservationID, mealID))
         

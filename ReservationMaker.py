@@ -10,6 +10,10 @@ import Login
 from Reservation import Reservation
 import AdminMenu
 import EmployeeMenu
+from CustomerDB import CustomerDB
+from ReservationDB import ReservationDB
+from MealDB import MealDB
+from EmployeeDB import EmployeeDB
 
 class ReservationMaker(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -29,14 +33,14 @@ class ReservationMaker(tk.Tk):
 
         self.phone = tk.StringVar()
         self.mealsOrdered: List[Meal] = []
-        self.customers: List[Customer] = pickle.load(open("data/customers.dat", "rb"))
-        self.meals: List[Meal] = pickle.load(open("data/meals.dat", "rb"))
-        mealNames = [meal.name for meal in self.meals]
+        self.customers = CustomerDB()
+        self.meals = MealDB()
+        mealNames = [meal.name for meal in self.meals.meals]
         timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))
         self.time = tk.StringVar()
         
         self.selectedMeal = tk.StringVar()
-        self.selectedMeal.set(self.meals[0].name)
+        self.selectedMeal.set(self.meals.meals[0].name)
         
         self.customerSearchText = tk.StringVar()
         self.customerSearchText.set("Start typing to search customers.")
@@ -135,7 +139,7 @@ class ReservationMaker(tk.Tk):
         fullName = fullName.lower()
         
         # If match found, suggest they be autofilled.
-        for customer in self.customers:
+        for customer in self.customers.customers:
             customerFullName = customer.fName + " " + customer.sName
             customerFullName = customerFullName.lower()
             
@@ -177,25 +181,19 @@ class ReservationMaker(tk.Tk):
     def addMeal(self) -> None:
         selectedMeal = self.selectedMeal.get()
         
-        for meal in self.meals:
-            if meal.name == selectedMeal:
-                selectedMeal = meal
-                break
+        selectedMeal = self.meals.getByName(selectedMeal)
         
-        self.mealsOrdered.append(selectedMeal)  # type: ignore
+        self.mealsOrdered.append(selectedMeal)
         self.formatMeals()
         self.updateTotal()
         
     def removeMeal(self) -> None:
         selectedMeal = self.selectedMeal.get()
         
-        for meal in self.meals:
-            if meal.name == selectedMeal:
-                selectedMeal = meal
-                break
+        selectedMeal = self.meals.getByName(selectedMeal)
             
         try:
-            self.mealsOrdered.remove(selectedMeal)  # type: ignore
+            self.mealsOrdered.remove(selectedMeal)
         except:
             pass
         
@@ -230,42 +228,25 @@ class ReservationMaker(tk.Tk):
         elif self.time.get() == "":
             self.error("Time empty")
         else:
-            reservations: List[Reservation] = pickle.load(open("data/reservations.dat", "rb"))
+            reservations = ReservationDB()
             fName = self.fName.get()
             sName = self.sName.get()
             phone = self.phone.get()
             time  = self.time.get()
             peopleNum = int(self.peopleNum.get())
             
-            customerFound = False
-            customerID = self.customers[-1].customerID + 1
-            
-            for customer in self.customers:
-                if (customer.fName == fName and
-                    customer.sName == sName and
-                    customer.phone == phone):
-                    customerFound = True
-                    customerID = customer.customerID
+            customerFound = self.customers.exists(fName, sName, phone)
                     
             if not customerFound:
-                self.customers.append(Customer(customerID, fName, sName, phone))
-                
-            if len(reservations) == 0:
-                reservationID = 0
+                self.customers.add(fName, sName, phone)
+                customerID = self.customers.customers[-1].customerID
             else:
-                reservationID = reservations[-1].reservationID + 1
+                customerID = self.customers.getID(fName, sName, phone)
                 
-            reservations.append(Reservation(reservationID, customerID, self.user.username, time, peopleNum))
+            reservations.add(customerID, self.user.username, time, peopleNum, self.mealsOrdered)
             
-            with open("data/reservations.dat", "wb") as file:
-                pickle.dump(reservations, file)
-            
-            employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
-            
-            for employee in employees:
-                if employee == self.user:
-                    employee.reservationsMade += 1
-                    break
+            employees = EmployeeDB()
+            employees.incrementReservationsMade(self.user.username)
                     
             with open("data/employees.dat", "wb") as file:
                 pickle.dump(employees, file)

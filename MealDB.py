@@ -7,7 +7,10 @@ class MealDB:
         self.meals: List[Meal] = pickle.load(open("data/meals.dat", "rb"))
         
     def add(self, name: str, price: float) -> None:
-        mealID = self.meals[-1].mealID + 1
+        if len(self.meals) == 0:
+            mealID = 0
+        else:
+            mealID = self.meals[-1].mealID + 1
         
         self.meals.append(Meal(mealID, name, price))
         
