@@ -79,7 +79,7 @@ class ReservationViewer(tk.Tk):
         else:
             EmployeeMenu.EmployeeMenu(self.user)
             
-    def updateNumSelected(self, event: tk.Event) -> None:
+    def updateNumSelected(self, event: tk.Event | None) -> None:
         self.numSelectedLabel.config(text=f"{len(self.listbox.curselection())} Selected")
             
     def sortByChanged(self, varName: str, index: str, action: str) -> None:
@@ -100,6 +100,7 @@ class ReservationViewer(tk.Tk):
             self.reservations = sorted(self.reservations, key=lambda x: x.peopleNum)
             
         self.updateListbox()
+        self.updateNumSelected(None)
     
             
     def updateListbox(self) -> None:
@@ -127,6 +128,7 @@ class ReservationViewer(tk.Tk):
             self.reservations.remove(reservation)
             
         self.updateListbox()
+        self.updateNumSelected(None)
         
     def makeSearch(self, search: ReservationSearch = ReservationSearch()) -> None:
         self.reservations = self.reservationDB.findMatches(search)

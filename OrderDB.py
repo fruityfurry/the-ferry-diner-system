@@ -30,9 +30,20 @@ class OrderDB:
         return matches
         
     def deleteAssociated(self, reservationID: int) -> None:
-        for order in self.orders:
+        print(self.orders)
+        
+        indexesToDelete = []
+        
+        for index, order in enumerate(self.orders):
             if order.reservationID == reservationID:
-                self.orders.remove(order)
+                indexesToDelete.append(index)
+                
+        indexesToDelete.reverse()
+                
+        for index in indexesToDelete:
+            del self.orders[index]
+                
+        print(self.orders)
         
         self.saveChanges()
         
