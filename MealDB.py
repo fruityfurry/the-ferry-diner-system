@@ -1,10 +1,20 @@
 import pickle
 from typing import List
 from Meal import Meal
+from MealSearch import MealSearch
 
 class MealDB:
     def __init__(self) -> None:
         self.meals: List[Meal] = pickle.load(open("data/meals.dat", "rb"))
+        
+    def findMatches(self, search: MealSearch) -> List[Meal]:
+        matches = []
+        
+        for meal in self.meals:
+            if search.matches(meal):
+                matches.append(meal)
+                
+        return matches
         
     def add(self, name: str, price: float) -> None:
         if len(self.meals) == 0:

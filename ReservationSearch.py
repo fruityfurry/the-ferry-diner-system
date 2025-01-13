@@ -1,5 +1,4 @@
 from Reservation import Reservation
-from CustomerDB import CustomerDB
 
 class ReservationSearch:
     def __init__(self, reservationID: int | None = None, customerID: int | None = None, employeeUser: str | None = None,

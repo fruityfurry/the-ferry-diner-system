@@ -4,8 +4,6 @@
 import AdminMenu
 from Employee import Employee
 from EmployeeDB import EmployeeDB
-import pickle
-from typing import List
 
 employees = EmployeeDB()
 user = employees.getByUsername("colinr83")  # Admin user.
