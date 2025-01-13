@@ -60,6 +60,7 @@ class Dropdown(tk.OptionMenu):
                     highlightbackground=colors.OUTLINE,
                     highlightcolor=colors.HIGHLIGHT,
                     highlightthickness=2,
+                    justify="left",
                     font=("Verdana", 14))
         
 class TextBox(scrolledtext.ScrolledText):

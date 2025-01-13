@@ -3,9 +3,10 @@
 
 import AdminMenu
 from Employee import Employee
+from EmployeeDB import EmployeeDB
 import pickle
 from typing import List
 
-employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
-user = employees[0]  # Admin user.
+employees = EmployeeDB()
+user = employees.getByUsername("colinr83")  # Admin user.
 AdminMenu.AdminMenu(user)  # Skip straight to admin menu. For testing purposes only.
