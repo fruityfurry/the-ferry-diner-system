@@ -2,6 +2,7 @@ import pickle
 from typing import List
 from Meal import Meal
 from MealSearch import MealSearch
+import OrderDB
 
 class MealDB:
     def __init__(self) -> None:
@@ -31,6 +32,9 @@ class MealDB:
             if meal.mealID == mealID:
                 self.meals.remove(meal)
                 break
+            
+        orders = OrderDB.OrderDB()
+        orders.deleteAllWithMeal(mealID)
         
         self.saveChanges()
         

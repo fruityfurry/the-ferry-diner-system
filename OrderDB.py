@@ -3,6 +3,7 @@ from typing import List
 from Order import Order
 from Meal import Meal
 from MealDB import MealDB
+import ReservationDB
 
 class OrderDB:
     def __init__(self) -> None:
@@ -42,6 +43,17 @@ class OrderDB:
             del self.orders[index]
         
         self.saveChanges()
+        
+    def deleteAllWithMeal(self, mealID: int) -> None:
+        reservations = ReservationDB.ReservationDB()
+        
+        while True:
+            for order in self.orders:
+                if order.mealID == mealID:
+                    reservations.delete(order.reservationID)
+                    continue
+                
+            break  # If made a full run through the for loop, that means no more orders/reservations with this meal exist.
         
     def saveChanges(self) -> None:
         with open("data/orders.dat", "wb") as file:
