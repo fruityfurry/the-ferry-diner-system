@@ -127,10 +127,10 @@ class ReservationMaker(tk.Tk):
             EmployeeMenu.EmployeeMenu(self.user)
         
     def error(self, message: str) -> None:
-        # Display error message on Make Reservation button and remove after three seconds.
+        # Display error message on Make Reservation button and remove after one second.
         self.makeReservationButton.config(text=message)
         self.makeReservationButton.config(fg=colors.ERROR)
-        self.after(3000, self.resetMakeReservationButton)
+        self.after(1000, self.resetMakeReservationButton)
         
     def resetMakeReservationButton(self) -> None:
         self.makeReservationButton.config(text="Make Reservation")
@@ -217,12 +217,16 @@ class ReservationMaker(tk.Tk):
             self.error("First name empty")
         elif len(self.fName.get()) > 20:
             self.error("First name too long")
+        elif not self.fName.get().isalpha():
+            self.error("First name invalid")
         elif self.sName.get() == "":
             self.error("Surname empty")
         elif len(self.sName.get()) > 20:
             self.error("Surname too long")
+        elif not self.sName.get().isalpha():
+            self.error("Surname invalid")
         elif len(self.phone.get()) != 11:
-            self.error("Invalid phone number")
+            self.error("Phone number too long")
         elif not self.phone.get().isnumeric():
             self.error("Invalid phone number")
         elif len(self.mealsOrdered) == 0:
@@ -231,8 +235,8 @@ class ReservationMaker(tk.Tk):
             self.error("Time empty")
         else:
             reservations = ReservationDB()
-            fName = self.fName.get()
-            sName = self.sName.get()
+            fName = self.fName.get().strip()
+            sName = self.sName.get().strip()
             phone = self.phone.get()
             time  = self.time.get()
             peopleNum = int(self.peopleNum.get())
@@ -252,4 +256,4 @@ class ReservationMaker(tk.Tk):
                 
             self.makeReservationButton.config(text="Success!", disabledforeground=colors.HIGHLIGHT, state=tk.DISABLED)
             
-            self.after(1 * 1000, self.returnToMenu)
+            self.after(1000, self.returnToMenu)

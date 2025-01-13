@@ -1,5 +1,5 @@
 import tkinter as tk
-import pickle
+from tkinter import messagebox
 from typing import List, Tuple
 from Employee import Employee
 import colors
@@ -11,6 +11,8 @@ import EmployeeMenu
 from ReservationSearch import ReservationSearch
 from ReservationDB import ReservationDB
 from CustomerDB import CustomerDB
+from OrderDB import OrderDB
+from Meal import Meal
 
 class ReservationViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -126,7 +128,7 @@ class ReservationViewer(tk.Tk):
             
         self.updateListbox()
         
-    def makeSearch(self, search: ReservationSearch = ReservationSearch()) -> None:#
+    def makeSearch(self, search: ReservationSearch = ReservationSearch()) -> None:
         self.reservations = self.reservationDB.findMatches(search)
         self.sort()
         
@@ -136,16 +138,50 @@ class ReservationViewer(tk.Tk):
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)
         
-        
-        
-        def tryMakeSearch():
-            ...
-        
         customerName = tk.StringVar(dialog)
         employeeName = tk.StringVar(dialog)
         time = tk.StringVar(dialog)
         peopleNum = tk.StringVar(dialog)
         
+        def resetSearchButton() -> None:
+            
+            searchButton.config(fg=colors.FOREGROUND, text="Search")
+        
+        def error(text: str) -> None:
+            searchButton.config(fg=colors.ERROR, text=text)
+            dialog.after(1000, resetSearchButton)
+        
+        def tryMakeSearch() -> None:
+            if customerName.get() == "":
+                customerSearch = None
+            else:
+                customerSearch = customerName.get()
+                
+            if employeeName.get() == "":
+                employeeSearch = None
+            else:
+                employeeSearch = employeeName.get()
+                
+            if time.get() == "":
+                timeSearch = None
+            else:
+                timeSearch = time.get()
+                
+            if peopleNum.get() == "":
+                peopleNumSearch = None
+            else:
+                try:
+                    peopleNumSearch = int(peopleNum.get())
+                except:
+                    error("Invalid No. of People")
+                    return
+            
+            search = ReservationSearch(time=timeSearch, peopleNum=peopleNumSearch,
+                                       customerSearch=customerSearch, employeeSearch=employeeSearch)
+            
+            dialog.destroy()
+            self.makeSearch(search)
+                            
         customerNameLabel = widgets.Label(dialog, text="Customer Name", width=13)
         customerNameLabel.place(x=275, y=40, anchor="ne")
         customerNameEntry = widgets.Entry(dialog, textvariable=customerName, width=20)
@@ -173,4 +209,29 @@ class ReservationViewer(tk.Tk):
         cancelButton.place(x=40, y=560, anchor="sw")
         
     def viewOrderedMeals(self) -> None:
-        ...
+        selected = self.getSelected()
+        
+        customers = CustomerDB()
+        orders = OrderDB()
+        
+        def formatMeals(meals: List[Meal]) -> str:
+            text = ""
+            mealsSeen = []
+            
+            for i, meal1 in enumerate(meals):
+                if meal1 not in mealsSeen:
+                    quantity = 1
+                    mealsSeen.append(meal1)
+                    
+                    for j, meal2 in enumerate(meals):
+                        if meal1 == meal2 and i != j:
+                            quantity += 1
+                        
+                    text += f"x{quantity} {meal1.name} - £{round(meal1.price, 2)}\n"
+                    
+            return text[:-1]  # Exclude last newline character.
+        
+        for reservation in selected:
+            customer = customers.getByID(reservation.customerID)
+            meals = orders.getAssociatedMeals(reservation.reservationID)
+            messagebox.showinfo(f"{customer.fName} {customer.sName}'s Ordered Meals", formatMeals(meals))

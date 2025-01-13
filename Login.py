@@ -49,10 +49,10 @@ class Login(tk.Tk):
         self.mainloop()
         
     def error(self, message: str) -> None:
-        # Display error message on log in button and remove after three seconds.
+        # Display error message on log in button and remove after one second.
         self.logInButtonText.set(message)
         self.logInButton.config(fg=colors.ERROR)
-        self.after(3000, self.resetLogInButton)
+        self.after(1000, self.resetLogInButton)
         
     def resetLogInButton(self) -> None:
         self.logInButtonText.set("Log In")
