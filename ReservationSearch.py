@@ -1,14 +1,17 @@
-from __future__ import annotations
 from Reservation import Reservation
+from CustomerDB import CustomerDB
 
 class ReservationSearch:
     def __init__(self, reservationID: int | None = None, customerID: int | None = None, employeeUser: str | None = None,
-                 time: str | None = None, peopleNum: int | None = None) -> None:
+                 time: str | None = None, peopleNum: int | None = None, customerSearch: str | None = None,
+                 employeeSearch: str | None = None) -> None:
         self.reservationID = reservationID
         self.customerID = customerID
         self.employeeUser = employeeUser
         self.time = time
         self.peopleNum = peopleNum
+        self.customerSearch = customerSearch
+        self.employeeSearch = employeeSearch
         
     def matches(self, reservation: Reservation) -> bool:
         if reservation.reservationID != self.reservationID and self.reservationID is not None:

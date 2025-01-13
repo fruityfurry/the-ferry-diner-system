@@ -1,6 +1,6 @@
 import tkinter as tk
 import pickle
-from typing import List
+from typing import List, Tuple
 from Employee import Employee
 import colors
 import widgets
@@ -22,11 +22,12 @@ class ReservationViewer(tk.Tk):
         
         self.user = user
         
-        reservationDB = ReservationDB()
-        self.reservations = reservationDB.reservations
+        self.reservationDB = ReservationDB()
+        self.reservations = self.reservationDB.reservations
         self.reservations = sorted(self.reservations, key=lambda x: x.time)
         
         self.sortBy = tk.StringVar(self, "Time")
+        self.sortBy.trace_add("write", self.sortByChanged)
         
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
         backButton.place(x=20, y=20)
@@ -34,13 +35,14 @@ class ReservationViewer(tk.Tk):
         self.numSelectedLabel = widgets.Label(self, text="0 Selected", width=10, height=1)
         self.numSelectedLabel.place(x=400, y=25, anchor="n")
         
-        sortByLabel = widgets.Label(self, text="Sort by: ", width=9, height=1)
+        sortByLabel = widgets.Label(self, text="Sort by ", width=9, height=1)
         sortByLabel.place(x=480, y=25)
         sortByDropdown = widgets.Dropdown(self, self.sortBy, *["Time", "Name", "People"])
         sortByDropdown.config(width=12)
         sortByDropdown.place(x=780, y=20, anchor="ne")
         
         self.listbox = widgets.Listbox(self, width=63, height=18)
+        self.listbox.bind("<<ListboxSelect>>", self.updateNumSelected)
         self.listbox.place(x=20, y=80)
         
         deleteButton = widgets.Button(self, text="Delete Selected", width=14, height=1, command=self.deleteSelected)
@@ -74,9 +76,29 @@ class ReservationViewer(tk.Tk):
             AdminMenu.AdminMenu(self.user)
         else:
             EmployeeMenu.EmployeeMenu(self.user)
+            
+    def updateNumSelected(self, event: tk.Event) -> None:
+        self.numSelectedLabel.config(text=f"{len(self.listbox.curselection())} Selected")
+            
+    def sortByChanged(self, varName: str, index: str, action: str) -> None:
+        self.sort()
     
-    def makeSearch(self) -> None:
-        print("heyo")
+    def sort(self) -> None:
+        if self.sortBy.get() == "Time":
+            self.reservations = sorted(self.reservations, key=lambda x: x.time)
+        elif self.sortBy.get() == "Name":
+            customers = CustomerDB()
+            
+            def sortFunc(x: Reservation) -> str:
+                customer = customers.getByID(x.customerID)
+                return f"{customer.fName} {customer.sName}"
+            
+            self.reservations = sorted(self.reservations, key=sortFunc)
+        elif self.sortBy.get() == "People":
+            self.reservations = sorted(self.reservations, key=lambda x: x.peopleNum)
+            
+        self.updateListbox()
+    
             
     def updateListbox(self) -> None:
         lines = []
@@ -90,19 +112,65 @@ class ReservationViewer(tk.Tk):
         self.listbox.delete(0, tk.END)
         self.listbox.insert(0, *lines)
         
-    def getSelected(self) -> None:
-        indexes = self.listbox.curselection()
-        print(indexes)
+    def getSelected(self) -> List[Reservation]:
+        indexes: Tuple[int] = self.listbox.curselection()
+        
+        return [self.reservations[index] for index in indexes]
             
     def deleteSelected(self) -> None:
-        self.getSelected()
+        selected = self.getSelected()
+        
+        for reservation in selected:
+            self.reservationDB.delete(reservation.reservationID)
+            self.reservations.remove(reservation)
+            
+        self.updateListbox()
+        
+    def makeSearch(self, search: ReservationSearch = ReservationSearch()) -> None:#
+        self.reservations = self.reservationDB.findMatches(search)
+        self.sort()
         
     def searchDialog(self) -> None:
         dialog = tk.Toplevel()
+        dialog.title("Search Reservations")
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)
         
         
+        
+        def tryMakeSearch():
+            ...
+        
+        customerName = tk.StringVar(dialog)
+        employeeName = tk.StringVar(dialog)
+        time = tk.StringVar(dialog)
+        peopleNum = tk.StringVar(dialog)
+        
+        customerNameLabel = widgets.Label(dialog, text="Customer Name", width=13)
+        customerNameLabel.place(x=275, y=40, anchor="ne")
+        customerNameEntry = widgets.Entry(dialog, textvariable=customerName, width=20)
+        customerNameEntry.place(x=280, y=40)
+        
+        employeeNameLabel = widgets.Label(dialog, text="Employee Name", width=13)
+        employeeNameLabel.place(x=275, y=160, anchor="ne")
+        employeeNameEntry = widgets.Entry(dialog, textvariable=employeeName, width=20)
+        employeeNameEntry.place(x=280, y=160)
+        
+        timeLabel = widgets.Label(dialog, text="Time", width=5)
+        timeLabel.place(x=275, y=280, anchor="ne")
+        timeEntry = widgets.Entry(dialog, textvariable=time, width=20)
+        timeEntry.place(x=280, y=280)
+        
+        peopleNumLabel = widgets.Label(dialog, text="No. of People", width=13)
+        peopleNumLabel.place(x=275, y=400, anchor="ne")
+        peopleNumEntry = widgets.Entry(dialog, textvariable=peopleNum, width=20)
+        peopleNumEntry.place(x=280, y=400)
+        
+        searchButton = widgets.Button(dialog, text="Search", width=20, height=2, command=tryMakeSearch)
+        searchButton.place(x=280, y=560, anchor="sw")
+        
+        cancelButton = widgets.Button(dialog, text="Cancel", width=10, height=1, command=dialog.destroy)
+        cancelButton.place(x=40, y=560, anchor="sw")
         
     def viewOrderedMeals(self) -> None:
         ...

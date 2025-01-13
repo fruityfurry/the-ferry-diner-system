@@ -93,4 +93,6 @@ class Listbox(tk.Listbox):
                     highlightbackground=colors.OUTLINE,
                     highlightcolor=colors.OUTLINE,
                     highlightthickness=2,
+                    selectbackground=colors.HIGHLIGHT,
+                    selectforeground=colors.FOREGROUND,
                     font=("Verdana", 14))

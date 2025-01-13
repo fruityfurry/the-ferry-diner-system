@@ -4,6 +4,8 @@ from Reservation import Reservation
 from ReservationSearch import ReservationSearch
 from Meal import Meal
 from OrderDB import OrderDB
+from CustomerDB import CustomerDB
+from EmployeeDB import EmployeeDB
 
 class ReservationDB:
     def __init__(self) -> None:
@@ -11,9 +13,21 @@ class ReservationDB:
         
     def findMatches(self, search: ReservationSearch) -> List[Reservation]:
         matches = []
+        customers = CustomerDB()
+        employees = EmployeeDB()
         
         for reservation in self.reservations:
             if search.matches(reservation):
+                if search.customerSearch is not None:
+                    customer = customers.getByID(reservation.customerID)
+                    if f"{customer.fName} {customer.sName}".lower().find(search.customerSearch) == -1:
+                        continue
+                    
+                if search.employeeSearch is not None:
+                    employee = employees.getByUsername(reservation.employeeUser)
+                    if employee.name.find(search.employeeSearch) == -1:
+                        continue
+                
                 matches.append(reservation)
                 
         return matches

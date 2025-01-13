@@ -24,6 +24,13 @@ class EmployeeDB:
                 break
         
         self.saveChanges()
+    
+    def getByUsername(self, username: str) -> Employee:
+        for employee in self.employees:
+            if employee.username == username:
+                return employee
+            
+        raise ValueError(f"Employee with usernam {username} was not found.")
             
     def incrementReservationsMade(self, username: str) -> None:
         for employee in self.employees:
