@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import pickle
 from typing import List, Tuple
 from Employee import Employee
 import colors
@@ -140,9 +141,13 @@ class ReservationViewer(tk.Tk):
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)
         
+        timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))
+        timeslots = [""] + timeslots
+        
         customerName = tk.StringVar(dialog)
         employeeName = tk.StringVar(dialog)
         time = tk.StringVar(dialog)
+        time.set(timeslots[0])
         peopleNum = tk.StringVar(dialog)
         
         def resetSearchButton() -> None:
@@ -196,8 +201,9 @@ class ReservationViewer(tk.Tk):
         
         timeLabel = widgets.Label(dialog, text="Time", width=5)
         timeLabel.place(x=275, y=280, anchor="ne")
-        timeEntry = widgets.Entry(dialog, textvariable=time, width=20)
-        timeEntry.place(x=280, y=280)
+        timeDropdown = widgets.Dropdown(dialog, time, *timeslots)
+        timeDropdown.config(width=17)
+        timeDropdown.place(x=280, y=280)
         
         peopleNumLabel = widgets.Label(dialog, text="No. of People", width=13)
         peopleNumLabel.place(x=275, y=400, anchor="ne")

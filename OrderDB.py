@@ -30,8 +30,6 @@ class OrderDB:
         return matches
         
     def deleteAssociated(self, reservationID: int) -> None:
-        print(self.orders)
-        
         indexesToDelete = []
         
         for index, order in enumerate(self.orders):
@@ -42,8 +40,6 @@ class OrderDB:
                 
         for index in indexesToDelete:
             del self.orders[index]
-                
-        print(self.orders)
         
         self.saveChanges()
         

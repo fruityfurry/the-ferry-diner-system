@@ -25,7 +25,7 @@ class ReservationDB:
                     
                 if search.employeeSearch is not None:
                     employee = employees.getByUsername(reservation.employeeUser)
-                    if employee.name.find(search.employeeSearch) == -1:
+                    if employee.name.find(search.employeeSearch.lower()) == -1:
                         continue
                 
                 matches.append(reservation)

@@ -70,7 +70,7 @@ class Login(tk.Tk):
         elif password == "":
             self.error("Password empty")
         elif username not in self.usernames:
-            self.error("Incorrect username")
+            self.error("Username does not exist")
         elif self.passwordHashes[username] != hash(password):
             self.error("Incorrect password")
         else:

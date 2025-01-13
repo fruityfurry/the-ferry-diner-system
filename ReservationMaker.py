@@ -178,7 +178,7 @@ class ReservationMaker(tk.Tk):
         for meal in self.mealsOrdered:
             total += meal.price
             
-        self.totalPriceLabel.config(text=f"£{round(total, 2)}")
+        self.totalPriceLabel.config(text=f"Total: £{round(total, 2)}")
         
     def addMeal(self) -> None:
         selectedMeal = self.selectedMeal.get()
