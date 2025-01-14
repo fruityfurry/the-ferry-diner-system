@@ -3,6 +3,8 @@ import pickle
 from hashing import hash
 from typing import List, Dict
 from Employee import Employee
+from EmployeeDB import EmployeeDB
+from PasswordHashDB import PasswordDB
 import colors
 import widgets
 import AdminMenu
@@ -15,11 +17,6 @@ class Login(tk.Tk):
         self.geometry("800x600")
         self.resizable(False, False)
         self.config(bg=colors.BACKGROUND)
-        
-        # Types explicitly stated for clarity.
-        self.employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
-        self.usernames: List[str] = [employee.username for employee in self.employees]
-        self.passwordHashes: Dict[str, int] = pickle.load(open("data/passwordHashes.dat", "rb"))
         
         self.username = tk.StringVar()
         self.password = tk.StringVar()
@@ -41,6 +38,7 @@ class Login(tk.Tk):
         passLabel.place(x=250, y=385, anchor="ne")
         
         # Log in button is the only widget that is a member field as it needs to be referred to later for error().
+        # You'll see this technique being used throughout this program.
         self.logInButton = widgets.Button(self, textvariable=self.logInButtonText, width=20, height=2, command=self.logInButtonPress)
         self.logInButton.place(x=400, y=496, anchor="n")
         
@@ -62,6 +60,9 @@ class Login(tk.Tk):
         self.logInButtonPress()
         
     def logInButtonPress(self) -> None:
+        employees = EmployeeDB()
+        passwords = PasswordDB()
+        
         username = self.username.get()
         password = self.password.get()
         
@@ -69,14 +70,14 @@ class Login(tk.Tk):
             self.error("Username empty")
         elif password == "":
             self.error("Password empty")
-        elif username not in self.usernames:
+        elif not employees.exists(username):
             self.error("Username does not exist")
-        elif self.passwordHashes[username] != hash(password):
+        elif not passwords.passwordIsCorrect(username, password):
             self.error("Incorrect password")
         else:
             # Set user equal to employee object with username entered.
             # Validation was carried out earlier to ensure this never fails.
-            user = self.employees[self.usernames.index(username)]
+            user = employees.getByUsername(username)
             
             self.destroy()  # Destroy this window as it is no longer needed.
             

@@ -1,6 +1,7 @@
 import pickle
 from typing import List, Dict
 from Employee import Employee
+from PasswordHashDB import PasswordDB
 from hashing import hash
 
 class EmployeeDB:
@@ -22,8 +23,18 @@ class EmployeeDB:
             if employee.username == username:
                 self.employees.remove(employee)
                 break
+            
+        passwords = PasswordDB()
+        passwords.delete(username)
         
         self.saveChanges()
+        
+    def exists(self, username: str) -> bool:
+        for employee in self.employees:
+            if employee.username == username:
+                return True
+            
+        return False
     
     def getByUsername(self, username: str) -> Employee:
         for employee in self.employees:
