@@ -22,5 +22,5 @@ class PasswordDB:
         return self.passwordHashes[username] == passwordHash
         
     def saveChanges(self) -> None:
-        with open("data/passwordHashes.dat", "rb") as file:
+        with open("data/passwordHashes.dat", "wb") as file:
             pickle.dump(self.passwordHashes, file)

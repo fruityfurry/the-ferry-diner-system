@@ -11,10 +11,8 @@ class EmployeeDB:
     def add(self, username: str, name: str, password: str) -> None:
         self.employees.append(Employee(username, name, 0))
         
-        passwordHashes: Dict[str, int] = pickle.load(open("data/passwordHashes.dat", "rb"))
-        passwordHashes[username] = hash(password)
-        with open("data/passwordHashes.dat", "rb") as file:
-            pickle.dump(passwordHashes, file)
+        passwords = PasswordDB()
+        passwords.add(username, password)
             
         self.saveChanges()
     
