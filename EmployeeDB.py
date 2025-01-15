@@ -1,8 +1,8 @@
 import pickle
-from typing import List, Dict
+from typing import List
 from Employee import Employee
-from PasswordHashDB import PasswordDB
-from hashing import hash
+from PasswordDB import PasswordDB
+from EmployeeSearch import EmployeeSearch
 
 class EmployeeDB:
     def __init__(self) -> None:
@@ -26,6 +26,15 @@ class EmployeeDB:
         passwords.delete(username)
         
         self.saveChanges()
+        
+    def findMatches(self, search: EmployeeSearch) -> List[Employee]:
+        matches = []
+        
+        for employee in self.employees:
+            if search.matches(employee):
+                matches.append(employee)
+                
+        return matches
         
     def exists(self, username: str) -> bool:
         for employee in self.employees:

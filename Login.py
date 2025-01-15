@@ -4,7 +4,7 @@ from hashing import hash
 from typing import List, Dict
 from Employee import Employee
 from EmployeeDB import EmployeeDB
-from PasswordHashDB import PasswordDB
+from PasswordDB import PasswordDB
 import colors
 import widgets
 import AdminMenu

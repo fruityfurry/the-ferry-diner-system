@@ -25,19 +25,19 @@ class EmployeeAdder(tk.Tk):
         backButton.place(x=40, y=40)
         
         nameLabel = widgets.Label(self, text="Employee Name", width=14)
-        nameLabel.place(x=275, y=200, anchor="ne")
+        nameLabel.place(x=275, y=165, anchor="ne")
         nameEntry = widgets.Entry(self, textvariable=self.name, width=20)
-        nameEntry.place(x=280, y=200)
+        nameEntry.place(x=280, y=165)
         
         usernameLabel = widgets.Label(self, text="Username", width=9)
-        usernameLabel.place(x=275, y=300, anchor="ne")
+        usernameLabel.place(x=275, y=265, anchor="ne")
         usernameEntry = widgets.Entry(self, textvariable=self.username, width=20)
-        usernameEntry.place(x=280, y=300)
+        usernameEntry.place(x=280, y=265)
         
         passwordLabel = widgets.Label(self, text="Password", width=9)
-        passwordLabel.place(x=275, y=400, anchor="ne")
+        passwordLabel.place(x=275, y=365, anchor="ne")
         passwordEntry = widgets.Entry(self, textvariable=self.password, width=20, show="*")
-        passwordEntry.place(x=280, y=400)
+        passwordEntry.place(x=280, y=365)
         
         self.addEmployeeButton = widgets.Button(self, text="Add Employee", width=20, height=2, command=self.addEmployee)
         self.addEmployeeButton.place(x=280, y=560, anchor="sw")

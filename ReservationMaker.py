@@ -36,6 +36,7 @@ class ReservationMaker(tk.Tk):
         self.customers = CustomerDB()
         self.meals = MealDB()
         mealNames = [meal.name for meal in self.meals.meals]
+        mealNames = sorted(mealNames)
         timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))
         self.time = tk.StringVar()
         

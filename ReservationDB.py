@@ -20,12 +20,12 @@ class ReservationDB:
             if search.matches(reservation):
                 if search.customerSearch is not None:
                     customer = customers.getByID(reservation.customerID)
-                    if f"{customer.fName} {customer.sName}".lower().find(search.customerSearch) == -1:
+                    if f"{customer.fName} {customer.sName}".lower().find(search.customerSearch.lower()) == -1:
                         continue
                     
                 if search.employeeSearch is not None:
                     employee = employees.getByUsername(reservation.employeeUser)
-                    if employee.name.find(search.employeeSearch.lower()) == -1:
+                    if employee.name.lower().find(search.employeeSearch.lower()) == -1:
                         continue
                 
                 matches.append(reservation)

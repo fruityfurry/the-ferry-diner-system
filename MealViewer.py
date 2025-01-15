@@ -67,10 +67,7 @@ class MealViewer(tk.Tk):
         
     def returnToMenu(self) -> None:
         self.destroy()
-        if self.user.username == "colinr83":
-            AdminMenu.AdminMenu(self.user)
-        else:
-            EmployeeMenu.EmployeeMenu(self.user)
+        AdminMenu.AdminMenu(self.user)  # This is an admin window so always return to admin menu.
             
     def updateNumSelected(self, event: tk.Event | None) -> None:
         self.numSelectedLabel.config(text=f"{len(self.listbox.curselection())} Selected")
