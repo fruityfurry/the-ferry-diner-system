@@ -23,7 +23,7 @@ class Login(tk.Tk):
         
         self.logInButtonText = tk.StringVar(value="Log In")
         
-        logoImg = tk.PhotoImage(file="resources/diner.png")
+        logoImg = tk.PhotoImage(file="resources/diner.png", master=self)
         logo = tk.Label(self, image=logoImg, borderwidth=0)
         logo.place(x=400, y=40, anchor="n")
         
