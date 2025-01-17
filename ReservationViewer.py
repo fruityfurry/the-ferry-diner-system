@@ -70,10 +70,12 @@ class ReservationViewer(tk.Tk):
         self.timeout = self.after(3 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         Login.Login()
         
     def returnToMenu(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         if self.user.username == "colinr83":
             AdminMenu.AdminMenu(self.user)
@@ -137,6 +139,7 @@ class ReservationViewer(tk.Tk):
         
     def searchDialog(self) -> None:
         dialog = tk.Toplevel()
+        dialog.focus()
         dialog.title("Search Reservations")
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)
@@ -162,23 +165,23 @@ class ReservationViewer(tk.Tk):
             if customerName.get() == "":
                 customerSearch = None
             else:
-                customerSearch = customerName.get()
+                customerSearch = customerName.get().strip()
                 
             if employeeName.get() == "":
                 employeeSearch = None
             else:
-                employeeSearch = employeeName.get()
+                employeeSearch = employeeName.get().strip()
                 
             if time.get() == "":
                 timeSearch = None
             else:
-                timeSearch = time.get()
+                timeSearch = time.get().strip()
                 
             if peopleNum.get() == "":
                 peopleNumSearch = None
             else:
                 try:
-                    peopleNumSearch = int(peopleNum.get())
+                    peopleNumSearch = int(peopleNum.get().strip())
                 except:
                     error("Invalid No. of People")
                     return

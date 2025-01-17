@@ -117,10 +117,12 @@ class ReservationMaker(tk.Tk):
         self.timeout = self.after(3 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         Login.Login()
         
     def returnToMenu(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         if self.user.username == "colinr83":
             AdminMenu.AdminMenu(self.user)
@@ -138,7 +140,7 @@ class ReservationMaker(tk.Tk):
         self.makeReservationButton.config(fg=colors.FOREGROUND)
         
     def nameChange(self, varName: str, index: str, action: str) -> None:
-        fullName = self.fName.get() + " " + self.sName.get()
+        fullName = self.fName.get().strip() + " " + self.sName.get().strip()
         fullName = fullName.lower()
         
         # If match found, suggest they be autofilled.
@@ -149,12 +151,12 @@ class ReservationMaker(tk.Tk):
             if fullName == customerFullName:
                 self.similarCustomer = customer
                 self.autofillButton.config(state=tk.NORMAL)
-                self.customerSearchText.set(fullName + " found!")
+                self.customerSearchText.set(fullName.title() + " found!")
                 break
             else:
                 self.similarCustomer = None
                 self.autofillButton.config(state=tk.DISABLED)
-                self.customerSearchText.set("No match found for " + fullName)
+                self.customerSearchText.set("No match found for " + fullName.title())
                 
     def formatMeals(self) -> None:
         text = ""
@@ -214,21 +216,25 @@ class ReservationMaker(tk.Tk):
             self.phone.set(self.similarCustomer.phone)
         
     def makeReservation(self) -> None:
-        if self.fName.get() == "":
+        fName = self.fName.get().strip()
+        sName = self.sName.get().strip()
+        phone = self.phone.get().strip()
+        
+        if fName == "":
             self.error("First name empty")
-        elif len(self.fName.get()) > 20:
+        elif len(fName) > 20:
             self.error("First name too long")
-        elif not self.fName.get().isalpha():
+        elif not fName.isalpha():
             self.error("First name invalid")
-        elif self.sName.get() == "":
+        elif self.sName == "":
             self.error("Surname empty")
-        elif len(self.sName.get()) > 20:
+        elif len(sName) > 20:
             self.error("Surname too long")
-        elif not self.sName.get().isalpha():
+        elif not sName.isalpha():
             self.error("Surname invalid")
-        elif len(self.phone.get()) != 11:
+        elif len(phone) != 11:
             self.error("Phone number too long")
-        elif not self.phone.get().isnumeric():
+        elif not phone.isnumeric():
             self.error("Invalid phone number")
         elif len(self.mealsOrdered) == 0:
             self.error("Meals empty")
@@ -236,9 +242,6 @@ class ReservationMaker(tk.Tk):
             self.error("Time empty")
         else:
             reservations = ReservationDB()
-            fName = self.fName.get().strip()
-            sName = self.sName.get().strip()
-            phone = self.phone.get()
             time  = self.time.get()
             peopleNum = int(self.peopleNum.get())
             

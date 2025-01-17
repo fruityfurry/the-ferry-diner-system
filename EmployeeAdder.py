@@ -53,15 +53,17 @@ class EmployeeAdder(tk.Tk):
         self.timeout = self.after(3 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         Login.Login()
         
     def returnToMenu(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         AdminMenu.AdminMenu(self.user)  # This is an admin window so always return to admin menu.
         
     def resetAddEmployeeButton(self) -> None:
-        self.addEmployeeButton.config(fg=colors.FOREGROUND, text="Create Meal")
+        self.addEmployeeButton.config(fg=colors.FOREGROUND, text="Add Employee")
         
     def error(self, text: str) -> None:
         self.addEmployeeButton.config(fg=colors.ERROR, text=text)
@@ -72,7 +74,8 @@ class EmployeeAdder(tk.Tk):
         
         uppercaseLetters = "[A-Z]"
         numbers = "[0-9]"
-        symbols = "[!£$%^&*@?<>]"
+        symbols = "[!£$%^&*@?<>-=_+]"
+        disallowed = r"[ \[\]\{\}\(\)\\\|,.]"
 
         name = self.name.get().strip()
         username = self.username.get().strip()
@@ -100,8 +103,9 @@ class EmployeeAdder(tk.Tk):
             self.error("Password must contain at\nleast 1 number")
         elif re.findall(symbols, password) == []:
             self.error("Password must contain at\nleast 1 symbol")
+        elif re.findall(disallowed, password) != []:
+            self.error("Password contains\ndisallowed characters")
         else:
-            
             employees.add(username, name, password)
             
             self.addEmployeeButton.config(text="Success!", disabledforeground=colors.HIGHLIGHT, state=tk.DISABLED)

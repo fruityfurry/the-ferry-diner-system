@@ -68,10 +68,12 @@ class EmployeeViewer(tk.Tk):
         self.timeout = self.after(3 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         Login.Login()
         
     def returnToMenu(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         AdminMenu.AdminMenu(self.user)  # This is an admin window so always return to admin menu.
             
@@ -129,6 +131,7 @@ class EmployeeViewer(tk.Tk):
         
     def searchDialog(self) -> None:
         dialog = tk.Toplevel()
+        dialog.focus()
         dialog.title("Search Reservations")
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)
@@ -140,12 +143,12 @@ class EmployeeViewer(tk.Tk):
             if username.get() == "":
                 usernameSearch = None
             else:
-                usernameSearch = username.get()
+                usernameSearch = username.get().strip()
                 
             if name.get() == "":
                 nameSearch = None
             else:
-                nameSearch = name.get()
+                nameSearch = name.get().strip()
             
             search = EmployeeSearch(username=usernameSearch, nameSearch=nameSearch)
             
@@ -181,6 +184,7 @@ class EmployeeViewer(tk.Tk):
         selectedEmployee = selected[0]
         
         dialog = tk.Toplevel()
+        dialog.focus()
         dialog.title("Search Reservations")
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)

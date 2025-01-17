@@ -48,10 +48,12 @@ class MealCreator(tk.Tk):
         self.timeout = self.after(3 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         Login.Login()
         
     def returnToMenu(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         AdminMenu.AdminMenu(self.user)  # This is an admin window so always return to admin menu.
         
@@ -64,7 +66,7 @@ class MealCreator(tk.Tk):
         
     def createMeal(self) -> None:
         name = self.name.get().strip()
-        price = self.price.get()
+        price = self.price.get().strip()
         
         if name == "":
             self.error("Name empty")

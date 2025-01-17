@@ -62,10 +62,12 @@ class MealViewer(tk.Tk):
         self.timeout = self.after(3 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         Login.Login()
         
     def returnToMenu(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         AdminMenu.AdminMenu(self.user)  # This is an admin window so always return to admin menu.
             
@@ -115,6 +117,7 @@ class MealViewer(tk.Tk):
         
     def searchDialog(self) -> None:
         dialog = tk.Toplevel()
+        dialog.focus()
         dialog.title("Search Reservations")
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)
@@ -134,13 +137,13 @@ class MealViewer(tk.Tk):
             if name.get() == "":
                 nameSearch = None
             else:
-                nameSearch = name.get()
+                nameSearch = name.get().strip()
                 
             if price.get() == "":
                 priceSearch = None
             else:
                 try:
-                    priceSearch = float(price.get())
+                    priceSearch = float(price.get().strip())
                 except:
                     error("Invalid Price")
                     return
