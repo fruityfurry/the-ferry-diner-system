@@ -9,6 +9,8 @@ import MealCreator
 import MealViewer
 import EmployeeAdder
 import EmployeeViewer
+import CustomerViewer
+import revenueTally
 
 class AdminMenu(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -48,7 +50,7 @@ class AdminMenu(tk.Tk):
         viewCustomersButton.place(x=400, y=510, anchor="n")
         
         # Return to login after three minutes of inactivity.
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)  # Store to member variable so this can be cancelled later.
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)  # Store to member variable so this can be cancelled later.
         self.bind("<Motion>", self.resetTimeOut)  # Reset timeout every time the mouse is moved.
         
         self.mainloop()
@@ -56,7 +58,7 @@ class AdminMenu(tk.Tk):
     def resetTimeOut(self, event: tk.Event) -> None:
         # Cancel timeout and start timer again.
         self.after_cancel(self.timeout)
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
         self.after_cancel(self.timeout)
@@ -64,7 +66,8 @@ class AdminMenu(tk.Tk):
         Login.Login()
         
     def tallyRevenue(self) -> None:
-        ...  # TODO: revenue tally 
+        self.destroy()
+        revenueTally.RevenueTally(self.user)
         
     def makeReservation(self) -> None:
         self.destroy()
@@ -91,4 +94,5 @@ class AdminMenu(tk.Tk):
         EmployeeViewer.EmployeeViewer(self.user)
     
     def viewCustomers(self) -> None:
-        ...  # TODO: customer viewer
+        self.destroy()
+        CustomerViewer.CustomerViewer(self.user)

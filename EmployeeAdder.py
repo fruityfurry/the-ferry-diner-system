@@ -42,7 +42,7 @@ class EmployeeAdder(tk.Tk):
         self.addEmployeeButton = widgets.Button(self, text="Add Employee", width=20, height=2, command=self.addEmployee)
         self.addEmployeeButton.place(x=280, y=560, anchor="sw")
         
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
         
         self.mainloop()
@@ -50,7 +50,7 @@ class EmployeeAdder(tk.Tk):
     def resetTimeOut(self, event: tk.Event) -> None:
         # Cancel timeout and start timer again.
         self.after_cancel(self.timeout)
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
         self.after_cancel(self.timeout)

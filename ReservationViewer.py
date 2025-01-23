@@ -54,10 +54,10 @@ class ReservationViewer(tk.Tk):
         viewMealsButton = widgets.Button(self, text="View Ordered Meals", width=20, height=1, command=self.viewOrderedMeals)
         viewMealsButton.place(x=400, y=580, anchor="s")
         
-        searchButton = widgets.Button(self, text="Search...", width=14, height=1, command=self.searchDialog)
-        searchButton.place(x=780, y=580, anchor="se")
+        self.searchButton = widgets.Button(self, text="Search...", width=14, height=1, command=self.searchDialog)
+        self.searchButton.place(x=780, y=580, anchor="se")
         
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
         
         self.updateListbox()
@@ -67,7 +67,7 @@ class ReservationViewer(tk.Tk):
     def resetTimeOut(self, event: tk.Event) -> None:
         # Cancel timeout and start timer again.
         self.after_cancel(self.timeout)
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
         self.after_cancel(self.timeout)
@@ -126,18 +126,21 @@ class ReservationViewer(tk.Tk):
     def deleteSelected(self) -> None:
         selected = self.getSelected()
         
-        for reservation in selected:
-            self.reservationDB.delete(reservation.reservationID)
-            self.reservations.remove(reservation)
-            
-        self.updateListbox()
-        self.updateNumSelected(None)
+        if len(selected) > 0 and messagebox.askyesno("Are you sure?", f"Are you sure you want to delete {len(selected)} reservations?"):
+            for reservation in selected:
+                self.reservationDB.delete(reservation.reservationID)
+                self.reservations.remove(reservation)
+                
+            self.updateListbox()
+            self.updateNumSelected(None)
         
     def makeSearch(self, search: ReservationSearch = ReservationSearch()) -> None:
         self.reservations = self.reservationDB.findMatches(search)
         self.sort()
         
     def searchDialog(self) -> None:
+        self.searchButton.config(state=tk.DISABLED)
+        
         dialog = tk.Toplevel()
         dialog.focus()
         dialog.title("Search Reservations")
@@ -182,6 +185,7 @@ class ReservationViewer(tk.Tk):
             else:
                 try:
                     peopleNumSearch = int(peopleNum.get().strip())
+                    if peopleNumSearch < 1 or peopleNumSearch > 9: raise Exception()
                 except:
                     error("Invalid No. of People")
                     return
@@ -190,7 +194,12 @@ class ReservationViewer(tk.Tk):
                                        customerSearch=customerSearch, employeeSearch=employeeSearch)
             
             dialog.destroy()
+            self.searchButton.config(state=tk.NORMAL)
             self.makeSearch(search)
+            
+        def close() -> None:
+            self.searchButton.config(state=tk.NORMAL)
+            dialog.destroy()
                             
         customerNameLabel = widgets.Label(dialog, text="Customer Name", width=13)
         customerNameLabel.place(x=275, y=40, anchor="ne")
@@ -216,8 +225,10 @@ class ReservationViewer(tk.Tk):
         searchButton = widgets.Button(dialog, text="Search", width=20, height=2, command=tryMakeSearch)
         searchButton.place(x=280, y=560, anchor="sw")
         
-        cancelButton = widgets.Button(dialog, text="Cancel", width=10, height=1, command=dialog.destroy)
+        cancelButton = widgets.Button(dialog, text="Cancel", width=10, height=1, command=close)
         cancelButton.place(x=40, y=560, anchor="sw")
+        
+        dialog.protocol("WM_DELETE_WINDOW", close)
         
     def viewOrderedMeals(self) -> None:
         selected = self.getSelected()

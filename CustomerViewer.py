@@ -6,26 +6,25 @@ import colors
 import widgets
 import Login
 import AdminMenu
-import EmployeeMenu
-from MealDB import MealDB
-from Meal import Meal
-from MealSearch import MealSearch
+from CustomerDB import CustomerDB
+from Customer import Customer
+from customerSearch import CustomerSearch
 
-class MealViewer(tk.Tk):
+class CustomerViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.title("Reservation Viewer")
+        self.title("Customer Viewer")
         self.geometry("800x600")
         self.resizable(False, False)
         self.config(bg=colors.BACKGROUND)
         
         self.user = user
         
-        self.mealDB = MealDB()
-        self.meals = self.mealDB.meals
-        self.meals = sorted(self.meals, key=lambda x: x.name)
+        self.customerDB = CustomerDB()
+        self.customers = self.customerDB.customers
+        self.customers = sorted(self.customers, key=lambda x: x.fName)
         
-        self.sortBy = tk.StringVar(self, "Name")
+        self.sortBy = tk.StringVar(self, "First Name")
         self.sortBy.trace_add("write", self.sortByChanged)
         
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
@@ -36,7 +35,7 @@ class MealViewer(tk.Tk):
         
         sortByLabel = widgets.Label(self, text="Sort by ", width=9, height=1)
         sortByLabel.place(x=480, y=25)
-        sortByDropdown = widgets.Dropdown(self, self.sortBy, *["Name", "Price"])
+        sortByDropdown = widgets.Dropdown(self, self.sortBy, *["First Name", "Surname"])
         sortByDropdown.config(width=12)
         sortByDropdown.place(x=780, y=20, anchor="ne")
         
@@ -79,42 +78,41 @@ class MealViewer(tk.Tk):
         self.sort()
     
     def sort(self) -> None:
-        if self.sortBy.get() == "Name":
-            self.meals = sorted(self.meals, key=lambda x: x.name)
-        elif self.sortBy.get() == "Price":
-            self.meals = sorted(self.meals, key=lambda x: x.price)
+        if self.sortBy.get() == "First Name":
+            self.customers = sorted(self.customers, key=lambda x: x.fName)
+        elif self.sortBy.get() == "Surname":
+            self.customers = sorted(self.customers, key=lambda x: x.sName)
             
         self.updateListbox()
         self.updateNumSelected(None)
-    
             
     def updateListbox(self) -> None:
         lines = []
         
-        for meal in self.meals:
-            lines.append(f"{meal.name} - £{meal.price}")
+        for customer in self.customers:
+            lines.append(f"{customer.fName} {customer.sName} - {customer.phone}")
             
         self.listbox.delete(0, tk.END)
         self.listbox.insert(0, *lines)
         
-    def getSelected(self) -> List[Meal]:
+    def getSelected(self) -> List[Customer]:
         indexes: Tuple[int] = self.listbox.curselection()
         
-        return [self.meals[index] for index in indexes]
+        return [self.customers[index] for index in indexes]
             
     def deleteSelected(self) -> None:
         selected = self.getSelected()
         
-        if len(selected) > 0 and messagebox.askyesno("Are you sure?", f"Are you sure you want to delete {len(selected)} meals?"):
-            for reservation in selected:
-                self.mealDB.delete(reservation.mealID)
-                self.meals.remove(reservation)
+        if len(selected) > 0 and messagebox.askyesno("Are you sure?", f"Are you sure you want to delete {len(selected)} customers?"):
+            for customer in selected:
+                self.customerDB.delete(customer.customerID)
+                self.customers.remove(customer)
                 
             self.updateListbox()
             self.updateNumSelected(None)
         
-    def makeSearch(self, search: MealSearch = MealSearch()) -> None:
-        self.meals = self.mealDB.findMatches(search)
+    def makeSearch(self, search: CustomerSearch) -> None:
+        self.customers = self.customerDB.findMatches(search)
         self.sort()
         
     def searchDialog(self) -> None:
@@ -129,29 +127,13 @@ class MealViewer(tk.Tk):
         name = tk.StringVar(dialog)
         price = tk.StringVar(dialog)
         
-        def resetSearchButton() -> None:
-            searchButton.config(fg=colors.FOREGROUND, text="Search")
-        
-        def error(text: str) -> None:
-            searchButton.config(fg=colors.ERROR, text=text)
-            dialog.after(1000, resetSearchButton)
-        
         def tryMakeSearch() -> None:
             if name.get() == "":
                 nameSearch = None
             else:
-                nameSearch = name.get().strip()
-                
-            if price.get() == "":
-                priceSearch = None
-            else:
-                try:
-                    priceSearch = float(price.get().strip())
-                except:
-                    error("Invalid Price")
-                    return
+                nameSearch = name.get().strip().lower()
             
-            search = MealSearch(nameSearch, priceSearch)
+            search = CustomerSearch(nameSearch)
             
             dialog.destroy()
             self.searchButton.config(state=tk.NORMAL)
@@ -165,11 +147,6 @@ class MealViewer(tk.Tk):
         customerNameLabel.place(x=275, y=200, anchor="ne")
         customerNameEntry = widgets.Entry(dialog, textvariable=name, width=20)
         customerNameEntry.place(x=280, y=200)
-        
-        peopleNumLabel = widgets.Label(dialog, text="Price", width=6)
-        peopleNumLabel.place(x=275, y=300, anchor="ne")
-        peopleNumEntry = widgets.Entry(dialog, textvariable=price, width=20)
-        peopleNumEntry.place(x=280, y=300)
         
         searchButton = widgets.Button(dialog, text="Search", width=20, height=2, command=tryMakeSearch)
         searchButton.place(x=280, y=560, anchor="sw")

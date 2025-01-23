@@ -1,6 +1,7 @@
 import pickle
 from typing import List
 from Customer import Customer
+from customerSearch import CustomerSearch
 
 class CustomerDB:
     def __init__(self) -> None:
@@ -32,6 +33,15 @@ class CustomerDB:
                 return True
             
         return False
+    
+    def findMatches(self, search: CustomerSearch) -> List[Customer]:
+        matches = []
+        
+        for customer in self.customers:
+            if search.matches(customer):
+                matches.append(customer)
+                
+        return matches
     
     def getID(self, fName: str, sName: str, phone: str) -> int:
         for customer in self.customers:

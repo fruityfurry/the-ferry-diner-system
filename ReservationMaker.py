@@ -106,7 +106,7 @@ class ReservationMaker(tk.Tk):
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
         backButton.place(x=20, y=540)
         
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
         
         self.mainloop()
@@ -114,7 +114,7 @@ class ReservationMaker(tk.Tk):
     def resetTimeOut(self, event: tk.Event) -> None:
         # Cancel timeout and start timer again.
         self.after_cancel(self.timeout)
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
         self.after_cancel(self.timeout)

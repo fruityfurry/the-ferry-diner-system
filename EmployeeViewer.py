@@ -52,10 +52,10 @@ class EmployeeViewer(tk.Tk):
         self.changePasswordButton = widgets.Button(self, text="Change Password", width=20, height=1, command=self.changePasswordDialog)
         self.changePasswordButton.place(x=400, y=580, anchor="s")
         
-        searchButton = widgets.Button(self, text="Search...", width=14, height=1, command=self.searchDialog)
-        searchButton.place(x=780, y=580, anchor="se")
+        self.searchButton = widgets.Button(self, text="Search...", width=14, height=1, command=self.searchDialog)
+        self.searchButton.place(x=780, y=580, anchor="se")
         
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
         
         self.updateListbox()
@@ -65,7 +65,7 @@ class EmployeeViewer(tk.Tk):
     def resetTimeOut(self, event: tk.Event) -> None:
         # Cancel timeout and start timer again.
         self.after_cancel(self.timeout)
-        self.timeout = self.after(3 * 60 * 1000, self.logOut)
+        self.timeout = self.after(2 * 60 * 1000, self.logOut)
         
     def logOut(self) -> None:
         self.after_cancel(self.timeout)
@@ -118,18 +118,21 @@ class EmployeeViewer(tk.Tk):
     def deleteSelected(self) -> None:
         selected = self.getSelected()
         
-        for employee in selected:
-            self.employeeDB.delete(employee.username)
-            self.employees.remove(employee)
-            
-        self.updateListbox()
-        self.updateNumSelected(None)
+        if len(selected) > 0 and messagebox.askyesno("Are you sure?", f"Are you sure you want to delete {len(selected)} employees?"):
+            for employee in selected:
+                self.employeeDB.delete(employee.username)
+                self.employees.remove(employee)
+                
+            self.updateListbox()
+            self.updateNumSelected(None)
         
     def makeSearch(self, search: EmployeeSearch = EmployeeSearch()) -> None:
         self.employees = self.employeeDB.findMatches(search)
         self.sort()
         
     def searchDialog(self) -> None:
+        self.searchButton.config(state=tk.DISABLED)
+        
         dialog = tk.Toplevel()
         dialog.focus()
         dialog.title("Search Reservations")
@@ -153,7 +156,12 @@ class EmployeeViewer(tk.Tk):
             search = EmployeeSearch(username=usernameSearch, nameSearch=nameSearch)
             
             dialog.destroy()
+            self.searchButton.config(state=tk.NORMAL)
             self.makeSearch(search)
+            
+        def close() -> None:
+            self.searchButton.config(state=tk.NORMAL)
+            dialog.destroy()
                             
         nameLabel = widgets.Label(dialog, text="Name", width=6)
         nameLabel.place(x=275, y=40, anchor="ne")
@@ -168,18 +176,23 @@ class EmployeeViewer(tk.Tk):
         searchButton = widgets.Button(dialog, text="Search", width=20, height=2, command=tryMakeSearch)
         searchButton.place(x=280, y=560, anchor="sw")
         
-        cancelButton = widgets.Button(dialog, text="Cancel", width=10, height=1, command=dialog.destroy)
+        cancelButton = widgets.Button(dialog, text="Cancel", width=10, height=1, command=close)
         cancelButton.place(x=40, y=560, anchor="sw")
+        
+        dialog.protocol("WM_DELETE_WINDOW", close)
         
     def changePasswordDialog(self) -> None:
         selected = self.getSelected()
         
         if len(selected) == 0:
-            self.error("Must select an Employee")
+            self.error("Select an Employee")
             return
         if len(selected) > 1:
-            self.error("Select only one")
+            self.error("Select only one\nEmployee")
             return
+        
+        
+        self.changePasswordButton.config(state=tk.DISABLED)
         
         selectedEmployee = selected[0]
         
@@ -225,6 +238,10 @@ class EmployeeViewer(tk.Tk):
                 
                 changePasswordButton.config(text="Success!", disabledforeground=colors.HIGHLIGHT, state=tk.DISABLED)
                 dialog.after(1000, dialog.destroy)
+                
+        def close() -> None:
+            self.searchButton.config(state=tk.NORMAL)
+            dialog.destroy()
                             
         password1Label = widgets.Label(dialog, text="New Password", width=13)
         password1Label.place(x=275, y=40, anchor="ne")
@@ -239,5 +256,7 @@ class EmployeeViewer(tk.Tk):
         changePasswordButton = widgets.Button(dialog, text="Change Password", width=20, height=2, command=tryMakeSearch)
         changePasswordButton.place(x=280, y=560, anchor="sw")
         
-        cancelButton = widgets.Button(dialog, text="Cancel", width=10, height=1, command=dialog.destroy)
+        cancelButton = widgets.Button(dialog, text="Cancel", width=10, height=1, command=close)
         cancelButton.place(x=40, y=560, anchor="sw")
+        
+        dialog.protocol("WM_DELETE_WINDOW", close)
