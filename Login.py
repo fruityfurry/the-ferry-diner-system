@@ -1,8 +1,4 @@
 import tkinter as tk
-import pickle
-from hashing import hash
-from typing import List, Dict
-from Employee import Employee
 from EmployeeDB import EmployeeDB
 from PasswordDB import PasswordDB
 import colors
@@ -21,8 +17,6 @@ class Login(tk.Tk):
         self.username = tk.StringVar()
         self.password = tk.StringVar()
         
-        self.logInButtonText = tk.StringVar(value="Log In")
-        
         logoImg = tk.PhotoImage(file="resources/diner.png", master=self)
         logo = tk.Label(self, image=logoImg, borderwidth=0)
         logo.place(x=400, y=40, anchor="n")
@@ -39,22 +33,20 @@ class Login(tk.Tk):
         
         # Log in button is the only widget that is a member field as it needs to be referred to later for error().
         # You'll see this technique being used throughout this program.
-        self.logInButton = widgets.Button(self, textvariable=self.logInButtonText, width=20, height=2, command=self.logInButtonPress)
+        self.logInButton = widgets.Button(self, width=20, height=2, command=self.logInButtonPress)
         self.logInButton.place(x=400, y=496, anchor="n")
         
         self.bind("<Return>", self.onReturn)
         
         self.mainloop()
         
-    def error(self, message: str) -> None:
+    def error(self, text: str) -> None:
         # Display error message on log in button and remove after one second.
-        self.logInButtonText.set(message)
-        self.logInButton.config(fg=colors.ERROR)
+        self.logInButton.config(text=text, fg=colors.ERROR)
         self.after(1000, self.resetLogInButton)
         
     def resetLogInButton(self) -> None:
-        self.logInButtonText.set("Log In")
-        self.logInButton.config(fg=colors.FOREGROUND)
+        self.logInButton.config(text="Log In", fg=colors.FOREGROUND)
         
     def onReturn(self, event: tk.Event) -> None:
         self.logInButtonPress()

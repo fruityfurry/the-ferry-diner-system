@@ -48,7 +48,7 @@ class EmployeeDB:
             if employee.username == username:
                 return employee
             
-        raise ValueError(f"Employee with usernam {username} was not found.")
+        raise ValueError(f"Employee with username {username} was not found.")
             
     def incrementReservationsMade(self, username: str) -> None:
         for employee in self.employees:

@@ -157,7 +157,6 @@ class ReservationViewer(tk.Tk):
         peopleNum = tk.StringVar(dialog)
         
         def resetSearchButton() -> None:
-            
             searchButton.config(fg=colors.FOREGROUND, text="Search")
         
         def error(text: str) -> None:

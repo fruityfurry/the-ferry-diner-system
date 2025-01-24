@@ -1,7 +1,3 @@
-"""
-Color definitions.
-"""
-
 BACKGROUND = "#282d44"
 FOREGROUND = "#eeeeee"
 ITEM       = "#075661"

@@ -79,7 +79,7 @@ class EmployeeAdder(tk.Tk):
 
         name = self.name.get().strip()
         username = self.username.get().strip()
-        password = self.password.get()
+        password = self.password.get().strip()
         
         if name == "":
             self.error("Name empty")
@@ -90,7 +90,7 @@ class EmployeeAdder(tk.Tk):
         elif username == "":
             self.error("Username empty")
         elif len(username) > 20:
-            self.error("Name too long")
+            self.error("Username too long")
         elif employees.exists(username):
             self.error("Username taken")
         elif len(password) < 7:

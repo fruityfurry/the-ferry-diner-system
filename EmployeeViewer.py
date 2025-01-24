@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-import pickle
 from typing import List, Tuple
 from Employee import Employee
 import colors
@@ -191,7 +190,6 @@ class EmployeeViewer(tk.Tk):
             self.error("Select only one\nEmployee")
             return
         
-        
         self.changePasswordButton.config(state=tk.DISABLED)
         
         selectedEmployee = selected[0]
@@ -215,7 +213,8 @@ class EmployeeViewer(tk.Tk):
         def tryMakeSearch() -> None:
             uppercaseLetters = "[A-Z]"
             numbers = "[0-9]"
-            symbols = "[!£$%^&*@?<>]"
+            symbols = "[!£$%^&*@?<>-=_+]"
+            disallowed = r"[ \[\]\{\}\(\)\\\|,.]"
             
             passwords = PasswordDB()
         
@@ -229,6 +228,8 @@ class EmployeeViewer(tk.Tk):
                 error("Password must contain at\nleast 1 number")
             elif re.findall(symbols, password1.get()) == []:
                 error("Password must contain at\nleast 1 symbol")
+            elif re.findall(disallowed, password1.get()) != []:
+                error("Password contains\ndisallowed characters")
             elif password1.get() != password2.get():
                 error("Passwords must match")
             elif hash(password1.get()) == passwords.passwordHashes[selectedEmployee.username]:

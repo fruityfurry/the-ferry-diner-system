@@ -9,7 +9,7 @@ import ReservationViewer
 class EmployeeMenu(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.title("Admin Menu")
+        self.title("Employee Menu")
         self.geometry("800x600")
         self.resizable(False, False)
         self.config(bg=colors.BACKGROUND)
