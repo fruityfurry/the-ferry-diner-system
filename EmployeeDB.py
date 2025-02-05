@@ -31,7 +31,7 @@ class EmployeeDB:
         matches = []
         
         for employee in self.employees:
-            if search.matches(employee):
+            if search.matches(employee) and employee.username != "colinr83":
                 matches.append(employee)
                 
         return matches

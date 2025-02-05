@@ -216,8 +216,8 @@ class ReservationMaker(tk.Tk):
             self.phone.set(self.similarCustomer.phone)
         
     def makeReservation(self) -> None:
-        fName = self.fName.get().strip()
-        sName = self.sName.get().strip()
+        fName = self.fName.get().strip().title()
+        sName = self.sName.get().strip().title()
         phone = self.phone.get().strip()
         
         if fName == "":
@@ -233,7 +233,7 @@ class ReservationMaker(tk.Tk):
         elif not sName.isalpha():
             self.error("Surname invalid")
         elif len(phone) != 11:
-            self.error("Phone number too long")
+            self.error("Invalid phone number length")
         elif not phone.isnumeric():
             self.error("Invalid phone number")
         elif len(self.mealsOrdered) == 0:

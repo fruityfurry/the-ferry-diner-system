@@ -29,7 +29,7 @@ class MealCreator(tk.Tk):
         nameEntry = widgets.Entry(self, textvariable=self.name, width=20)
         nameEntry.place(x=280, y=200)
         
-        priceLabel = widgets.Label(self, text="Price", width=6)
+        priceLabel = widgets.Label(self, text="Price £", width=8)
         priceLabel.place(x=275, y=300, anchor="ne")
         priceEntry = widgets.Entry(self, textvariable=self.price, width=20)
         priceEntry.place(x=280, y=300)
@@ -58,10 +58,10 @@ class MealCreator(tk.Tk):
         AdminMenu.AdminMenu(self.user)  # This is an admin window so always return to admin menu.
         
     def resetCreateMealButton(self) -> None:
-        self.createMealButton.config(fg=colors.FOREGROUND, text="Create Meal")
+        self.createMealButton.config(text="Create Meal", fg=colors.FOREGROUND)
         
     def error(self, text: str) -> None:
-        self.createMealButton.config(fg=colors.ERROR, text=text)
+        self.createMealButton.config(text=text, fg=colors.ERROR)
         self.after(1000, self.resetCreateMealButton)
         
     def createMeal(self) -> None:
@@ -76,8 +76,8 @@ class MealCreator(tk.Tk):
             self.error("Invalid name")
         else:
             try:
-                price = float(price)
-                if price <= 0 or price >= 100:
+                price = round(float(price), 2)
+                if not 0 < price < 100:
                     self.error("Invalid price")
                     return
             except:

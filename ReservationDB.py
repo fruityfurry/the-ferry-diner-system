@@ -4,7 +4,7 @@ from Reservation import Reservation
 from ReservationSearch import ReservationSearch
 from Meal import Meal
 from OrderDB import OrderDB
-from CustomerDB import CustomerDB
+import CustomerDB
 from EmployeeDB import EmployeeDB
 
 class ReservationDB:
@@ -13,7 +13,7 @@ class ReservationDB:
         
     def findMatches(self, search: ReservationSearch) -> List[Reservation]:
         matches = []
-        customers = CustomerDB()
+        customers = CustomerDB.CustomerDB()
         employees = EmployeeDB()
         
         for reservation in self.reservations:
@@ -56,6 +56,22 @@ class ReservationDB:
             
         orders = OrderDB()
         orders.deleteAssociated(reservationID)
+        
+        self.saveChanges()
+        
+    def deleteAssociated(self, customerID: int) -> None:
+        reservationsIDs = []
+        
+        for reservation in self.reservations:
+            if reservation.customerID == customerID:
+                reservationsIDs.append(reservation.reservationID)
+                self.reservations.remove(reservation)
+                break
+            
+        orders = OrderDB()
+        
+        for reservationID in reservationsIDs:
+            orders.deleteAssociated(reservationID)
         
         self.saveChanges()
         

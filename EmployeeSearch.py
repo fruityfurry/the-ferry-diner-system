@@ -6,7 +6,7 @@ class EmployeeSearch:
         self.nameSearch = nameSearch
         
     def matches(self, employee: Employee) -> bool:
-        if employee.username != self.username and self.username is not None:
+        if self.username is not None and employee.username != self.username:
             return False
         if self.nameSearch is not None and employee.name.lower().find(self.nameSearch.lower()) == -1:
             return False

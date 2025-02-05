@@ -186,7 +186,7 @@ class ReservationViewer(tk.Tk):
                     peopleNumSearch = int(peopleNum.get().strip())
                     if peopleNumSearch < 1 or peopleNumSearch > 9: raise Exception()
                 except:
-                    error("Invalid No. of People")
+                    error("Invalid no. of People")
                     return
             
             search = ReservationSearch(time=timeSearch, peopleNum=peopleNumSearch,

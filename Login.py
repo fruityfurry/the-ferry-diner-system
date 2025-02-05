@@ -33,7 +33,7 @@ class Login(tk.Tk):
         
         # Log in button is the only widget that is a member field as it needs to be referred to later for error().
         # You'll see this technique being used throughout this program.
-        self.logInButton = widgets.Button(self, width=20, height=2, command=self.logInButtonPress)
+        self.logInButton = widgets.Button(self, text="Log In", width=20, height=2, command=self.logInButtonPress)
         self.logInButton.place(x=400, y=496, anchor="n")
         
         self.bind("<Return>", self.onReturn)

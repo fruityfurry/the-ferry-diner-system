@@ -1,7 +1,8 @@
 import pickle
 from typing import List
 from Customer import Customer
-from customerSearch import CustomerSearch
+from CustomerSearch import CustomerSearch
+from ReservationDB import ReservationDB
 
 class CustomerDB:
     def __init__(self) -> None:
@@ -22,6 +23,9 @@ class CustomerDB:
             if customer.customerID == customerID:
                 self.customers.remove(customer)
                 break
+            
+        reservations = ReservationDB()
+        reservations.deleteAssociated(customerID)
             
         self.saveChanges()
         

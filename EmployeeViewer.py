@@ -15,7 +15,7 @@ from hashing import hash
 class EmployeeViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.title("Reservation Viewer")
+        self.title("Employee Viewer")
         self.geometry("800x600")
         self.resizable(False, False)
         self.config(bg=colors.BACKGROUND)
@@ -24,6 +24,7 @@ class EmployeeViewer(tk.Tk):
         
         self.employeeDB = EmployeeDB()
         self.employees = self.employeeDB.employees
+        self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
         self.employees = sorted(self.employees, key=lambda x: x.name)
         
         self.sortBy = tk.StringVar(self, "Name")
@@ -127,6 +128,7 @@ class EmployeeViewer(tk.Tk):
         
     def makeSearch(self, search: EmployeeSearch = EmployeeSearch()) -> None:
         self.employees = self.employeeDB.findMatches(search)
+        self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
         self.sort()
         
     def searchDialog(self) -> None:
@@ -196,7 +198,7 @@ class EmployeeViewer(tk.Tk):
         
         dialog = tk.Toplevel()
         dialog.focus()
-        dialog.title("Search Reservations")
+        dialog.title("Change Password")
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)
         
@@ -213,7 +215,7 @@ class EmployeeViewer(tk.Tk):
         def tryMakeSearch() -> None:
             uppercaseLetters = "[A-Z]"
             numbers = "[0-9]"
-            symbols = "[!£$%^&*@?<>-=_+]"
+            symbols = r"[!£$%^&*@?<>\-=_+]"
             disallowed = r"[ \[\]\{\}\(\)\\\|,.]"
             
             passwords = PasswordDB()
@@ -241,7 +243,7 @@ class EmployeeViewer(tk.Tk):
                 dialog.after(1000, dialog.destroy)
                 
         def close() -> None:
-            self.searchButton.config(state=tk.NORMAL)
+            self.changePasswordButton.config(state=tk.NORMAL)
             dialog.destroy()
                             
         password1Label = widgets.Label(dialog, text="New Password", width=13)

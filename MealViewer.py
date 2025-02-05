@@ -6,7 +6,6 @@ import colors
 import widgets
 import Login
 import AdminMenu
-import EmployeeMenu
 from MealDB import MealDB
 from Meal import Meal
 from MealSearch import MealSearch
@@ -14,7 +13,7 @@ from MealSearch import MealSearch
 class MealViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.title("Reservation Viewer")
+        self.title("Meal Viewer")
         self.geometry("800x600")
         self.resizable(False, False)
         self.config(bg=colors.BACKGROUND)
@@ -86,7 +85,6 @@ class MealViewer(tk.Tk):
             
         self.updateListbox()
         self.updateNumSelected(None)
-    
             
     def updateListbox(self) -> None:
         lines = []
@@ -122,7 +120,7 @@ class MealViewer(tk.Tk):
         
         dialog = tk.Toplevel()
         dialog.focus()
-        dialog.title("Search Reservations")
+        dialog.title("Search Meals")
         dialog.geometry("800x600")
         dialog.config(bg=colors.BACKGROUND)
         
@@ -141,7 +139,6 @@ class MealViewer(tk.Tk):
                 nameSearch = None
             else:
                 nameSearch = name.get().strip()
-                
             if price.get() == "":
                 priceSearch = None
             else:
@@ -166,7 +163,7 @@ class MealViewer(tk.Tk):
         customerNameEntry = widgets.Entry(dialog, textvariable=name, width=20)
         customerNameEntry.place(x=280, y=200)
         
-        peopleNumLabel = widgets.Label(dialog, text="Price", width=6)
+        peopleNumLabel = widgets.Label(dialog, text="Price £", width=8)
         peopleNumLabel.place(x=275, y=300, anchor="ne")
         peopleNumEntry = widgets.Entry(dialog, textvariable=price, width=20)
         peopleNumEntry.place(x=280, y=300)

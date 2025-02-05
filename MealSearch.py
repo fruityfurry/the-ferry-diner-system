@@ -8,7 +8,7 @@ class MealSearch:
     def matches(self, meal: Meal) -> bool:
         if self.nameSearch is not None and meal.name.lower().find(self.nameSearch.lower()) == -1:
             return False
-        if meal.price != self.price and self.price is not None:
+        if self.price is not None and meal.price != self.price:
             return False
         
         return True

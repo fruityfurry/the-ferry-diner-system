@@ -74,7 +74,7 @@ class EmployeeAdder(tk.Tk):
         
         uppercaseLetters = "[A-Z]"
         numbers = "[0-9]"
-        symbols = "[!£$%^&*@?<>-=_+]"
+        symbols = r"[!£$%^&*@?<>\-=_+]"
         disallowed = r"[ \[\]\{\}\(\)\\\|,.]"
 
         name = self.name.get().strip()

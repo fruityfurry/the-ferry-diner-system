@@ -8,7 +8,7 @@ import Login
 import AdminMenu
 from CustomerDB import CustomerDB
 from Customer import Customer
-from customerSearch import CustomerSearch
+from CustomerSearch import CustomerSearch
 
 class CustomerViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
