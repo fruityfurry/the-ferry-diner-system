@@ -14,6 +14,7 @@ from ReservationDB import ReservationDB
 from CustomerDB import CustomerDB
 from OrderDB import OrderDB
 from Meal import Meal
+from EmployeeDB import EmployeeDB
 
 class ReservationViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -109,11 +110,12 @@ class ReservationViewer(tk.Tk):
     def updateListbox(self) -> None:
         lines = []
         customers = CustomerDB()
+        employees = EmployeeDB()
         
         for reservation in self.reservations:
             customer = customers.getByID(reservation.customerID)
             name = f"{customer.fName} {customer.sName}"
-            lines.append(f"{reservation.time} - {name} - {reservation.peopleNum} ppl.")
+            lines.append(f"{reservation.time} - {name} - {reservation.peopleNum} ppl. - Taken by {employees.getByUsername(reservation.employeeUser).name}")
             
         self.listbox.delete(0, tk.END)
         self.listbox.insert(0, *lines)
