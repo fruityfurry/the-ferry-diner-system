@@ -85,7 +85,7 @@ class EmployeeAdder(tk.Tk):
             self.error("Name empty")
         elif len(name) > 50:
             self.error("Name too long")
-        elif not name.replace(" ", "").isalpha():  # Spaces are not alpha, but we allow them, so we remove them for this check.
+        elif not name.replace(" ", "").isalpha(): # Spaces are not alpha but we allow them, so we remove them for this check.
             self.error("Invalid name")
         elif username == "":
             self.error("Username empty")

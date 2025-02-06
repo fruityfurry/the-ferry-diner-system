@@ -28,7 +28,8 @@ class AdminMenu(tk.Tk):
         tallyRevenueButton = widgets.Button(self, text="Tally Revenue", width=15, height=2, command=self.tallyRevenue)
         tallyRevenueButton.place(x=785, y=15, anchor="ne")
         
-        makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
+        makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2,
+                                               command=self.makeReservation)
         makeReservationButton.place(x=380, y=120, anchor="ne")
         
         createMealButton = widgets.Button(self, text="Create Meal", width=20, height=2, command=self.createMeal)
@@ -37,7 +38,8 @@ class AdminMenu(tk.Tk):
         addEmployeeButton = widgets.Button(self, text="Add Employee", width=20, height=2, command=self.addEmployee)
         addEmployeeButton.place(x=380, y=386, anchor="ne")
         
-        viewReservationsButton = widgets.Button(self, text="View Reservations", width=20, height=2, command=self.viewReservations)
+        viewReservationsButton = widgets.Button(self, text="View Reservations", width=20, height=2,
+                                                command=self.viewReservations)
         viewReservationsButton.place(x=420, y=120, anchor="nw")
         
         viewMealsButton = widgets.Button(self, text="View Meals", width=20, height=2, command=self.viewMeals)

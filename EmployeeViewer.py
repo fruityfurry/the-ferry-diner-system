@@ -49,7 +49,8 @@ class EmployeeViewer(tk.Tk):
         deleteButton = widgets.Button(self, text="Delete Selected", width=14, height=1, command=self.deleteSelected)
         deleteButton.place(x=20, y=580, anchor="sw")
         
-        self.changePasswordButton = widgets.Button(self, text="Change Password", width=20, height=1, command=self.changePasswordDialog)
+        self.changePasswordButton = widgets.Button(self, text="Change Password", width=20, height=1,
+                                                   command=self.changePasswordDialog)
         self.changePasswordButton.place(x=400, y=580, anchor="s")
         
         self.searchButton = widgets.Button(self, text="Search...", width=14, height=1, command=self.searchDialog)
@@ -118,7 +119,8 @@ class EmployeeViewer(tk.Tk):
     def deleteSelected(self) -> None:
         selected = self.getSelected()
         
-        if len(selected) > 0 and messagebox.askyesno("Are you sure?", f"Are you sure you want to delete {len(selected)} employees?"):
+        if len(selected) > 0 and messagebox.askyesno("Are you sure?",
+                                                     f"Are you sure you want to delete {len(selected)} employees?"):
             for employee in selected:
                 self.employeeDB.delete(employee.username)
                 self.employees.remove(employee)

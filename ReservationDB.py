@@ -36,8 +36,8 @@ class ReservationDB:
         if len(self.reservations) == 0:
             reservationID = 0
         else:
-            reservationID = self.reservations[-1].reservationID + 1  # Reservations are stored in ascending PK order so this will
-                                                                     # always produce a unique ID.
+            reservationID = self.reservations[-1].reservationID + 1  # Reservations are stored in ascending PK order so this
+                                                                     # will always produce a unique ID.
 
         self.reservations.append(Reservation(reservationID, customerID, employeeUser, time, peopleNum))
         

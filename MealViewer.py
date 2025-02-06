@@ -103,7 +103,8 @@ class MealViewer(tk.Tk):
     def deleteSelected(self) -> None:
         selected = self.getSelected()
         
-        if len(selected) > 0 and messagebox.askyesno("Are you sure?", f"Are you sure you want to delete {len(selected)} meals?"):
+        if len(selected) > 0 and messagebox.askyesno("Are you sure?",
+                                                     f"Are you sure you want to delete {len(selected)} meals?"):
             for reservation in selected:
                 self.mealDB.delete(reservation.mealID)
                 self.meals.remove(reservation)

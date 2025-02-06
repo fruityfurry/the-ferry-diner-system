@@ -85,7 +85,8 @@ class ReservationMaker(tk.Tk):
         customerSearch.config(bg=colors.ITEM, highlightbackground=colors.OUTLINE, highlightthickness=2,)
         customerSearch.place(x=458, y=60)
         
-        self.autofillButton = widgets.Button(self, text="Autofill Details", width=16, height=1, command=self.autofill, state=tk.DISABLED)
+        self.autofillButton = widgets.Button(self, text="Autofill Details", width=16, height=1, command=self.autofill,
+                                             state=tk.DISABLED)
         self.autofillButton.place(x=508, y=180)
         
         self.mealsAddedTextBox = widgets.TextBox(self, width=25, height=5)
@@ -100,7 +101,8 @@ class ReservationMaker(tk.Tk):
         self.peopleNum = widgets.Spinbox(self, from_=1, to=9, width=5)
         self.peopleNum.place(x=580, y=457)
         
-        self.makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
+        self.makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2,
+                                                    command=self.makeReservation)
         self.makeReservationButton.place(x=400, y=520, anchor="n")
         
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)

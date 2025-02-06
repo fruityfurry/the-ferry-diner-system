@@ -103,7 +103,8 @@ class CustomerViewer(tk.Tk):
     def deleteSelected(self) -> None:
         selected = self.getSelected()
         
-        if len(selected) > 0 and messagebox.askyesno("Are you sure?", f"Are you sure you want to delete {len(selected)} customers?"):
+        if len(selected) > 0 and messagebox.askyesno("Are you sure?",
+                                                     f"Are you sure you want to delete {len(selected)} customers?"):
             for customer in selected:
                 self.customerDB.delete(customer.customerID)
                 self.customers.remove(customer)

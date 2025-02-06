@@ -19,10 +19,12 @@ class EmployeeMenu(tk.Tk):
         logOutButton = widgets.Button(self, text="Log Out", width=10, height=2, command=self.logOut)
         logOutButton.place(x=15, y=15)
         
-        makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2, command=self.makeReservation)
+        makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2,
+                                               command=self.makeReservation)
         makeReservationButton.place(x=140, y=294)
         
-        viewReservationsButton = widgets.Button(self, text="View Reservations", width=20, height=2, command=self.viewReservations)
+        viewReservationsButton = widgets.Button(self, text="View Reservations", width=20, height=2,
+                                                command=self.viewReservations)
         viewReservationsButton.place(x=420, y=294)
         
         # Return to login after three minutes of inactivity.

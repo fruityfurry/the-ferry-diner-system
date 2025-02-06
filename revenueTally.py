@@ -37,7 +37,8 @@ class RevenueTally(tk.Tk):
                 meals += 1
                 revenue += meal.price
                 
-        tallyText.config(text=f"Made £{round(revenue, 2)}\nfrom {meals} meals\nserved across {reservationNum} reservations today.")
+        tallyText.config(text=f"Made £{round(revenue, 2)}\nfrom {meals} meals\n"
+                              f"served across {reservationNum} reservations today.")
         
         self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)

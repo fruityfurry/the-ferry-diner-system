@@ -115,7 +115,8 @@ class ReservationViewer(tk.Tk):
         for reservation in self.reservations:
             customer = customers.getByID(reservation.customerID)
             name = f"{customer.fName} {customer.sName}"
-            lines.append(f"{reservation.time} - {name} - {reservation.peopleNum} ppl. - Taken by {employees.getByUsername(reservation.employeeUser).name}")
+            lines.append(f"{reservation.time} - {name} - {reservation.peopleNum} ppl."  # Implied line contintuation is fun.
+                         f" - Taken by {employees.getByUsername(reservation.employeeUser).name}")
             
         self.listbox.delete(0, tk.END)
         self.listbox.insert(0, *lines)
@@ -128,7 +129,8 @@ class ReservationViewer(tk.Tk):
     def deleteSelected(self) -> None:
         selected = self.getSelected()
         
-        if len(selected) > 0 and messagebox.askyesno("Are you sure?", f"Are you sure you want to delete {len(selected)} reservations?"):
+        if len(selected) > 0 and messagebox.askyesno("Are you sure?",
+                                                     f"Are you sure you want to delete {len(selected)} reservations?"):
             for reservation in selected:
                 self.reservationDB.delete(reservation.reservationID)
                 self.reservations.remove(reservation)
