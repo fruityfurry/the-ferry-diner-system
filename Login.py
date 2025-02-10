@@ -6,7 +6,8 @@ import widgets
 import AdminMenu
 import EmployeeMenu
 
-#Although 
+
+
 class Login(tk.Tk):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -33,10 +34,10 @@ class Login(tk.Tk):
         passLabel.place(x=250, y=385, anchor="ne")
         
         # Log in button is the only widget that is a member field as it needs to be referred to later for error().
-        # You'll see this technique being used throughout this program.
         self.logInButton = widgets.Button(self, text="Log In", width=20, height=2, command=self.logInButtonPress)
         self.logInButton.place(x=400, y=496, anchor="n")
         
+        # Bind return key to function.
         self.bind("<Return>", self.onReturn)
         
         self.mainloop()
@@ -47,18 +48,22 @@ class Login(tk.Tk):
         self.after(1000, self.resetLogInButton)
         
     def resetLogInButton(self) -> None:
+        # Reset log in button.
         self.logInButton.config(text="Log In", fg=colors.FOREGROUND)
         
     def onReturn(self, event: tk.Event) -> None:
+        # Quality of life feature, press log in button if return key is pressed.
         self.logInButtonPress()
         
     def logInButtonPress(self) -> None:
+        # Load up databases.
         employees = EmployeeDB()
         passwords = PasswordDB()
         
         username = self.username.get()
         password = self.password.get()
         
+        # Validation.
         if username == "":
             self.error("Username empty")
         elif password == "":
@@ -69,7 +74,7 @@ class Login(tk.Tk):
             self.error("Incorrect password")
         else:
             # Set user equal to employee object with username entered.
-            # Validation was carried out earlier to ensure this never fails.
+            # Validation was carried out earlier to ensure this function call never fails.
             user = employees.getByUsername(username)
             
             self.destroy()  # Destroy this window as it is no longer needed.

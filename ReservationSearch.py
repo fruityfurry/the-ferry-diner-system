@@ -13,15 +13,15 @@ class ReservationSearch:
         self.employeeSearch = employeeSearch
         
     def matches(self, reservation: Reservation) -> bool:
-        if reservation.reservationID != self.reservationID and self.reservationID is not None:
+        if self.reservationID is not None and reservation.reservationID != self.reservationID:
             return False
-        if reservation.customerID != self.customerID and self.customerID is not None:
+        if self.customerID is not None and reservation.customerID != self.customerID:
             return False
-        if reservation.employeeUser != self.employeeUser and self.employeeUser is not None:
+        if self.employeeUser is not None and reservation.employeeUser != self.employeeUser:
             return False
-        if reservation.time != self.time and self.time is not None:
+        if self.time is not None and reservation.time != self.time:
             return False
-        if reservation.peopleNum != self.peopleNum and self.peopleNum is not None:
+        if self.peopleNum is not None and reservation.peopleNum != self.peopleNum:
             return False
         
         return True

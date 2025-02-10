@@ -8,6 +8,7 @@ class EmployeeSearch:
     def matches(self, employee: Employee) -> bool:
         if self.username is not None and employee.username != self.username:
             return False
+        # If employee search cannot be found as a substring (case insensitive) in the employee's full name, no match.
         if self.nameSearch is not None and employee.name.lower().find(self.nameSearch.lower()) == -1:
             return False
         

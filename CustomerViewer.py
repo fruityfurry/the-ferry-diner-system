@@ -126,7 +126,6 @@ class CustomerViewer(tk.Tk):
         dialog.config(bg=colors.BACKGROUND)
         
         name = tk.StringVar(dialog)
-        price = tk.StringVar(dialog)
         
         def tryMakeSearch() -> None:
             if name.get() == "":

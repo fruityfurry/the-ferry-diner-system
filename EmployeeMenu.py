@@ -38,15 +38,18 @@ class EmployeeMenu(tk.Tk):
         self.after_cancel(self.timeout)
         self.timeout = self.after(2 * 60 * 1000, self.logOut)
         
+    # Timeout function is cancelled before going to any other window to prevent non-fatal but annoying errors in the console.
     def logOut(self) -> None:
         self.after_cancel(self.timeout)
         self.destroy()
         Login.Login()
         
     def makeReservation(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         ReservationMaker.ReservationMaker(self.user)
         
     def viewReservations(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         ReservationViewer.ReservationViewer(self.user)

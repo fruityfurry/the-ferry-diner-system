@@ -115,7 +115,7 @@ class ReservationViewer(tk.Tk):
         for reservation in self.reservations:
             customer = customers.getByID(reservation.customerID)
             name = f"{customer.fName} {customer.sName}"
-            lines.append(f"{reservation.time} - {name} - {reservation.peopleNum} ppl."  # Implied line contintuation is fun.
+            lines.append(f"{reservation.time} - {name} - {reservation.peopleNum} ppl."
                          f" - Taken by {employees.getByUsername(reservation.employeeUser).name}")
             
         self.listbox.delete(0, tk.END)

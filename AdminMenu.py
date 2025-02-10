@@ -62,39 +62,48 @@ class AdminMenu(tk.Tk):
         self.after_cancel(self.timeout)
         self.timeout = self.after(2 * 60 * 1000, self.logOut)
         
+    # Timeout function is cancelled before going to any other window to prevent non-fatal but annoying errors in the console.
     def logOut(self) -> None:
         self.after_cancel(self.timeout)
         self.destroy()
         Login.Login()
         
     def tallyRevenue(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         revenueTally.RevenueTally(self.user)
         
     def makeReservation(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         ReservationMaker.ReservationMaker(self.user)
         
     def createMeal(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         MealCreator.MealCreator(self.user)
         
     def addEmployee(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         EmployeeAdder.EmployeeAdder(self.user)
         
     def viewReservations(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         ReservationViewer.ReservationViewer(self.user)
         
     def viewMeals(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         MealViewer.MealViewer(self.user)
         
     def viewEmployees(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         EmployeeViewer.EmployeeViewer(self.user)
     
     def viewCustomers(self) -> None:
+        self.after_cancel(self.timeout)
         self.destroy()
         CustomerViewer.CustomerViewer(self.user)

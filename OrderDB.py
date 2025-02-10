@@ -37,7 +37,7 @@ class OrderDB:
             if order.reservationID == reservationID:
                 indexesToDelete.append(index)
                 
-        indexesToDelete.reverse()
+        indexesToDelete.reverse()  # Reverse so that indexes are not affected by deletions. 
                 
         for index in indexesToDelete:
             del self.orders[index]

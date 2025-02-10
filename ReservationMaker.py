@@ -2,12 +2,10 @@ import tkinter as tk
 import pickle
 from typing import List
 from Employee import Employee
-from Customer import Customer
 import colors
 import widgets
 from Meal import Meal
 import Login
-from Reservation import Reservation
 import AdminMenu
 import EmployeeMenu
 from CustomerDB import CustomerDB
@@ -35,9 +33,10 @@ class ReservationMaker(tk.Tk):
         self.mealsOrdered: List[Meal] = []
         self.customers = CustomerDB()
         self.meals = MealDB()
-        mealNames = [meal.name for meal in self.meals.meals]
+        
+        mealNames = [meal.name for meal in self.meals.meals]  # List of names of meals for meal dropdown.
         mealNames = sorted(mealNames)
-        timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))
+        timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))  # List of timeslots for time dropdown.
         self.time = tk.StringVar()
         
         self.selectedMeal = tk.StringVar()
@@ -133,14 +132,13 @@ class ReservationMaker(tk.Tk):
         
     def error(self, message: str) -> None:
         # Display error message on Make Reservation button and remove after one second.
-        self.makeReservationButton.config(text=message)
-        self.makeReservationButton.config(fg=colors.ERROR)
+        self.makeReservationButton.config(text=message, fg=colors.ERROR)
         self.after(1000, self.resetMakeReservationButton)
         
     def resetMakeReservationButton(self) -> None:
-        self.makeReservationButton.config(text="Make Reservation")
-        self.makeReservationButton.config(fg=colors.FOREGROUND)
-        
+        self.makeReservationButton.config(text="Make Reservation", fg=colors.FOREGROUND)
+    
+    # Called when either name field is changed.
     def nameChange(self, varName: str, index: str, action: str) -> None:
         fullName = self.fName.get().strip() + " " + self.sName.get().strip()
         fullName = fullName.lower()
@@ -159,24 +157,30 @@ class ReservationMaker(tk.Tk):
                 self.similarCustomer = None
                 self.autofillButton.config(state=tk.DISABLED)
                 self.customerSearchText.set("No match found for " + fullName.title())
-                
+             
+    # Takes list of meals ordered and formats them into a nice format with quantities and such   
     def formatMeals(self) -> None:
         text = ""
-        mealsSeen = []
+        mealsSeen: List[Meal] = []
+        mealQuantities: List[int] = []
         
-        for i, meal1 in enumerate(self.mealsOrdered):
-            if meal1 not in mealsSeen:
-                quantity = 1
-                mealsSeen.append(meal1)
+        # Loop through all meals ordered and count up the quantities of each unique meal.
+        for meal in self.mealsOrdered:
+            if meal not in mealsSeen:
+                mealsSeen.append(meal)
+                mealQuantities.append(1)
+            else:
+                mealQuantities[mealsSeen.index(meal)] += 1
                 
-                for j, meal2 in enumerate(self.mealsOrdered):
-                    if meal1 == meal2 and i != j:
-                        quantity += 1
-                    
-                text += f"x{quantity} {meal1.name} - £{round(meal1.price, 2)}\n"
+        for i in range(len(mealsSeen)):
+            meal = mealsSeen[i]
+            quantity = mealQuantities[i]
+            
+            text += f"x{quantity} {meal.name} - £{meal.price}\n"
                 
         self.mealsAddedTextBox.setText(text[:-1])  # Exclude last newline character.
                 
+    # Update total text with correct total of meals ordered.
     def updateTotal(self) -> None:
         total = 0
         
@@ -184,7 +188,8 @@ class ReservationMaker(tk.Tk):
             total += meal.price
             
         self.totalPriceLabel.config(text=f"Total: £{round(total, 2)}")
-        
+    
+    # Add meal to list of ordered meals and update meal box and total.
     def addMeal(self) -> None:
         selectedMeal = self.selectedMeal.get()
         
@@ -194,15 +199,15 @@ class ReservationMaker(tk.Tk):
         self.formatMeals()
         self.updateTotal()
         
+    # Remove meal from list of ordered meals and update meal box and total.
     def removeMeal(self) -> None:
-        selectedMeal = self.selectedMeal.get()
+        selectedMeal = self.meals.getByName(self.selectedMeal.get())
         
-        selectedMeal = self.meals.getByName(selectedMeal)
-            
+        # Try to remove meal, if this fails we just ignore the attempt and return.
         try:
             self.mealsOrdered.remove(selectedMeal)
         except:
-            pass
+            return
         
         if len(self.mealsOrdered) == 0:
             self.mealsAddedTextBox.setText("No meals added yet.")
@@ -210,7 +215,8 @@ class ReservationMaker(tk.Tk):
             self.formatMeals()
             
         self.updateTotal()
-        
+    
+    # Fill in customer details with similar customer details, if there is one.
     def autofill(self) -> None:
         if self.similarCustomer is not None:
             self.fName.set(self.similarCustomer.fName)
@@ -218,6 +224,7 @@ class ReservationMaker(tk.Tk):
             self.phone.set(self.similarCustomer.phone)
         
     def makeReservation(self) -> None:
+        # Strip fields and properly capitalise them.
         fName = self.fName.get().strip().title()
         sName = self.sName.get().strip().title()
         phone = self.phone.get().strip()
@@ -244,17 +251,19 @@ class ReservationMaker(tk.Tk):
             self.error("Time empty")
         else:
             reservations = ReservationDB()
-            time  = self.time.get()
+            time = self.time.get()
             peopleNum = int(self.peopleNum.get())
             
+            # Check if customer already exists.
             customerFound = self.customers.exists(fName, sName, phone)
-                    
-            if not customerFound:
+            
+            if not customerFound:  # If none found, make a new customer and use their customer ID.
                 self.customers.add(fName, sName, phone)
                 customerID = self.customers.customers[-1].customerID
-            else:
+            else:  # If found, use their customer ID.
                 customerID = self.customers.getID(fName, sName, phone)
-                
+            
+            # Place reservation.
             reservations.add(customerID, self.user.username, time, peopleNum, self.mealsOrdered)
             
             employees = EmployeeDB()

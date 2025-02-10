@@ -2,7 +2,7 @@ import pickle
 from typing import List
 from Customer import Customer
 from CustomerSearch import CustomerSearch
-from ReservationDB import ReservationDB
+import ReservationDB
 
 class CustomerDB:
     def __init__(self) -> None:
@@ -24,7 +24,7 @@ class CustomerDB:
                 self.customers.remove(customer)
                 break
             
-        reservations = ReservationDB()
+        reservations = ReservationDB.ReservationDB()
         reservations.deleteAssociated(customerID)
             
         self.saveChanges()

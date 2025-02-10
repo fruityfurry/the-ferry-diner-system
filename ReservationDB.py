@@ -18,13 +18,18 @@ class ReservationDB:
         
         for reservation in self.reservations:
             if search.matches(reservation):
+                # Customer and employee searches must be done outside ReservationSearch method to avoid circular imports.
                 if search.customerSearch is not None:
                     customer = customers.getByID(reservation.customerID)
+                    # If customer search cannot be found as a substring (case insensitive) in the customer's full name,
+                    # no match.
                     if f"{customer.fName} {customer.sName}".lower().find(search.customerSearch.lower()) == -1:
                         continue
                     
                 if search.employeeSearch is not None:
                     employee = employees.getByUsername(reservation.employeeUser)
+                    # If employee search cannot be found as a substring (case insensitive) in the employee's full name,
+                    # no match.
                     if employee.name.lower().find(search.employeeSearch.lower()) == -1:
                         continue
                 
@@ -43,6 +48,7 @@ class ReservationDB:
         
         orders = OrderDB()
         
+        # Add required order entries.
         for meal in meals:
             orders.add(reservationID, meal.mealID)
             

@@ -25,7 +25,7 @@ class EmployeeViewer(tk.Tk):
         self.employeeDB = EmployeeDB()
         self.employees = self.employeeDB.employees
         self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
-        self.employees = sorted(self.employees, key=lambda x: x.name)
+        self.employees = sorted(self.employees, key=lambda x: x.name)  # Sort by employee name.
         
         self.sortBy = tk.StringVar(self, "Name")
         self.sortBy.trace_add("write", self.sortByChanged)
@@ -108,6 +108,7 @@ class EmployeeViewer(tk.Tk):
         for employee in self.employees:
             lines.append(f"{employee.name} - {employee.username} - {employee.reservationsMade} reservations")
             
+        # Delete all old lines and put in the new ones.
         self.listbox.delete(0, tk.END)
         self.listbox.insert(0, *lines)
         
@@ -130,12 +131,16 @@ class EmployeeViewer(tk.Tk):
         
     def makeSearch(self, search: EmployeeSearch = EmployeeSearch()) -> None:
         self.employees = self.employeeDB.findMatches(search)
-        self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
+        try:
+            self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
+        except:
+            pass
         self.sort()
         
     def searchDialog(self) -> None:
         self.searchButton.config(state=tk.DISABLED)
         
+        # Open new window for search dialog.
         dialog = tk.Toplevel()
         dialog.focus()
         dialog.title("Search Reservations")
