@@ -6,6 +6,7 @@ from Meal import Meal
 from OrderDB import OrderDB
 import CustomerDB
 from EmployeeDB import EmployeeDB
+from binarySearch import binarySearch
 
 class ReservationDB:
     def __init__(self) -> None:
@@ -55,10 +56,11 @@ class ReservationDB:
         self.saveChanges()
         
     def delete(self, reservationID: int) -> None:
-        for reservation in self.reservations:
-            if reservation.reservationID == reservationID:
-                self.reservations.remove(reservation)
-                break
+        index = binarySearch(self.reservations, reservationID, lambda x: x.reservationID)
+        
+        if index == -1: raise ValueError(f"Reservation with ID {reservationID} was not found.")
+                                         
+        del self.reservations[index]
             
         orders = OrderDB()
         orders.deleteAssociated(reservationID)

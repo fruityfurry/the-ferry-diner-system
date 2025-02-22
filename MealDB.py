@@ -3,6 +3,7 @@ from typing import List
 from Meal import Meal
 from MealSearch import MealSearch
 import OrderDB
+from binarySearch import binarySearch
 
 class MealDB:
     def __init__(self) -> None:
@@ -28,10 +29,8 @@ class MealDB:
         self.saveChanges()
         
     def delete(self, mealID: int) -> None:
-        for meal in self.meals:
-            if meal.mealID == mealID:
-                self.meals.remove(meal)
-                break
+        index = binarySearch(self.meals, mealID, lambda x: x.mealID)
+        del self.meals[index]
             
         orders = OrderDB.OrderDB()
         orders.deleteAllWithMeal(mealID)
@@ -39,11 +38,11 @@ class MealDB:
         self.saveChanges()
         
     def getByID(self, mealID: int) -> Meal:
-        for meal in self.meals:
-            if meal.mealID == mealID:
-                return meal
+        index = binarySearch(self.meals, mealID, lambda x: x.mealID)
         
-        raise ValueError(f"Meal with ID {mealID} was not found.")
+        if index == -1: raise ValueError(f"Meal with ID {mealID} was not found.")
+        
+        return self.meals[index]
     
     def getByName(self, name: str) -> Meal:
         for meal in self.meals:
