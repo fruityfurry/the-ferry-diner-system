@@ -14,7 +14,9 @@ from MealDB import MealDB
 from EmployeeDB import EmployeeDB
 
 class ReservationMaker(tk.Tk):
-    def __init__(self, user: Employee, *args, **kwargs) -> None:
+    def __init__(self, user: Employee, fNameFill: str | None = None, sNameFill: str | None = None,
+                 phoneFill: str | None = None, mealsFill: List[Meal] | None = None, timeFill: str | None = None,
+                 peopleNumFill: int | None = None, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.title("Reservation Maker")
         self.geometry("800x600")
@@ -24,13 +26,17 @@ class ReservationMaker(tk.Tk):
         self.user = user
         
         self.fName = tk.StringVar()
+        if fNameFill is not None: self.fName.set(fNameFill)
         self.fName.trace_add("write", self.nameChange)  # Allows tracking when value is changed.
 
         self.sName = tk.StringVar()
+        if sNameFill is not None: self.sName.set(sNameFill)
         self.sName.trace_add("write", self.nameChange)  # Allows tracking when value is changed.
 
         self.phone = tk.StringVar()
+        if phoneFill is not None: self.phone.set(phoneFill)
         self.mealsOrdered: List[Meal] = []
+        if mealsFill is not None: self.mealsOrdered = mealsFill
         self.customers = CustomerDB()
         self.meals = MealDB()
         
@@ -38,6 +44,10 @@ class ReservationMaker(tk.Tk):
         mealNames = sorted(mealNames)
         timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))  # List of timeslots for time dropdown.
         self.time = tk.StringVar()
+        if timeFill is not None: self.time.set(timeFill)
+        
+        self.peopleNum = tk.IntVar()
+        if peopleNumFill is not None: self.peopleNum.set(peopleNumFill)
         
         self.selectedMeal = tk.StringVar()
         self.selectedMeal.set(self.meals.meals[0].name)
@@ -97,8 +107,8 @@ class ReservationMaker(tk.Tk):
         
         peopleNumLabel = widgets.Label(self, text="No. of People", width=13, height=1)
         peopleNumLabel.place(x=422, y=460)
-        self.peopleNum = widgets.Spinbox(self, from_=1, to=9, width=5)
-        self.peopleNum.place(x=580, y=457)
+        peopleNumSpinbox = widgets.Spinbox(self, from_=1, to=9, width=5, textvariable=self.peopleNum)
+        peopleNumSpinbox.place(x=580, y=457)
         
         self.makeReservationButton = widgets.Button(self, text="Make Reservation", width=20, height=2,
                                                     command=self.makeReservation)
@@ -106,6 +116,12 @@ class ReservationMaker(tk.Tk):
         
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
         backButton.place(x=20, y=540)
+        
+        if fNameFill is not None:  # Any field not being None implies they all are. If that is the case, update
+                                   # the similar customer search and meal boxes.
+            self.nameChange("", "", "")
+            self.formatMeals()
+            self.updateTotal()
         
         self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
@@ -252,7 +268,7 @@ class ReservationMaker(tk.Tk):
         else:
             reservations = ReservationDB()
             time = self.time.get()
-            peopleNum = int(self.peopleNum.get())
+            peopleNum = self.peopleNum.get()
             
             # Check if customer already exists.
             customerFound = self.customers.exists(fName, sName, phone)

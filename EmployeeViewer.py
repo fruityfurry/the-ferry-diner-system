@@ -120,7 +120,6 @@ class EmployeeViewer(tk.Tk):
             
     def deleteSelected(self) -> None:
         selected = self.getSelected()
-        print(self.employeeDB.employees)
         
         if len(selected) > 0 and messagebox.askyesno("Are you sure?",
                                                      f"Are you sure you want to delete {len(selected)} employees?"):
@@ -131,12 +130,9 @@ class EmployeeViewer(tk.Tk):
             self.updateListbox()
             self.updateNumSelected(None)
         
-    def makeSearch(self, search: EmployeeSearch = EmployeeSearch()) -> None:
-        self.employees = self.employeeDB.findMatches(search)
-        try:
-            self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
-        except:
-            pass
+    def makeSearch(self, search: EmployeeSearch) -> None:
+        self.employees = self.employeeDB.findMatches(search)  # This function never returns the admin account so no need to
+                                                              # remove it.
         self.sort()
         
     def searchDialog(self) -> None:

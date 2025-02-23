@@ -15,6 +15,7 @@ from CustomerDB import CustomerDB
 from OrderDB import OrderDB
 from Meal import Meal
 from EmployeeDB import EmployeeDB
+import ReservationMaker
 
 class ReservationViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -52,8 +53,11 @@ class ReservationViewer(tk.Tk):
         deleteButton = widgets.Button(self, text="Delete Selected", width=14, height=1, command=self.deleteSelected)
         deleteButton.place(x=20, y=580, anchor="sw")
         
-        viewMealsButton = widgets.Button(self, text="View Ordered Meals", width=20, height=1, command=self.viewOrderedMeals)
-        viewMealsButton.place(x=400, y=580, anchor="s")
+        editButton = widgets.Button(self, text="Edit", width=10, height=1, command=self.edit)
+        editButton.place(x=210, y=580, anchor="sw")
+        
+        viewMealsButton = widgets.Button(self, text="View Ordered Meals", width=19, height=1, command=self.viewOrderedMeals)
+        viewMealsButton.place(x=470, y=580, anchor="s")
         
         self.searchButton = widgets.Button(self, text="Search...", width=14, height=1, command=self.searchDialog)
         self.searchButton.place(x=780, y=580, anchor="se")
@@ -137,6 +141,27 @@ class ReservationViewer(tk.Tk):
                 
             self.updateListbox()
             self.updateNumSelected(None)
+            
+    def edit(self) -> None:
+        selected = self.getSelected()
+        
+        if len(selected) != 1:
+            return
+        
+        customers = CustomerDB()
+        
+        reservation = selected[0]
+        
+        customer = customers.getByID(reservation.customerID)
+        meals = self.reservationDB.getAssociatedMeals(reservation.reservationID)
+        
+        self.reservationDB.delete(reservation.reservationID)
+        
+        self.after_cancel(self.timeout)
+        self.destroy()
+        ReservationMaker.ReservationMaker(self.user, customer.fName, customer.sName, customer.phone, meals, reservation.time,
+                                          reservation.peopleNum)
+        
         
     def makeSearch(self, search: ReservationSearch = ReservationSearch()) -> None:
         self.reservations = self.reservationDB.findMatches(search)
