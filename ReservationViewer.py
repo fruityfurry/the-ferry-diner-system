@@ -149,12 +149,14 @@ class ReservationViewer(tk.Tk):
             return
         
         customers = CustomerDB()
+        employees = EmployeeDB()
         
         reservation = selected[0]
         
         customer = customers.getByID(reservation.customerID)
         meals = self.reservationDB.getAssociatedMeals(reservation.reservationID)
         
+        employees.decrementReservationsMade(reservation.employeeUser)
         self.reservationDB.delete(reservation.reservationID)
         
         self.after_cancel(self.timeout)

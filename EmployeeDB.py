@@ -60,6 +60,15 @@ class EmployeeDB:
             
         self.saveChanges()
         
+    # Used when editing a reservation to prevent double counting it.
+    def decrementReservationsMade(self, username: str) -> None:
+        for employee in self.employees:
+            if employee.username == username:
+                employee.reservationsMade += -1
+                break
+            
+        self.saveChanges()
+        
     def saveChanges(self) -> None:
         with open("data/employees.dat", "wb") as file:
             pickle.dump(self.employees, file)
