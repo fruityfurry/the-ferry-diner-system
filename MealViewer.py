@@ -180,4 +180,6 @@ class MealViewer(tk.Tk):
         # Bind return key to press the search button.
         dialog.bind("<Return>", lambda e: tryMakeSearch())  # Lambda to resolve differing arguments.
         
-        customerNameEntry.focus()  # Focus on first text entry to ready it for typing immediately.
+        # Focus on first text entry to ready it for typing immediately.
+        # After needed to resolve bug where using .focus() doesn't work.
+        dialog.after(1, lambda: [dialog.focus_force(), customerNameEntry.focus()])
