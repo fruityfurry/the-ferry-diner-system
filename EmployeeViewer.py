@@ -113,9 +113,9 @@ class EmployeeViewer(tk.Tk):
         self.listbox.insert(0, *lines)
         
     def getSelected(self) -> List[Employee]:
-        indexes: Tuple[int] = self.listbox.curselection()
+        indices: Tuple[int] = self.listbox.curselection()
         
-        return [self.employees[index] for index in indexes]
+        return [self.employees[index] for index in indices]
             
     def deleteSelected(self) -> None:
         selected = self.getSelected()

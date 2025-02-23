@@ -96,9 +96,9 @@ class CustomerViewer(tk.Tk):
         self.listbox.insert(0, *lines)
         
     def getSelected(self) -> List[Customer]:
-        indexes: Tuple[int] = self.listbox.curselection()
+        indices: Tuple[int] = self.listbox.curselection()
         
-        return [self.customers[index] for index in indexes]
+        return [self.customers[index] for index in indices]
             
     def deleteSelected(self) -> None:
         selected = self.getSelected()

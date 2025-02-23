@@ -96,9 +96,9 @@ class MealViewer(tk.Tk):
         self.listbox.insert(0, *lines)
         
     def getSelected(self) -> List[Meal]:
-        indexes: Tuple[int] = self.listbox.curselection()
+        indices: Tuple[int] = self.listbox.curselection()
         
-        return [self.meals[index] for index in indexes]
+        return [self.meals[index] for index in indices]
             
     def deleteSelected(self) -> None:
         selected = self.getSelected()

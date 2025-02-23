@@ -7,6 +7,7 @@ from EmployeeSearch import EmployeeSearch
 class EmployeeDB:
     def __init__(self) -> None:
         self.employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
+        print(self.employees)
         
     def add(self, username: str, name: str, password: str) -> None:
         self.employees.append(Employee(username, name, 0))
@@ -17,10 +18,15 @@ class EmployeeDB:
         self.saveChanges()
     
     def delete(self, username: str) -> None:
+        print(username)
+        print(self.employees)
         for employee in self.employees:
             if employee.username == username:
+                print(employee)
                 self.employees.remove(employee)
                 break
+            
+        print(self.employees)
             
         passwords = PasswordDB()
         passwords.delete(username)
