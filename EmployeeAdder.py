@@ -45,6 +45,9 @@ class EmployeeAdder(tk.Tk):
         self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
         
+        # Bind return key to press the add employee button.
+        self.bind("<Return>", lambda e: self.addEmployee())  # Lambda to resolve differing arguments.
+        
         self.mainloop()
         
     def resetTimeOut(self, event: tk.Event) -> None:
@@ -79,7 +82,7 @@ class EmployeeAdder(tk.Tk):
 
         name = self.name.get().strip()
         username = self.username.get().strip()
-        password = self.password.get().strip()
+        password = self.password.get()
         
         if name == "":
             self.error("Name empty")

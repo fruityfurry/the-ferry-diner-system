@@ -118,13 +118,16 @@ class ReservationMaker(tk.Tk):
         backButton.place(x=20, y=540)
         
         if fNameFill is not None:  # Any field not being None implies they all are. If that is the case, update
-                                   # the similar customer search and meal boxes.
+                                   # the similar customer search and meal boxes so they display properly.
             self.nameChange("", "", "")
             self.formatMeals()
             self.updateTotal()
         
         self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
+        
+        # Bind return key to press the make reservation button.
+        self.bind("<Return>", lambda e: self.makeReservation())  # Lambda to resolve differing arguments.
         
         self.mainloop()
         

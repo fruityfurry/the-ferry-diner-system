@@ -37,8 +37,8 @@ class Login(tk.Tk):
         self.logInButton = widgets.Button(self, text="Log In", width=20, height=2, command=self.logInButtonPress)
         self.logInButton.place(x=400, y=496, anchor="n")
         
-        # Bind return key to function.
-        self.bind("<Return>", self.onReturn)
+        # Bind return key to press the log in button.
+        self.bind("<Return>", lambda e: self.logInButtonPress())  # Lambda to resolve differing arguments.
         
         self.mainloop()
         
@@ -50,10 +50,6 @@ class Login(tk.Tk):
     def resetLogInButton(self) -> None:
         # Reset log in button.
         self.logInButton.config(text="Log In", fg=colors.FOREGROUND)
-        
-    def onReturn(self, event: tk.Event) -> None:
-        # Quality of life feature, press log in button if return key is pressed.
-        self.logInButtonPress()
         
     def logInButtonPress(self) -> None:
         # Load up databases.

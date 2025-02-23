@@ -40,6 +40,9 @@ class MealCreator(tk.Tk):
         self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
         
+        # Bind return key to press the create meal button.
+        self.bind("<Return>", lambda e: self.createMeal())  # Lambda to resolve differing arguments.
+        
         self.mainloop()
         
     def resetTimeOut(self, event: tk.Event) -> None:

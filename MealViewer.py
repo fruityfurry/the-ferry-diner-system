@@ -176,3 +176,6 @@ class MealViewer(tk.Tk):
         cancelButton.place(x=40, y=40)
         
         dialog.protocol("WM_DELETE_WINDOW", close)
+        
+        # Bind return key to press the search button.
+        dialog.bind("<Return>", lambda e: tryMakeSearch())  # Lambda to resolve differing arguments.

@@ -156,7 +156,7 @@ class ReservationViewer(tk.Tk):
         customer = customers.getByID(reservation.customerID)
         meals = self.reservationDB.getAssociatedMeals(reservation.reservationID)
         
-        employees.decrementReservationsMade(reservation.employeeUser)
+        employees.decrementReservationsMade(reservation.employeeUser)  # Avoid double counting reservation.
         self.reservationDB.delete(reservation.reservationID)
         
         self.after_cancel(self.timeout)
@@ -259,6 +259,9 @@ class ReservationViewer(tk.Tk):
         cancelButton.place(x=40, y=560, anchor="sw")
         
         dialog.protocol("WM_DELETE_WINDOW", close)
+        
+        # Bind return key to press the search button.
+        dialog.bind("<Return>", lambda e: tryMakeSearch())  # Lambda to resolve differing arguments.
         
     def viewOrderedMeals(self) -> None:
         selected = self.getSelected()
