@@ -23,7 +23,8 @@ class EmployeeViewer(tk.Tk):
         self.user = user
         
         self.employeeDB = EmployeeDB()
-        self.employees = self.employeeDB.employees
+        self.employees = [employee for employee in self.employeeDB.employees]  # To avoid copying by reference and removing
+                                                                               # the admin account from the database as well.
         self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
         self.employees = sorted(self.employees, key=lambda x: x.name)  # Sort by employee name.
         
@@ -119,6 +120,7 @@ class EmployeeViewer(tk.Tk):
             
     def deleteSelected(self) -> None:
         selected = self.getSelected()
+        print(self.employeeDB.employees)
         
         if len(selected) > 0 and messagebox.askyesno("Are you sure?",
                                                      f"Are you sure you want to delete {len(selected)} employees?"):
