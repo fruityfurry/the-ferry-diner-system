@@ -16,6 +16,7 @@ from OrderDB import OrderDB
 from Meal import Meal
 from EmployeeDB import EmployeeDB
 import ReservationMaker
+from quicksort import quicksort
 
 class ReservationViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -29,7 +30,7 @@ class ReservationViewer(tk.Tk):
         
         self.reservationDB = ReservationDB()
         self.reservations = self.reservationDB.reservations
-        self.reservations = sorted(self.reservations, key=lambda x: x.time)
+        quicksort(self.reservations, lambda x: x.time)
         
         self.sortBy = tk.StringVar(self, "Time")
         self.sortBy.trace_add("write", self.sortByChanged)
@@ -95,7 +96,7 @@ class ReservationViewer(tk.Tk):
     
     def sort(self) -> None:
         if self.sortBy.get() == "Time":
-            self.reservations = sorted(self.reservations, key=lambda x: x.time)
+            quicksort(self.reservations, lambda x: x.time)
         elif self.sortBy.get() == "Name":
             customers = CustomerDB()
             
@@ -103,9 +104,9 @@ class ReservationViewer(tk.Tk):
                 customer = customers.getByID(x.customerID)
                 return f"{customer.fName} {customer.sName}"
             
-            self.reservations = sorted(self.reservations, key=sortFunc)
+            quicksort(self.reservations, sortFunc)
         elif self.sortBy.get() == "People":
-            self.reservations = sorted(self.reservations, key=lambda x: x.peopleNum)
+            quicksort(self.reservations, lambda x: x.peopleNum)
             
         self.updateListbox()
         self.updateNumSelected(None)
@@ -179,7 +180,6 @@ class ReservationViewer(tk.Tk):
         dialog.config(bg=colors.BACKGROUND)
         
         timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))
-        timeslots = [""] + timeslots
         
         customerName = tk.StringVar(dialog)
         employeeName = tk.StringVar(dialog)
@@ -207,6 +207,9 @@ class ReservationViewer(tk.Tk):
                 
             if time.get() == "":
                 timeSearch = None
+            elif time.get() not in timeslots:
+                error("Timeslot invalid")
+                return
             else:
                 timeSearch = time.get().strip()
                 

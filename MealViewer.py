@@ -9,6 +9,7 @@ import AdminMenu
 from MealDB import MealDB
 from Meal import Meal
 from MealSearch import MealSearch
+from quicksort import quicksort
 
 class MealViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -22,7 +23,7 @@ class MealViewer(tk.Tk):
         
         self.mealDB = MealDB()
         self.meals = self.mealDB.meals
-        self.meals = sorted(self.meals, key=lambda x: x.name)
+        quicksort(self.meals, lambda x: x.name)
         
         self.sortBy = tk.StringVar(self, "Name")
         self.sortBy.trace_add("write", self.sortByChanged)
@@ -79,9 +80,9 @@ class MealViewer(tk.Tk):
     
     def sort(self) -> None:
         if self.sortBy.get() == "Name":
-            self.meals = sorted(self.meals, key=lambda x: x.name)
+            quicksort(self.meals, lambda x: x.name)
         elif self.sortBy.get() == "Price":
-            self.meals = sorted(self.meals, key=lambda x: x.price)
+            quicksort(self.meals, lambda x: x.price)
             
         self.updateListbox()
         self.updateNumSelected(None)
