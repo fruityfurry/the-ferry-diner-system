@@ -22,7 +22,7 @@ class MealViewer(tk.Tk):
         self.user = user
         
         self.mealDB = MealDB()
-        self.meals = self.mealDB.meals
+        self.meals = [x for x in self.mealDB.meals]  # Avoid copying by reference.
         quicksort(self.meals, lambda x: x.name)
         
         self.sortBy = tk.StringVar(self, "Name")

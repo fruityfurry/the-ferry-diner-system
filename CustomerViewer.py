@@ -9,6 +9,7 @@ import AdminMenu
 from CustomerDB import CustomerDB
 from Customer import Customer
 from CustomerSearch import CustomerSearch
+from quicksort import quicksort
 
 class CustomerViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -21,8 +22,8 @@ class CustomerViewer(tk.Tk):
         self.user = user
         
         self.customerDB = CustomerDB()
-        self.customers = self.customerDB.customers
-        self.customers = sorted(self.customers, key=lambda x: x.fName)
+        self.customers = [x for x in self.customerDB.customers]  # Avoid copying by reference.
+        quicksort(self.customers, lambda x: x.fName)
         
         self.sortBy = tk.StringVar(self, "First Name")
         self.sortBy.trace_add("write", self.sortByChanged)
@@ -79,9 +80,9 @@ class CustomerViewer(tk.Tk):
     
     def sort(self) -> None:
         if self.sortBy.get() == "First Name":
-            self.customers = sorted(self.customers, key=lambda x: x.fName)
+              quicksort(self.customers, lambda x: x.fName)
         elif self.sortBy.get() == "Surname":
-            self.customers = sorted(self.customers, key=lambda x: x.sName)
+              quicksort(self.customers, lambda x: x.sName)
             
         self.updateListbox()
         self.updateNumSelected(None)

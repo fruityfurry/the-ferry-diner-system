@@ -24,10 +24,10 @@ class EmployeeViewer(tk.Tk):
         self.user = user
         
         self.employeeDB = EmployeeDB()
-        self.employees = [employee for employee in self.employeeDB.employees]  # To avoid copying by reference and removing
-                                                                               # the admin account from the database as well.
+        self.employees = [x for x in self.employeeDB.employees]  # To avoid copying by reference and removing
+                                                                 # the admin account from the database as well.
         self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
-        self.employees = sorted(self.employees, key=lambda x: x.name)  # Sort by employee name.
+        quicksort(self.employees, lambda x: x.name)
         
         self.sortBy = tk.StringVar(self, "Name")
         self.sortBy.trace_add("write", self.sortByChanged)
@@ -95,11 +95,11 @@ class EmployeeViewer(tk.Tk):
     
     def sort(self) -> None:
         if self.sortBy.get() == "Name":
-            self.employees = sorted(self.employees, key=lambda x: x.name)
+            quicksort(self.employees, lambda x: x.name)
         elif self.sortBy.get() == "Username":
-            self.employees = sorted(self.employees, key=lambda x: x.username)
+            quicksort(self.employees, lambda x: x.username)
         elif self.sortBy.get() == "Reservations":
-            self.employees = sorted(self.employees, key=lambda x: x.reservationsMade)
+            quicksort(self.employees, lambda x: x.reservationsMade)
             
         self.updateListbox()
         self.updateNumSelected(None)

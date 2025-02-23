@@ -29,7 +29,7 @@ class ReservationViewer(tk.Tk):
         self.user = user
         
         self.reservationDB = ReservationDB()
-        self.reservations = self.reservationDB.reservations
+        self.reservations = [x for x in self.reservationDB.reservations]  # Avoid copying by reference. Python is so fun.
         quicksort(self.reservations, lambda x: x.time)
         
         self.sortBy = tk.StringVar(self, "Time")
