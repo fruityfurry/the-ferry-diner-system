@@ -50,7 +50,7 @@ class ReservationMaker(tk.Tk):
         if peopleNumFill is not None: self.peopleNum.set(peopleNumFill)
         
         self.selectedMeal = tk.StringVar()
-        self.selectedMeal.set(self.meals.meals[0].name)
+        self.selectedMeal.set(mealNames[0])
         
         self.customerSearchText = tk.StringVar()
         self.customerSearchText.set("Start typing to search customers.")
