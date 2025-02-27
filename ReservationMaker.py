@@ -12,7 +12,7 @@ from CustomerDB import CustomerDB
 from ReservationDB import ReservationDB
 from MealDB import MealDB
 from EmployeeDB import EmployeeDB
-from quicksort import quicksort
+from helpers import quicksort
 
 class ReservationMaker(tk.Tk):
     def __init__(self, user: Employee, fNameFill: str | None = None, sNameFill: str | None = None,

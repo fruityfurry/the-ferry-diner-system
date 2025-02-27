@@ -3,7 +3,7 @@ from typing import List
 from Customer import Customer
 from CustomerSearch import CustomerSearch
 import ReservationDB
-from binarySearch import binarySearch
+from helpers import binarySearch
 
 # There are exceptions raised here for some failure cases but they will never run as the parameters passed into all
 # these functions are thoroughly validated. 

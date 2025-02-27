@@ -16,7 +16,7 @@ from OrderDB import OrderDB
 from Meal import Meal
 from EmployeeDB import EmployeeDB
 import ReservationMaker
-from quicksort import quicksort
+from helpers import quicksort
 
 class ReservationViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:

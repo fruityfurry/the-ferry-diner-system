@@ -3,7 +3,7 @@ from typing import List
 from Meal import Meal
 from MealSearch import MealSearch
 import OrderDB
-from binarySearch import binarySearch
+from helpers import binarySearch
 
 class MealDB:
     def __init__(self) -> None:

@@ -10,8 +10,7 @@ from EmployeeSearch import EmployeeSearch
 from EmployeeDB import EmployeeDB
 import re
 from PasswordDB import PasswordDB
-from hashing import hash
-from quicksort import quicksort
+from helpers import hash, quicksort
 
 class EmployeeViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:

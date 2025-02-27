@@ -1,6 +1,6 @@
 import pickle
 from typing import Dict
-from hashing import hash
+from helpers import hash
 
 class PasswordDB:
     def __init__(self) -> None:

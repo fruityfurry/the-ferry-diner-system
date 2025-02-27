@@ -9,7 +9,7 @@ import AdminMenu
 from CustomerDB import CustomerDB
 from Customer import Customer
 from CustomerSearch import CustomerSearch
-from quicksort import quicksort
+from helpers import quicksort
 
 class CustomerViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:

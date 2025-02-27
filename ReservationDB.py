@@ -6,7 +6,7 @@ from Meal import Meal
 from OrderDB import OrderDB
 import CustomerDB
 from EmployeeDB import EmployeeDB
-from binarySearch import binarySearch
+from helpers import binarySearch
 
 class ReservationDB:
     def __init__(self) -> None:

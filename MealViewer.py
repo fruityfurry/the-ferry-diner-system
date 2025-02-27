@@ -9,7 +9,7 @@ import AdminMenu
 from MealDB import MealDB
 from Meal import Meal
 from MealSearch import MealSearch
-from quicksort import quicksort
+from helpers import quicksort
 
 class MealViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
