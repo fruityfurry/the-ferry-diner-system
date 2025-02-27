@@ -12,7 +12,7 @@ from CustomerDB import CustomerDB
 from ReservationDB import ReservationDB
 from MealDB import MealDB
 from EmployeeDB import EmployeeDB
-from helpers import quicksort
+from helpers import roundPrice, quicksort
 
 class ReservationMaker(tk.Tk):
     def __init__(self, user: Employee, fNameFill: str | None = None, sNameFill: str | None = None,
@@ -211,7 +211,7 @@ class ReservationMaker(tk.Tk):
         for meal in self.mealsOrdered:
             total += meal.price
             
-        self.totalPriceLabel.config(text=f"Total: £{round(total, 2)}")
+        self.totalPriceLabel.config(text=f"Total: £{roundPrice(total)}")
     
     # Add meal to list of ordered meals and update meal box and total.
     def addMeal(self) -> None:

@@ -16,7 +16,7 @@ from OrderDB import OrderDB
 from Meal import Meal
 from EmployeeDB import EmployeeDB
 import ReservationMaker
-from helpers import quicksort
+from helpers import roundPrice, quicksort
 
 class ReservationViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -289,7 +289,7 @@ class ReservationViewer(tk.Tk):
                         if meal1 == meal2 and i != j:
                             quantity += 1
                         
-                    text += f"x{quantity} {meal1.name} - £{round(meal1.price, 2)}\n"
+                    text += f"x{quantity} {meal1.name} - £{roundPrice(meal1.price)}\n"
                     
             return text[:-1]  # Exclude last newline character.
         

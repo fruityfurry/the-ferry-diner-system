@@ -9,7 +9,7 @@ import AdminMenu
 from MealDB import MealDB
 from Meal import Meal
 from MealSearch import MealSearch
-from helpers import quicksort
+from helpers import roundPrice, quicksort
 
 class MealViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -91,7 +91,7 @@ class MealViewer(tk.Tk):
         lines = []
         
         for meal in self.meals:
-            lines.append(f"{meal.name} - £{meal.price}")
+            lines.append(f"{meal.name} - £{roundPrice(meal.price)}")
             
         self.listbox.delete(0, tk.END)
         self.listbox.insert(0, *lines)

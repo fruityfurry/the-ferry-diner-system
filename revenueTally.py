@@ -6,6 +6,7 @@ import Login
 import AdminMenu
 from OrderDB import OrderDB
 from ReservationDB import ReservationDB
+from helpers import roundPrice
 
 class RevenueTally(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
@@ -37,7 +38,7 @@ class RevenueTally(tk.Tk):
                 meals += 1
                 revenue += meal.price
                 
-        tallyText.config(text=f"Made £{round(revenue, 2)}\nfrom {meals} meals\n"
+        tallyText.config(text=f"Made £{roundPrice(revenue)}\nfrom {meals} meals\n"
                               f"served across {reservationNum} reservations today.")
         
         self.timeout = self.after(2 * 60 * 1000, self.logOut)

@@ -34,6 +34,20 @@ def hash(text: str) -> int:
 
 
 
+def roundPrice(x: float) -> str:
+    # String form of price.
+    xString = str(round(float(x), 2))
+    # Part after decimal point.
+    decimal = xString.split(".")[1]
+    
+    # Length of decimal part is guaranteed to be 2 or 1 after rounding.
+    if len(decimal) == 1:
+        xString += "0"  # Add on trailing zero.
+        
+    return xString
+
+
+
 from random import randint
 
 def _partition(array: List[Any], key: Callable[[Any], Any], low: int, high: int) -> int:
