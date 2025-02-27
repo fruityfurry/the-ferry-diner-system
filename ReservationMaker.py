@@ -12,6 +12,7 @@ from CustomerDB import CustomerDB
 from ReservationDB import ReservationDB
 from MealDB import MealDB
 from EmployeeDB import EmployeeDB
+from quicksort import quicksort
 
 class ReservationMaker(tk.Tk):
     def __init__(self, user: Employee, fNameFill: str | None = None, sNameFill: str | None = None,
@@ -41,7 +42,7 @@ class ReservationMaker(tk.Tk):
         self.meals = MealDB()
         
         mealNames = [meal.name for meal in self.meals.meals]  # List of names of meals for meal dropdown.
-        mealNames = sorted(mealNames)
+        quicksort(mealNames)
         timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))  # List of timeslots for time dropdown.
         self.time = tk.StringVar()
         if timeFill is not None: self.time.set(timeFill)
