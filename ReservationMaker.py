@@ -79,6 +79,9 @@ class ReservationMaker(tk.Tk):
         mealDropdown.config(width=17)
         mealDropdown.place(x=160, y=320)
         
+        clearButton = widgets.Button(self, text="Clear", width=9, height=1, command=self.clearMeals)
+        clearButton.place(x=20, y=380)
+        
         removeButton = widgets.Button(self, text="Remove", width=9, height=1, command=self.removeMeal)
         removeButton.place(x=160, y=380)
         
@@ -116,7 +119,7 @@ class ReservationMaker(tk.Tk):
         self.makeReservationButton.place(x=400, y=520, anchor="n")
         
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
-        backButton.place(x=20, y=540)
+        backButton.place(x=20, y=20, anchor="nw")
         
         if fNameFill is not None:  # Any field not being None implies they all are. If that is the case, update
                                    # the similar customer search and meal boxes so they display properly.
@@ -212,6 +215,11 @@ class ReservationMaker(tk.Tk):
             total += meal.price
             
         self.totalPriceLabel.config(text=f"Total: £{roundPrice(total)}")
+        
+    def clearMeals(self) -> None:
+        self.mealsOrdered = []
+        self.mealsAddedTextBox.setText("No meals added yet.")
+        self.updateTotal()
     
     # Add meal to list of ordered meals and update meal box and total.
     def addMeal(self) -> None:
