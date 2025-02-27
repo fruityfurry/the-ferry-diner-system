@@ -31,6 +31,9 @@ class EmployeeMenu(tk.Tk):
         self.timeout = self.after(2 * 60 * 1000, self.logOut)  # Store to member variable so this can be cancelled later.
         self.bind("<Motion>", self.resetTimeOut)  # Reset timeout every time the mouse is moved.
         
+        # Bind escape key to return to login.
+        self.bind("<Escape>", lambda e: self.logOut())  # Lambda to resolve differing arguments.
+        
         self.mainloop()
         
     def resetTimeOut(self, event: tk.Event) -> None:

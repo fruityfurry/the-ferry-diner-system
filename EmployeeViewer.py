@@ -60,6 +60,9 @@ class EmployeeViewer(tk.Tk):
         self.timeout = self.after(2 * 60 * 1000, self.logOut)
         self.bind("<Motion>", self.resetTimeOut)
         
+        # Bind escape key to return to menu.
+        self.bind("<Escape>", lambda e: self.returnToMenu())  # Lambda to resolve differing arguments.
+        
         self.updateListbox()
         
         self.mainloop()

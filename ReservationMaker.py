@@ -133,6 +133,9 @@ class ReservationMaker(tk.Tk):
         # Bind return key to press the make reservation button.
         self.bind("<Return>", lambda e: self.makeReservation())  # Lambda to resolve differing arguments.
         
+        # Bind escape key to return to menu.
+        self.bind("<Escape>", lambda e: self.returnToMenu())  # Lambda to resolve differing arguments.
+        
         # Focus on first text entry to ready it for typing immediately.
         # After needed to resolve bug where using .focus() doesn't work.
         self.after(1, lambda: [self.focus_force(), fNameEntry.focus()])
