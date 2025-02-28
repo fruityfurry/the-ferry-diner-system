@@ -152,21 +152,11 @@ class ReservationViewer(tk.Tk):
         if len(selected) != 1:
             return
         
-        customers = CustomerDB()
-        employees = EmployeeDB()
-        
         reservation = selected[0]
-        
-        customer = customers.getByID(reservation.customerID)
-        meals = self.reservationDB.getAssociatedMeals(reservation.reservationID)
-        
-        employees.decrementReservationsMade(reservation.employeeUser)  # Avoid double counting reservation.
-        self.reservationDB.delete(reservation.reservationID)
         
         self.after_cancel(self.timeout)
         self.destroy()
-        ReservationMaker.ReservationMaker(self.user, customer.fName, customer.sName, customer.phone, meals, reservation.time,
-                                          reservation.peopleNum)
+        ReservationMaker.ReservationMaker(self.user, reservation)
         
         
     def makeSearch(self, search: ReservationSearch = ReservationSearch()) -> None:

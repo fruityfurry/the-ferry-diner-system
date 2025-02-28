@@ -10,14 +10,13 @@ import AdminMenu
 import EmployeeMenu
 from CustomerDB import CustomerDB
 from ReservationDB import ReservationDB
+from Reservation import Reservation
 from MealDB import MealDB
 from EmployeeDB import EmployeeDB
 from helpers import roundPrice, quicksort
 
 class ReservationMaker(tk.Tk):
-    def __init__(self, user: Employee, fNameFill: str | None = None, sNameFill: str | None = None,
-                 phoneFill: str | None = None, mealsFill: List[Meal] | None = None, timeFill: str | None = None,
-                 peopleNumFill: int | None = None, *args, **kwargs) -> None:
+    def __init__(self, user: Employee, reservationFill: Reservation | None = None, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.title("Reservation Maker")
         self.geometry("800x600")
@@ -26,29 +25,56 @@ class ReservationMaker(tk.Tk):
         
         self.user = user
         
+        self.customers = CustomerDB()
+        
+        fNameFill  = ""
+        sNameFill  = ""
+        phoneFill  = ""
+        mealsFill  = []
+        timeFill   = ""
+        peopleFill = 1
+        
+        # A reservation was passed in to fill the fields.
+        if reservationFill is not None:
+            reservationDB = ReservationDB()
+            employeeDB = EmployeeDB()
+            customerDB = CustomerDB()
+            
+            customer = customerDB.getByID(reservationFill.customerID)
+            meals = reservationDB.getAssociatedMeals(reservationFill.reservationID)
+            
+            fNameFill  = customer.fName
+            sNameFill  = customer.sName
+            phoneFill  = customer.phone
+            mealsFill  = meals
+            timeFill   = reservationFill.time
+            peopleFill = reservationFill.peopleNum
+            
+            employeeDB.decrementReservationsMade(reservationFill.employeeUser)  # Avoid double counting reservation.
+            reservationDB.delete(reservationFill.reservationID)  # Delete incorrect reservation.
+        
         self.fName = tk.StringVar()
-        if fNameFill is not None: self.fName.set(fNameFill)
+        self.fName.set(fNameFill)
         self.fName.trace_add("write", self.nameChange)  # Allows tracking when value is changed.
 
         self.sName = tk.StringVar()
-        if sNameFill is not None: self.sName.set(sNameFill)
+        self.sName.set(sNameFill)
         self.sName.trace_add("write", self.nameChange)  # Allows tracking when value is changed.
 
         self.phone = tk.StringVar()
-        if phoneFill is not None: self.phone.set(phoneFill)
+        self.phone.set(phoneFill)
         self.mealsOrdered: List[Meal] = []
-        if mealsFill is not None: self.mealsOrdered = mealsFill
-        self.customers = CustomerDB()
+        self.mealsOrdered = mealsFill
         self.meals = MealDB()
         
         mealNames = [meal.name for meal in self.meals.meals]  # List of names of meals for meal dropdown.
         quicksort(mealNames)
         timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))  # List of timeslots for time dropdown.
         self.time = tk.StringVar()
-        if timeFill is not None: self.time.set(timeFill)
+        self.time.set(timeFill)
         
         self.peopleNum = tk.IntVar()
-        if peopleNumFill is not None: self.peopleNum.set(peopleNumFill)
+        self.peopleNum.set(peopleFill)
         
         self.selectedMeal = tk.StringVar()
         self.selectedMeal.set(mealNames[0])
@@ -121,8 +147,7 @@ class ReservationMaker(tk.Tk):
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
         backButton.place(x=20, y=20, anchor="nw")
         
-        if fNameFill is not None:  # Any field not being None implies they all are. If that is the case, update
-                                   # the similar customer search and meal boxes so they display properly.
+        if reservationFill is not None:  # Update the similar customer search and meal boxes so they display properly.
             self.nameChange("", "", "")
             self.formatMeals()
             self.updateTotal()
