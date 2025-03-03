@@ -106,7 +106,7 @@ class ReservationMaker(tk.Tk):
         mealDropdown.place(x=160, y=320)
         
         clearButton = widgets.Button(self, text="Clear", width=9, height=1, command=self.clearMeals)
-        clearButton.place(x=20, y=380)
+        clearButton.place(x=780, y=380, anchor="ne")
         
         removeButton = widgets.Button(self, text="Remove", width=9, height=1, command=self.removeMeal)
         removeButton.place(x=160, y=380)
@@ -132,7 +132,7 @@ class ReservationMaker(tk.Tk):
         self.mealsAddedTextBox.setText("No meals added yet.")
         self.mealsAddedTextBox.place(x=458, y=240)
         
-        self.totalPriceLabel = widgets.Label(self, text="Total: £0.00", width=25, height=1, anchor="w")
+        self.totalPriceLabel = widgets.Label(self, text="Total: £0.00", width=15, height=1, anchor="w")
         self.totalPriceLabel.place(x=458, y=387)
         
         peopleNumLabel = widgets.Label(self, text="No. of People", width=13, height=1)
