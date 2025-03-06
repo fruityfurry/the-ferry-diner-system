@@ -194,7 +194,10 @@ class ReservationMaker(tk.Tk):
             if fullName == customerFullName:
                 self.similarCustomer = customer
                 self.autofillButton.config(state=tk.NORMAL)
-                self.customerSearchText.set(fullName.title() + f" found!{'\nHowever, there are other\ncustomers with the same name.' if matchesFound > 0 else ''}")
+                self.customerSearchText.set(
+                    fullName.title() +
+                    f" found!{'\nHowever, there are other\ncustomers with the same name.' if matchesFound > 0 else ''}+"
+                    )
                 matchesFound += 1
             elif matchesFound == 0:
                 self.similarCustomer = None
