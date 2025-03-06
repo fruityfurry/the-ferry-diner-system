@@ -86,7 +86,14 @@ class ReservationDB:
     def getAssociatedMeals(self, reservationID: int) -> List[Meal]:
         orders = OrderDB()
         return orders.getAssociatedMeals(reservationID)
-        
+    
+    def employeeHasReservations(self, user: str) -> bool:
+        for reservation in self.reservations:
+            if reservation.employeeUser == user:
+                return True
+            
+        return False
+    
     def saveChanges(self) -> None:
         with open("data/reservations.dat", "wb") as file:
             pickle.dump(self.reservations, file)

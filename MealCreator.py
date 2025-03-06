@@ -84,6 +84,8 @@ class MealCreator(tk.Tk):
             self.error("Name too long")
         elif not name.replace(" ", "").isalpha(): # Spaces are not alpha but we allow them, so we remove them for this check.
             self.error("Invalid name")
+        elif "." in price and len(price.split(".")[1]) > 2:
+            self.error("Too many decimal places")
         else:
             try:
                 price = round(float(price), 2)

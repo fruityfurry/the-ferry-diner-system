@@ -184,6 +184,8 @@ class ReservationMaker(tk.Tk):
         fullName = self.fName.get().strip() + " " + self.sName.get().strip()
         fullName = fullName.lower()
         
+        matchesFound = 0
+        
         # If match found, suggest they be autofilled.
         for customer in self.customers.customers:
             customerFullName = customer.fName + " " + customer.sName
@@ -192,9 +194,9 @@ class ReservationMaker(tk.Tk):
             if fullName == customerFullName:
                 self.similarCustomer = customer
                 self.autofillButton.config(state=tk.NORMAL)
-                self.customerSearchText.set(fullName.title() + " found!")
-                break
-            else:
+                self.customerSearchText.set(fullName.title() + f" found!{'\nHowever, there are other\ncustomers with the same name.' if matchesFound > 0 else ''}")
+                matchesFound += 1
+            elif matchesFound == 0:
                 self.similarCustomer = None
                 self.autofillButton.config(state=tk.DISABLED)
                 self.customerSearchText.set("No match found for " + fullName.title())

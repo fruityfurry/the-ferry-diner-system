@@ -10,6 +10,7 @@ from EmployeeSearch import EmployeeSearch
 from EmployeeDB import EmployeeDB
 import re
 from PasswordDB import PasswordDB
+from ReservationDB import ReservationDB
 from helpers import hash, quicksort
 
 class EmployeeViewer(tk.Tk):
@@ -126,7 +127,13 @@ class EmployeeViewer(tk.Tk):
         
         if len(selected) > 0 and messagebox.askyesno("Are you sure?",
                                                      f"Are you sure you want to delete {len(selected)} employees?"):
+            reservationDB = ReservationDB()
+            
             for employee in selected:
+                if reservationDB.employeeHasReservations(employee.username):
+                    messagebox.showerror("Deletion cancelled", f"{employee.name} has existing reservations!")
+                    return
+                
                 self.employeeDB.delete(employee.username)
                 self.employees.remove(employee)
                 
