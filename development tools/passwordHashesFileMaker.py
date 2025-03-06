@@ -1,5 +1,5 @@
 import pickle
-from hashing import hash
+from helpers import hash
 
 # Password and corresponding username to write to file.
 username = "colinr83"

@@ -27,54 +27,22 @@ class ReservationMaker(tk.Tk):
         
         self.customers = CustomerDB()
         
-        fNameFill  = ""
-        sNameFill  = ""
-        phoneFill  = ""
-        mealsFill  = []
-        timeFill   = ""
-        peopleFill = 1
-        
-        # A reservation was passed in to fill the fields.
-        if reservationFill is not None:
-            reservationDB = ReservationDB()
-            employeeDB = EmployeeDB()
-            customerDB = CustomerDB()
-            
-            customer = customerDB.getByID(reservationFill.customerID)
-            meals = reservationDB.getAssociatedMeals(reservationFill.reservationID)
-            
-            fNameFill  = customer.fName
-            sNameFill  = customer.sName
-            phoneFill  = customer.phone
-            mealsFill  = meals
-            timeFill   = reservationFill.time
-            peopleFill = reservationFill.peopleNum
-            
-            employeeDB.decrementReservationsMade(reservationFill.employeeUser)  # Avoid double counting reservation.
-            reservationDB.delete(reservationFill.reservationID)  # Delete incorrect reservation.
-        
         self.fName = tk.StringVar()
-        self.fName.set(fNameFill)
         self.fName.trace_add("write", self.nameChange)  # Allows tracking when value is changed.
 
         self.sName = tk.StringVar()
-        self.sName.set(sNameFill)
         self.sName.trace_add("write", self.nameChange)  # Allows tracking when value is changed.
 
         self.phone = tk.StringVar()
-        self.phone.set(phoneFill)
         self.mealsOrdered: List[Meal] = []
-        self.mealsOrdered = mealsFill
         self.meals = MealDB()
         
         mealNames = [meal.name for meal in self.meals.meals]  # List of names of meals for meal dropdown.
         quicksort(mealNames)
         timeslots: List[str] = pickle.load(open("data/timeslots.dat", "rb"))  # List of timeslots for time dropdown.
         self.time = tk.StringVar()
-        self.time.set(timeFill)
         
         self.peopleNum = tk.IntVar()
-        self.peopleNum.set(peopleFill)
         
         self.selectedMeal = tk.StringVar()
         self.selectedMeal.set(mealNames[0])
@@ -147,7 +115,25 @@ class ReservationMaker(tk.Tk):
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
         backButton.place(x=20, y=20, anchor="nw")
         
-        if reservationFill is not None:  # Update the similar customer search and meal boxes so they display properly.
+        if reservationFill is not None:  # A reservation was given, so fill the fields.
+            reservationDB = ReservationDB()
+            employeeDB = EmployeeDB()
+            customerDB = CustomerDB()
+            
+            customer = customerDB.getByID(reservationFill.customerID)
+            meals = reservationDB.getAssociatedMeals(reservationFill.reservationID)
+            
+            self.fName.set(customer.fName)
+            self.sName.set(customer.sName)
+            self.phone.set(customer.phone)
+            self.mealsOrdered = meals
+            self.time.set(reservationFill.time)
+            self.peopleNum.set(reservationFill.peopleNum)
+            
+            employeeDB.decrementReservationsMade(reservationFill.employeeUser)  # Avoid double counting reservation.
+            reservationDB.delete(reservationFill.reservationID)  # Delete incorrect reservation.
+            
+            # Update the similar customer search and meal boxes so they display properly.
             self.nameChange("", "", "")
             self.formatMeals()
             self.updateTotal()
