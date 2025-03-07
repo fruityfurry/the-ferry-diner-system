@@ -9,6 +9,7 @@ class EmployeeDB:
         self.employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
         
     def add(self, username: str, name: str, password: str) -> None:
+        """Add employee with given details."""
         self.employees.append(Employee(username, name, 0))
         
         passwords = PasswordDB()
@@ -17,6 +18,7 @@ class EmployeeDB:
         self.saveChanges()
     
     def delete(self, username: str) -> None:
+        """Delete the employee with the given username."""
         for employee in self.employees:
             if employee.username == username:
                 self.employees.remove(employee)

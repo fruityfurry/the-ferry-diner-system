@@ -9,6 +9,7 @@ import re
 
 class EmployeeAdder(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """Employee adder."""
         super().__init__(*args, **kwargs)
         self.title("Employee Adder")
         self.geometry("800x600")

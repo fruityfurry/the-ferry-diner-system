@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-# Customer class.
 @dataclass
 class Customer:
+    """Customer class."""
     customerID: int
     fName: str
     sName: str

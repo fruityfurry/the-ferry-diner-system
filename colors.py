@@ -1,5 +1,5 @@
-# All the program's colours held in one shared file to allow for ewasy changing of the colours if doing so is ever needed.
-# The file name uses the American spelling of "colors" as that is unfortunately the standard.
+"""All the program's colours held in one shared file to allow for ewasy changing of the colours if doing so is ever needed.
+The file name uses the American spelling of "colors" as that is unfortunately the standard."""
 
 BACKGROUND = "#282d44"
 FOREGROUND = "#eeeeee"

@@ -91,6 +91,8 @@ class MealViewer(tk.Tk):
         self.updateNumSelected(None)
             
     def updateListbox(self) -> None:
+        """Update the listbox.
+        This function must be called whenever the underlying list is changed, otherwise it will not display correctly."""
         lines = []
         
         for meal in self.meals:

@@ -13,6 +13,7 @@ from helpers import quicksort
 
 class CustomerViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """Customer viewer window."""
         super().__init__(*args, **kwargs)
         self.title("Customer Viewer")
         self.geometry("800x600")
@@ -90,8 +91,10 @@ class CustomerViewer(tk.Tk):
             
         self.updateListbox()
         self.updateNumSelected(None)
-            
+    
     def updateListbox(self) -> None:
+        """Update the listbox.
+        This function must be called whenever the underlying list is changed, otherwise it will not display correctly."""
         lines = []
         
         for customer in self.customers:

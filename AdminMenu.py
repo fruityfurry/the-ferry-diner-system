@@ -14,6 +14,8 @@ import revenueTally
 
 class AdminMenu(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """The admin menu. Only colin (coilnr83) can access this."""
+        
         super().__init__(*args, **kwargs)
         self.title("Admin Menu")
         self.geometry("800x600")

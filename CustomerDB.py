@@ -7,10 +7,12 @@ from helpers import binarySearch
 
 class CustomerDB:
     def __init__(self) -> None:
+        """Customer database class. Create an instance of this class to interact with the database using its methods."""
         self.customers: List[Customer] = pickle.load(open("data/customers.dat", "rb"))
         
     # Add a customer to the database.
     def add(self, fName: str, sName: str, phone: str) -> None:
+        """Add a customer with the given details."""
         # Generate a unique customerID.
         if len(self.customers) == 0:
             customerID = 0
@@ -23,6 +25,7 @@ class CustomerDB:
         self.saveChanges()
         
     def delete(self, customerID: int) -> None:
+        """Delete a customer with the given ID."""
         # Find index of customer to be deleted. Entries are PK ascending so binary search can be used.
         index = binarySearch(self.customers, customerID, lambda x: x.customerID)
         
@@ -38,6 +41,7 @@ class CustomerDB:
         self.saveChanges()
         
     def exists(self, fName: str, sName: str, phone: str) -> bool:
+        """Returns True if a customer with the given details exists."""
         # Linear search for customer.
         for customer in self.customers:
             if (customer.fName == fName and
@@ -48,6 +52,7 @@ class CustomerDB:
         return False
     
     def findMatches(self, search: CustomerSearch) -> List[Customer]:
+        """Returns all customers that match the given search."""
         matches = []
         
         # Iterate over all customers and add them to match list if they match.
@@ -58,6 +63,7 @@ class CustomerDB:
         return matches
     
     def getID(self, fName: str, sName: str, phone: str) -> int:
+        """Returns the ID of a customer with the given details."""
         # Linearly search through all customers to find match.
         for customer in self.customers:
             if (customer.fName == fName and
@@ -68,6 +74,7 @@ class CustomerDB:
         raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
     
     def getByID(self, customerID: int) -> Customer:
+        """Returns the customer that has the given ID."""
         # Find index of customer. Entries are PK ascending so binary search can be used.
         index = binarySearch(self.customers, customerID, lambda x: x.customerID)
         
@@ -76,5 +83,6 @@ class CustomerDB:
         return self.customers[index]
         
     def saveChanges(self) -> None:
+        """Internal function. Saves changes to database."""
         with open("data/customers.dat", "wb") as file:
             pickle.dump(self.customers, file)
