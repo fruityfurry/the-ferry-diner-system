@@ -23,10 +23,10 @@ class CustomerViewer(tk.Tk):
         
         self.customerDB = CustomerDB()
         self.customers = [x for x in self.customerDB.customers]  # Avoid copying by reference.
-        quicksort(self.customers, lambda x: x.fName)
+        quicksort(self.customers, lambda x: x.fName)  # Sort list.
         
         self.sortBy = tk.StringVar(self, "First Name")
-        self.sortBy.trace_add("write", self.sortByChanged)
+        self.sortBy.trace_add("write", self.sortByChanged)  # Call function when sort is changed.
         
         backButton = widgets.Button(self, text="Back", width=8, height=1, command=self.returnToMenu)
         backButton.place(x=20, y=20)
@@ -82,6 +82,7 @@ class CustomerViewer(tk.Tk):
         self.sort()
     
     def sort(self) -> None:
+        # Sort by appropriate attribute depending on selection.
         if self.sortBy.get() == "First Name":
               quicksort(self.customers, lambda x: x.fName)
         elif self.sortBy.get() == "Surname":
@@ -118,15 +119,16 @@ class CustomerViewer(tk.Tk):
         
     def makeSearch(self, search: CustomerSearch) -> None:
         self.customers = self.customerDB.findMatches(search)
-        self.sort()
+        self.sort()  # Sort updates listbox itself.
         
     def searchDialog(self) -> None:
-        self.searchButton.config(state=tk.DISABLED)
+        self.searchButton.config(state=tk.DISABLED)  # Prevent making multiple search dialogs.
         
         dialog = tk.Toplevel()
         dialog.focus()
         dialog.title("Search Reservations")
         dialog.geometry("800x600")
+        dialog.resizable(False, False)
         dialog.config(bg=colors.BACKGROUND)
         
         name = tk.StringVar(dialog)

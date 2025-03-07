@@ -153,6 +153,7 @@ class EmployeeViewer(tk.Tk):
         dialog.focus()
         dialog.title("Search Reservations")
         dialog.geometry("800x600")
+        dialog.resizable(False, False)
         dialog.config(bg=colors.BACKGROUND)
         
         username = tk.StringVar(dialog)

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+# Customer class.
 @dataclass
 class Customer:
     customerID: int

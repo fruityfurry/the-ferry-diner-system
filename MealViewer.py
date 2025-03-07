@@ -127,6 +127,7 @@ class MealViewer(tk.Tk):
         dialog.focus()
         dialog.title("Search Meals")
         dialog.geometry("800x600")
+        dialog.resizable(False, False)
         dialog.config(bg=colors.BACKGROUND)
         
         name = tk.StringVar(dialog)
