@@ -12,9 +12,14 @@ import EmployeeViewer
 import CustomerViewer
 import revenueTally
 
+# All windows in my system exist as classes that inherit from tk.TK (the tkinter class for a window).
+# Only one instance of these will exist at a time, naturally, but subclassing tk.Tk allows for incredibly powerful
+# compartmentalisation. All local variables can exist as member variables of the class, leaving the global namespace
+# completely clutter-free.
+
 class AdminMenu(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
-        """The admin menu. Only colin (coilnr83) can access this."""
+        """The admin menu. Only colin (colinr83) can access this."""
         
         super().__init__(*args, **kwargs)
         self.title("Admin Menu")
