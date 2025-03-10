@@ -10,7 +10,7 @@ import MealViewer
 import EmployeeAdder
 import EmployeeViewer
 import CustomerViewer
-import revenueTally
+import bar
 
 # All windows in my system exist as classes that inherit from tk.TK (the tkinter class for a window).
 # Only one instance of these will exist at a time, naturally, but subclassing tk.Tk allows for incredibly powerful
@@ -81,7 +81,7 @@ class AdminMenu(tk.Tk):
     def tallyRevenue(self) -> None:
         self.after_cancel(self.timeout)
         self.destroy()
-        revenueTally.RevenueTally(self.user)
+        bar.RevenueTally(self.user)
         
     def makeReservation(self) -> None:
         self.after_cancel(self.timeout)
