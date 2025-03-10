@@ -45,7 +45,7 @@ class MealDB:
         """Return the meal that has the given mealID."""
         index = binarySearch(self.meals, mealID, lambda x: x.mealID)
         
-        if index == -1: raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
+        if index == -1: raise ValueError(f"Meal with mealID {mealID} not found.")
         
         return self.meals[index]
     

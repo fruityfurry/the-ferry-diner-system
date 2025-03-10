@@ -62,7 +62,7 @@ class ReservationDB:
         """Delete the reservation with the given reservationID."""
         index = binarySearch(self.reservations, reservationID, lambda x: x.reservationID)
         
-        if index == -1: raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
+        if index == -1: raise ValueError(f"Reservation with reservationID {reservationID} not found.")
                                          
         del self.reservations[index]
             

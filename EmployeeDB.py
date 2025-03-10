@@ -56,7 +56,7 @@ class EmployeeDB:
             if employee.username == username:
                 return employee
             
-        raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
+        raise ValueError(f"Employee with username {username} not found.")
             
     def incrementReservationsMade(self, username: str) -> None:
         """Increment the reservations made counter of the employee with the given username."""

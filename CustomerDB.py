@@ -29,7 +29,7 @@ class CustomerDB:
         # Find index of customer to be deleted. Entries are PK ascending so binary search can be used.
         index = binarySearch(self.customers, customerID, lambda x: x.customerID)
         
-        if index == -1: raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
+        if index == -1: raise ValueError(f"Customer with customerID {customerID} not found.")
                                   
         # Remove customer from database.       
         del self.customers[index]
@@ -71,14 +71,14 @@ class CustomerDB:
                 customer.phone == phone):
                 return customer.customerID
         
-        raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
+        raise ValueError(f"Customer named {fName} {sName} with phone number {phone} not found.")
     
     def getByID(self, customerID: int) -> Customer:
         """Returns the customer that has the given ID."""
         # Find index of customer. Entries are PK ascending so binary search can be used.
         index = binarySearch(self.customers, customerID, lambda x: x.customerID)
         
-        if index == -1: raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
+        if index == -1: raise ValueError(f"Customer with customerID {customerID} not found.")
     
         return self.customers[index]
         
