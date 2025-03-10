@@ -1,3 +1,5 @@
+"""Various helper functions used throughout the program."""
+
 from typing import List, Any, Callable
 
 # A recursive formulation of a general binary search function. Returns -1 if no match is found.

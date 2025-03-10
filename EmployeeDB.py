@@ -6,6 +6,7 @@ from EmployeeSearch import EmployeeSearch
 
 class EmployeeDB:
     def __init__(self) -> None:
+        """Employee database class. Create an instance of this class to interact with the database using its methods."""
         self.employees: List[Employee] = pickle.load(open("data/employees.dat", "rb"))
         
     def add(self, username: str, name: str, password: str) -> None:
@@ -32,6 +33,7 @@ class EmployeeDB:
         self.saveChanges()
         
     def findMatches(self, search: EmployeeSearch) -> List[Employee]:
+        """Returns all employees that match the given search."""
         matches = []
         
         for employee in self.employees:
@@ -41,6 +43,7 @@ class EmployeeDB:
         return matches
         
     def exists(self, username: str) -> bool:
+        """Returns True is an employee with the given username exists."""
         for employee in self.employees:
             if employee.username == username:
                 return True
@@ -48,13 +51,15 @@ class EmployeeDB:
         return False
     
     def getByUsername(self, username: str) -> Employee:
+        """Returns the employee with the given username."""
         for employee in self.employees:
             if employee.username == username:
                 return employee
             
-        raise ValueError(f"Employee with username {username} was not found.")
+        raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
             
     def incrementReservationsMade(self, username: str) -> None:
+        """Increment the reservations made counter of the employee with the given username."""
         for employee in self.employees:
             if employee.username == username:
                 employee.reservationsMade += 1
@@ -64,6 +69,7 @@ class EmployeeDB:
         
     # Used when editing a reservation to prevent double counting it.
     def decrementReservationsMade(self, username: str) -> None:
+        """Decrement the reservations made counter of the employee with the given username."""
         for employee in self.employees:
             if employee.username == username:
                 employee.reservationsMade += -1
@@ -72,5 +78,6 @@ class EmployeeDB:
         self.saveChanges()
         
     def saveChanges(self) -> None:
+        """Internal function. Saves changes to database."""
         with open("data/employees.dat", "wb") as file:
             pickle.dump(self.employees, file)

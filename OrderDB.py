@@ -7,9 +7,11 @@ import ReservationDB
 
 class OrderDB:
     def __init__(self) -> None:
+        """Order database class. Create an instance of this class to interact with the database using its methods."""
         self.orders: List[Order] = pickle.load(open("data/orders.dat", "rb"))
         
     def add(self, reservationID: int, mealID: int) -> None:
+        """Add an order with the given details."""
         if len(self.orders) == 0:
             orderID = 0
         else:
@@ -20,6 +22,7 @@ class OrderDB:
         self.saveChanges()
         
     def getAssociatedMeals(self, reservationID: int) -> List[Meal]:
+        """Returns a list of all meals associated with a given reservationID."""
         matches = []
         
         meals = MealDB()
@@ -31,6 +34,7 @@ class OrderDB:
         return matches
         
     def deleteAssociated(self, reservationID: int) -> None:
+        """Delete all orders associated with a given reservationID."""
         indexesToDelete = []
         
         for index, order in enumerate(self.orders):
@@ -45,16 +49,17 @@ class OrderDB:
         self.saveChanges()
         
     def deleteAllWithMeal(self, mealID: int) -> None:
+        """Delete all orders that order a meal with the given mealID."""
         reservations = ReservationDB.ReservationDB()
         
         while True:
             for order in self.orders:
                 if order.mealID == mealID:
                     reservations.delete(order.reservationID)
-                    continue
                 
             break  # If made a full run through the for loop, that means no more orders/reservations with this meal exist.
         
     def saveChanges(self) -> None:
+        """Internal function. Saves changes to database."""
         with open("data/orders.dat", "wb") as file:
             pickle.dump(self.orders, file)

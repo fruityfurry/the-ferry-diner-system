@@ -1,6 +1,5 @@
-"""
-Shortcuts to make tkinter widgets with my particular style options to save on code repetition and clutter.
-"""
+"""A collection of widgets with the default color values changed so that they fit with the aesthetics of my program
+as outlined in my design."""
 
 import tkinter as tk
 from tkinter import scrolledtext
@@ -77,6 +76,7 @@ class TextBox(scrolledtext.ScrolledText):
                     font=("Verdana", 14))
         
     def setText(self, text: str) -> None:
+        """Set the text in the text box."""
         self.config(state=tk.NORMAL)
         self.delete("1.0", tk.END)
         self.insert("1.0", text)

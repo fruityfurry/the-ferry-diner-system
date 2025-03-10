@@ -10,6 +10,7 @@ from helpers import roundPrice
 
 class RevenueTally(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """Revenue tally window."""
         super().__init__(*args, **kwargs)
         self.title("Revenue Tally")
         self.geometry("800x600")

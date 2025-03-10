@@ -8,6 +8,7 @@ import ReservationViewer
 
 class EmployeeMenu(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """Employee menu. Everyone but Colin goes to this window."""
         super().__init__(*args, **kwargs)
         self.title("Employee Menu")
         self.geometry("800x600")

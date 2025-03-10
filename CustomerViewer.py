@@ -122,7 +122,7 @@ class CustomerViewer(tk.Tk):
         
     def makeSearch(self, search: CustomerSearch) -> None:
         self.customers = self.customerDB.findMatches(search)
-        self.sort()  # Sort updates listbox itself.
+        self.sort()  # Sort updates listbox itself, so no need to call it.
         
     def searchDialog(self) -> None:
         self.searchButton.config(state=tk.DISABLED)  # Prevent making multiple search dialogs.

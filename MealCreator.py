@@ -8,6 +8,7 @@ from MealDB import MealDB
 
 class MealCreator(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """Meal creator window."""
         super().__init__(*args, **kwargs)
         self.title("Meal Creator")
         self.geometry("800x600")

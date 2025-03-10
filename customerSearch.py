@@ -2,6 +2,7 @@ from Customer import Customer
 
 class CustomerSearch:
     def __init__(self, nameSearch: str | None) -> None:
+        """Customer search object."""
         self.nameSearch = nameSearch
     
     def matches(self, customer: Customer) -> bool:

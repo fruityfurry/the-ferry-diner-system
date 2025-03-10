@@ -15,6 +15,7 @@ from helpers import hash, quicksort
 
 class EmployeeViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """Employee viewer window."""
         super().__init__(*args, **kwargs)
         self.title("Employee Viewer")
         self.geometry("800x600")
@@ -97,6 +98,7 @@ class EmployeeViewer(tk.Tk):
         self.sort()
     
     def sort(self) -> None:
+        # Sort by appropriate attribute depending on selection.
         if self.sortBy.get() == "Name":
             quicksort(self.employees, lambda x: x.name)
         elif self.sortBy.get() == "Username":
@@ -145,7 +147,7 @@ class EmployeeViewer(tk.Tk):
     def makeSearch(self, search: EmployeeSearch) -> None:
         self.employees = self.employeeDB.findMatches(search)  # This function never returns the admin account so no need to
                                                               # remove it.
-        self.sort()
+        self.sort()  # Sort updates listbox itself, so no need to call it.
         
     def searchDialog(self) -> None:
         self.searchButton.config(state=tk.DISABLED)

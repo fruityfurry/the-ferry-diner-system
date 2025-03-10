@@ -20,6 +20,7 @@ from helpers import roundPrice, quicksort
 
 class ReservationViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """Reservation viewer window."""
         super().__init__(*args, **kwargs)
         self.title("Reservation Viewer")
         self.geometry("800x600")
@@ -98,6 +99,7 @@ class ReservationViewer(tk.Tk):
         self.sort()
     
     def sort(self) -> None:
+        # Sort by appropriate attribute depending on selection.
         if self.sortBy.get() == "Time":
             quicksort(self.reservations, lambda x: x.time)
         elif self.sortBy.get() == "Name":
@@ -162,7 +164,7 @@ class ReservationViewer(tk.Tk):
         
     def makeSearch(self, search: ReservationSearch = ReservationSearch()) -> None:
         self.reservations = self.reservationDB.findMatches(search)
-        self.sort()
+        self.sort()  # Sort updates listbox itself, so no need to call it.
         
     def searchDialog(self) -> None:
         self.searchButton.config(state=tk.DISABLED)

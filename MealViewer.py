@@ -13,6 +13,7 @@ from helpers import roundPrice, quicksort
 
 class MealViewer(tk.Tk):
     def __init__(self, user: Employee, *args, **kwargs) -> None:
+        """Meal viewer window."""
         super().__init__(*args, **kwargs)
         self.title("Meal Viewer")
         self.geometry("800x600")
@@ -82,6 +83,7 @@ class MealViewer(tk.Tk):
         self.sort()
     
     def sort(self) -> None:
+        # Sort by appropriate attribute depending on selection.
         if self.sortBy.get() == "Name":
             quicksort(self.meals, lambda x: x.name)
         elif self.sortBy.get() == "Price":
@@ -120,7 +122,7 @@ class MealViewer(tk.Tk):
         
     def makeSearch(self, search: MealSearch = MealSearch()) -> None:
         self.meals = self.mealDB.findMatches(search)
-        self.sort()
+        self.sort()  # Sort updates listbox itself, so no need to call it.
         
     def searchDialog(self) -> None:
         self.searchButton.config(state=tk.DISABLED)

@@ -10,9 +10,11 @@ from helpers import binarySearch
 
 class ReservationDB:
     def __init__(self) -> None:
+        """Reservation database class. Create an instance of this class to interact with the database using its methods."""
         self.reservations: List[Reservation] = pickle.load(open("data/reservations.dat", "rb"))
         
     def findMatches(self, search: ReservationSearch) -> List[Reservation]:
+        """Returns all reservations that match the given search."""
         matches = []
         customers = CustomerDB.CustomerDB()
         employees = EmployeeDB()
@@ -39,6 +41,7 @@ class ReservationDB:
         return matches
     
     def add(self, customerID: int, employeeUser: str, time: str, peopleNum: int, meals: List[Meal]) -> None:
+        """Add reservation with the given details."""
         if len(self.reservations) == 0:
             reservationID = 0
         else:
@@ -56,9 +59,10 @@ class ReservationDB:
         self.saveChanges()
         
     def delete(self, reservationID: int) -> None:
+        """Delete the reservation with the given reservationID."""
         index = binarySearch(self.reservations, reservationID, lambda x: x.reservationID)
         
-        if index == -1: raise ValueError(f"Reservation with ID {reservationID} was not found.")
+        if index == -1: raise ValueError(f"This exception is unreachable due to the validation elsewhere in my code.")
                                          
         del self.reservations[index]
             
@@ -68,6 +72,7 @@ class ReservationDB:
         self.saveChanges()
         
     def deleteAssociated(self, customerID: int) -> None:
+        """Delete all reservations that a customer with the given customerID has made."""
         reservationsIDs = []
         
         for reservation in self.reservations:
@@ -84,10 +89,12 @@ class ReservationDB:
         self.saveChanges()
         
     def getAssociatedMeals(self, reservationID: int) -> List[Meal]:
+        """Returns a list of all meals that a given reservation has ordered."""
         orders = OrderDB()
         return orders.getAssociatedMeals(reservationID)
     
     def employeeHasReservations(self, user: str) -> bool:
+        """Returns True if the given employee has made any existing reservations."""
         for reservation in self.reservations:
             if reservation.employeeUser == user:
                 return True
@@ -95,5 +102,6 @@ class ReservationDB:
         return False
     
     def saveChanges(self) -> None:
+        """Internal function. Saves changes to database."""
         with open("data/reservations.dat", "wb") as file:
             pickle.dump(self.reservations, file)

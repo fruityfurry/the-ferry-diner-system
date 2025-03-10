@@ -17,6 +17,7 @@ from helpers import roundPrice, quicksort
 
 class ReservationMaker(tk.Tk):
     def __init__(self, user: Employee, reservationFill: Reservation | None = None, *args, **kwargs) -> None:
+        """Reservation maker window."""
         super().__init__(*args, **kwargs)
         self.title("Reservation Maker")
         self.geometry("800x600")
