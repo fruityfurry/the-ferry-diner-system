@@ -4,7 +4,7 @@ from typing import List, Any, Callable
 
 # A recursive formulation of a general binary search function. Returns -1 if no match is found.
 # Takes in an array, a search item, and a function key to get to the data being compared. (e.g., lambda x: x.customerID)
-# Typing is left inccredibly loose to allow for complete generality in this program.
+# Typing is left incredibly loose to allow for complete generality in this program.
 def binarySearch(array: List[Any], searchItem: Any, key: Callable[[Any], Any] = lambda x: x) -> int:
     # If len(array) == 0, there must be no match.
     if len(array) == 0:
