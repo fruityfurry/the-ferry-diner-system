@@ -6,8 +6,6 @@ import widgets
 import AdminMenu
 import EmployeeMenu
 
-
-
 class Login(tk.Tk):
     def __init__(self, *args, **kwargs) -> None:
         """Login window."""
