@@ -5,12 +5,10 @@ sys.path.insert(1, "C:/Users/kasss/Documents/My Code/Python/The Ferry Diner")  #
 import pickle
 from helpers import hash
 
-# Password and corresponding username to write to file.
-username = "colinr83"
-password = "ColinLovesBurger$369"
-
 passwordHashes = {
-    username: hash(password)  # Hash password and convert to integer for storage.
+    "colinr83": hash("ColinLovesBurger$369"),  # Hash password and convert to integer for storage.
+    "jasonizcool": hash("Jason123!"),
+    "lauraaaa": hash("MyPasswordIsLongerThanYourPassword2005!")
 }
 
 # Write to file.

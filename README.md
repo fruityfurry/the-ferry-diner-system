@@ -1,5 +1,6 @@
 Admin username: colinr83
 Admin password: ColinLovesBurger$369
+Usernames and passwords of other employees can be seen in development tools\passwordHashesFileMaker.py.
 
 This file would, of course, not be included in a real release.
 
