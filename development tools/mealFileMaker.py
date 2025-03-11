@@ -11,7 +11,9 @@ meals = [
     Meal(1, "Cheeseboard", 6.99),
     Meal(2, "Scrambled Eggs", 6.99),
     Meal(3, "Tomato Soup", 8.99),
-    Meal(4, "Fresh Scampi and Chips", 11.99)
+    Meal(4, "Fresh Scampi and Chips", 11.99),
+    Meal(5, "The Ferry Burger", 11.99),
+    Meal(6, "Caesar Salad", 5.99)
 ]
 
 with open("data/meals.dat", "wb+") as file:
