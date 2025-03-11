@@ -3,9 +3,7 @@ sys.path.insert(1, "C:/Users/kasss/Documents/My Code/Python/The Ferry Diner")  #
 import pickle
 from Employee import Employee
 
-username = "colinr83"
-name = "Colin Robinson"
-reservationsMade = 0
-
 with open("data/employees.dat", "wb+") as file:
-    pickle.dump([Employee(username, name, reservationsMade)], file)
+    pickle.dump([Employee("colinr83", "Colin Robinson", 0),
+                 Employee("jasonizcool", "Jason Mendoza", 0),
+                 Employee("lauraaaa", "Laura Stockton", 0)], file)
