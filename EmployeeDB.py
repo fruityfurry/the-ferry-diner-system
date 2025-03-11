@@ -25,8 +25,6 @@ class EmployeeDB:
                 self.employees.remove(employee)
                 break
             
-        print(self.employees)
-            
         passwords = PasswordDB()
         passwords.delete(username)
         
