@@ -6,3 +6,4 @@ class Order:
     orderID: int
     reservationID: int
     mealID: int
+    quantity: int

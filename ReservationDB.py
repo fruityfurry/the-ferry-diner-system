@@ -1,5 +1,5 @@
 import pickle
-from typing import List
+from typing import List, Tuple
 from Reservation import Reservation
 from ReservationSearch import ReservationSearch
 from Meal import Meal
@@ -40,7 +40,7 @@ class ReservationDB:
                 
         return matches
     
-    def add(self, customerID: int, employeeUser: str, time: str, peopleNum: int, meals: List[Meal]) -> None:
+    def add(self, customerID: int, employeeUser: str, time: str, peopleNum: int, meals: List[Tuple[Meal, int]]) -> None:
         """Add reservation with the given details."""
         if len(self.reservations) == 0:
             reservationID = 0
@@ -53,8 +53,8 @@ class ReservationDB:
         orders = OrderDB()
         
         # Add required order entries.
-        for meal in meals:
-            orders.add(reservationID, meal.mealID)
+        for mealAndQuantity in meals:
+            orders.add(reservationID, mealAndQuantity[0].mealID, mealAndQuantity[1])
             
         self.saveChanges()
         
@@ -88,7 +88,7 @@ class ReservationDB:
         
         self.saveChanges()
         
-    def getAssociatedMeals(self, reservationID: int) -> List[Meal]:
+    def getAssociatedMeals(self, reservationID: int) -> List[Tuple[Meal, int]]:
         """Returns a list of all meals that a given reservation has ordered."""
         orders = OrderDB()
         return orders.getAssociatedMeals(reservationID)

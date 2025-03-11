@@ -1,6 +1,6 @@
 import tkinter as tk
 import pickle
-from typing import List
+from typing import List, Tuple
 from Employee import Employee
 import colors
 import widgets
@@ -35,7 +35,7 @@ class ReservationMaker(tk.Tk):
         self.sName.trace_add("write", self.nameChange)  # Allows tracking when value is changed.
 
         self.phone = tk.StringVar()
-        self.mealsOrdered: List[Meal] = []
+        self.mealsOrdered: List[Tuple[Meal, int]] = []
         self.meals = MealDB()
         
         mealNames = [meal.name for meal in self.meals.meals]  # List of names of meals for meal dropdown.
@@ -197,7 +197,7 @@ class ReservationMaker(tk.Tk):
                 self.autofillButton.config(state=tk.NORMAL)
                 self.customerSearchText.set(
                     fullName.title() +
-                    f" found!{'\nHowever, there are other\ncustomers with the same name.' if matchesFound > 0 else ''}+"
+                    f" found!{'\nHowever, there are other\ncustomers with the same name.' if matchesFound > 0 else ''}"
                     )
                 matchesFound += 1
             elif matchesFound == 0:
@@ -208,31 +208,18 @@ class ReservationMaker(tk.Tk):
     # Takes list of meals ordered and formats them into a nice format with quantities and such   
     def formatMeals(self) -> None:
         text = ""
-        mealsSeen: List[Meal] = []
-        mealQuantities: List[int] = []
         
-        # Loop through all meals ordered and count up the quantities of each unique meal.
-        for meal in self.mealsOrdered:
-            if meal not in mealsSeen:
-                mealsSeen.append(meal)
-                mealQuantities.append(1)
-            else:
-                mealQuantities[mealsSeen.index(meal)] += 1
-                
-        for i in range(len(mealsSeen)):
-            meal = mealsSeen[i]
-            quantity = mealQuantities[i]
+        for mealAndQuantity in self.mealsOrdered:
+            text += f"x{mealAndQuantity[1]} {mealAndQuantity[0].name} - £{roundPrice(mealAndQuantity[0].price)}\n"
             
-            text += f"x{quantity} {meal.name} - £{meal.price}\n"
-                
         self.mealsAddedTextBox.setText(text[:-1])  # Exclude last newline character.
                 
     # Update total text with correct total of meals ordered.
     def updateTotal(self) -> None:
         total = 0
         
-        for meal in self.mealsOrdered:
-            total += meal.price
+        for mealAndQuantity in self.mealsOrdered:
+            total += mealAndQuantity[0].price * mealAndQuantity[1]  # Add meal price multiplied by quantity of that meal.
             
         self.totalPriceLabel.config(text=f"Total: £{roundPrice(total)}")
         
@@ -243,11 +230,18 @@ class ReservationMaker(tk.Tk):
     
     # Add meal to list of ordered meals and update meal box and total.
     def addMeal(self) -> None:
-        selectedMeal = self.selectedMeal.get()
+        selectedMeal = self.meals.getByName(self.selectedMeal.get())
         
-        selectedMeal = self.meals.getByName(selectedMeal)
+        for i, mealAndQuantity in enumerate(self.mealsOrdered):
+            if mealAndQuantity[0] == selectedMeal:
+                self.mealsOrdered[i] = (mealAndQuantity[0], mealAndQuantity[1] + 1)
+                self.formatMeals()
+                self.updateTotal()
+                return
+            
+        # If the code made it through the whole for loop, this meal must not be in the list.
+        self.mealsOrdered.append((selectedMeal, 1))
         
-        self.mealsOrdered.append(selectedMeal)
         self.formatMeals()
         self.updateTotal()
         
@@ -255,11 +249,14 @@ class ReservationMaker(tk.Tk):
     def removeMeal(self) -> None:
         selectedMeal = self.meals.getByName(self.selectedMeal.get())
         
-        # Try to remove meal, if this fails we just ignore the attempt and return.
-        try:
-            self.mealsOrdered.remove(selectedMeal)
-        except:
-            return
+        for i, mealAndQuantity in enumerate(self.mealsOrdered):
+            if mealAndQuantity[0] == selectedMeal:
+                if mealAndQuantity[1] == 1:
+                    self.mealsOrdered.remove(mealAndQuantity)
+                else:
+                    self.mealsOrdered[i] = (mealAndQuantity[0], mealAndQuantity[1] - 1)
+                    
+                break
         
         if len(self.mealsOrdered) == 0:
             self.mealsAddedTextBox.setText("No meals added yet.")

@@ -273,21 +273,12 @@ class ReservationViewer(tk.Tk):
         customers = CustomerDB()
         orders = OrderDB()
         
-        def formatMeals(meals: List[Meal]) -> str:
+        def formatMeals(meals: List[Tuple[Meal, int]]) -> str:
             text = ""
-            mealsSeen = []
             
-            for i, meal1 in enumerate(meals):
-                if meal1 not in mealsSeen:
-                    quantity = 1
-                    mealsSeen.append(meal1)
-                    
-                    for j, meal2 in enumerate(meals):
-                        if meal1 == meal2 and i != j:
-                            quantity += 1
-                        
-                    text += f"x{quantity} {meal1.name} - £{roundPrice(meal1.price)}\n"
-                    
+            for mealAndQuantity in meals:
+                text += f"x{mealAndQuantity[1]} {mealAndQuantity[0].name} - £{roundPrice(mealAndQuantity[0].price)}\n"
+                
             return text[:-1]  # Exclude last newline character.
         
         for reservation in selected:

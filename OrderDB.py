@@ -1,5 +1,5 @@
 import pickle
-from typing import List
+from typing import List, Tuple
 from Order import Order
 from Meal import Meal
 from MealDB import MealDB
@@ -10,40 +10,41 @@ class OrderDB:
         """Order database class. Create an instance of this class to interact with the database using its methods."""
         self.orders: List[Order] = pickle.load(open("data/orders.dat", "rb"))
         
-    def add(self, reservationID: int, mealID: int) -> None:
+    def add(self, reservationID: int, mealID: int, quantity: int) -> None:
         """Add an order with the given details."""
         if len(self.orders) == 0:
             orderID = 0
         else:
             orderID = self.orders[-1].orderID + 1
         
-        self.orders.append(Order(orderID, reservationID, mealID))
+        self.orders.append(Order(orderID, reservationID, mealID, quantity))
         
         self.saveChanges()
         
-    def getAssociatedMeals(self, reservationID: int) -> List[Meal]:
-        """Returns a list of all meals associated with a given reservationID."""
+    def getAssociatedMeals(self, reservationID: int) -> List[Tuple[Meal, int]]:
+        """Returns a list of all meals associated with a given reservationID as tuples along with their respective
+        quantities."""
         matches = []
         
         meals = MealDB()
         
         for order in self.orders:
             if order.reservationID == reservationID:
-                matches.append(meals.getByID(order.mealID))
+                matches.append((meals.getByID(order.mealID), order.quantity))
         
         return matches
         
     def deleteAssociated(self, reservationID: int) -> None:
         """Delete all orders associated with a given reservationID."""
-        indexesToDelete = []
+        indicesToDelete = []
         
         for index, order in enumerate(self.orders):
             if order.reservationID == reservationID:
-                indexesToDelete.append(index)
+                indicesToDelete.append(index)
                 
-        indexesToDelete.reverse()  # Reverse so that indexes are not affected by deletions. 
+        indicesToDelete.reverse()  # Reverse so that indices are not affected by deletions. 
                 
-        for index in indexesToDelete:
+        for index in indicesToDelete:
             del self.orders[index]
         
         self.saveChanges()
@@ -52,12 +53,16 @@ class OrderDB:
         """Delete all orders that order a meal with the given mealID."""
         reservations = ReservationDB.ReservationDB()
         
-        while True:
-            for order in self.orders:
-                if order.mealID == mealID:
-                    reservations.delete(order.reservationID)
+        indicesToDelete = []
+        
+        for index, order in enumerate(self.orders):
+            if order.mealID == mealID:
+                indicesToDelete.append(index)
                 
-            break  # If made a full run through the for loop, that means no more orders/reservations with this meal exist.
+        indicesToDelete.reverse()  # Reverse so that indices are not affected by deletions.
+        
+        for index in indicesToDelete:
+            del self.orders[index]
         
     def saveChanges(self) -> None:
         """Internal function. Saves changes to database."""

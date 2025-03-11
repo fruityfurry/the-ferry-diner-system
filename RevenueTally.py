@@ -35,9 +35,9 @@ class RevenueTally(tk.Tk):
         for reservation in reservations.reservations:
             reservationNum += 1
             
-            for meal in orders.getAssociatedMeals(reservation.reservationID):
-                meals += 1
-                revenue += meal.price
+            for mealAndQuantity in orders.getAssociatedMeals(reservation.reservationID):
+                meals += mealAndQuantity[1]
+                revenue += mealAndQuantity[0].price * mealAndQuantity[1]
                 
         tallyText.config(text=f"Made £{roundPrice(revenue)}\nfrom {meals} meals\n"
                               f"served across {reservationNum} reservations today.")
