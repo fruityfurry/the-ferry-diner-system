@@ -39,6 +39,10 @@ class Login(tk.Tk):
         # Bind return key to press the log in button.
         self.bind("<Return>", lambda e: self.logInButtonPress())  # Lambda to resolve differing arguments.
         
+        # Focus on first text entry to ready it for typing immediately.
+        # After needed to resolve bug where using .focus() doesn't work.
+        self.after(1, lambda: [self.focus_force(), userEntry.focus()])
+        
         self.mainloop()
         
     def error(self, text: str) -> None:
