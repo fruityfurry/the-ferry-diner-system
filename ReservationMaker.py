@@ -185,6 +185,9 @@ class ReservationMaker(tk.Tk):
         fullName = self.fName.get().strip() + " " + self.sName.get().strip()
         fullName = fullName.lower()
         
+        if fullName == " ":
+            self.customerSearchText.set("Start typing to search customers.")
+        
         matchesFound = 0
         
         # If match found, suggest they be autofilled.
