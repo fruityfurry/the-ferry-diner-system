@@ -25,7 +25,7 @@ class EmployeeViewer(tk.Tk):
         self.user = user
         
         self.employeeDB = EmployeeDB()
-        self.employees = [x for x in self.employeeDB.employees]  # To avoid copying by reference and removing
+        self.employees = [x for x in self.employeeDB.employees]  # To avoid passing by reference and removing
                                                                  # the admin account from the database as well.
         self.employees.remove(self.employeeDB.getByUsername("colinr83"))  # Do not display the admin account.
         quicksort(self.employees, lambda x: x.name)

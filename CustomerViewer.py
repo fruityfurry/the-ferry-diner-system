@@ -23,7 +23,7 @@ class CustomerViewer(tk.Tk):
         self.user = user
         
         self.customerDB = CustomerDB()
-        self.customers = [x for x in self.customerDB.customers]  # Avoid copying by reference.
+        self.customers = [x for x in self.customerDB.customers]  # Avoid passing by reference.
         quicksort(self.customers, lambda x: x.fName)  # Sort list.
         
         self.sortBy = tk.StringVar(self, "First Name")

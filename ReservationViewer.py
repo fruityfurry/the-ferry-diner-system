@@ -30,7 +30,7 @@ class ReservationViewer(tk.Tk):
         self.user = user
         
         self.reservationDB = ReservationDB()
-        self.reservations = [x for x in self.reservationDB.reservations]  # Avoid copying by reference. Python is so fun.
+        self.reservations = [x for x in self.reservationDB.reservations]  # Avoid passing by reference. Python is so fun.
         quicksort(self.reservations, lambda x: x.time)
         
         self.sortBy = tk.StringVar(self, "Time")
@@ -181,7 +181,6 @@ class ReservationViewer(tk.Tk):
         customerName = tk.StringVar(dialog)
         employeeName = tk.StringVar(dialog)
         time = tk.StringVar(dialog)
-        time.set(timeslots[0])
         peopleNum = tk.StringVar(dialog)
         
         def resetSearchButton() -> None:

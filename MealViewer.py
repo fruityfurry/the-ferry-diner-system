@@ -23,7 +23,7 @@ class MealViewer(tk.Tk):
         self.user = user
         
         self.mealDB = MealDB()
-        self.meals = [x for x in self.mealDB.meals]  # Avoid copying by reference.
+        self.meals = [x for x in self.mealDB.meals]  # Avoid passing by reference.
         quicksort(self.meals, lambda x: x.name)
         
         self.sortBy = tk.StringVar(self, "Name")
@@ -147,6 +147,9 @@ class MealViewer(tk.Tk):
         def tryMakeSearch() -> None:
             if name.get() == "":
                 nameSearch = None
+            elif not name.get().isalpha():
+                error("Invalid Name")
+                return
             else:
                 nameSearch = name.get().strip()
             if price.get() == "":
