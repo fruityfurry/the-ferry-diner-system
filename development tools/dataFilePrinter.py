@@ -22,5 +22,5 @@ filepaths = [
 for filepath in filepaths:
     data = pickle.load(open(filepath, "rb"))
     print(f"{filepath}: ")
-    pprint.pprint(data, indent = 2)
+    pprint.pprint(data, indent=2)
     print()

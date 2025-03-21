@@ -7,5 +7,5 @@ from Employee import Employee
 
 with open("data/employees.dat", "wb+") as file:
     pickle.dump([Employee("colinr83", "Colin Robinson", 0),
-                 Employee("jasonizcool", "Jason Mendoza", 0),
-                 Employee("lauraaaa", "Laura Stockton", 0)], file)
+                 Employee("jasonizcool", "Jason Mendoza", 1),
+                 Employee("lauraaaa", "Laura Stockton", 1)], file)

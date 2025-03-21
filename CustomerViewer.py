@@ -136,9 +136,19 @@ class CustomerViewer(tk.Tk):
         
         name = tk.StringVar(dialog)
         
+        def resetSearchButton() -> None:
+            searchButton.config(fg=colors.FOREGROUND, text="Search")
+        
+        def error(text: str) -> None:
+            searchButton.config(fg=colors.ERROR, text=text)
+            dialog.after(1000, resetSearchButton)
+        
         def tryMakeSearch() -> None:
             if name.get() == "":
                 nameSearch = None
+            elif not name.get().isalpha():
+                error("Invalid name")
+                return
             else:
                 nameSearch = name.get().strip().lower()
             

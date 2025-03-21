@@ -163,6 +163,13 @@ class EmployeeViewer(tk.Tk):
         username = tk.StringVar(dialog)
         name = tk.StringVar(dialog)
         
+        def resetSearchButton() -> None:
+            searchButton.config(fg=colors.FOREGROUND, text="Search")
+        
+        def error(text: str) -> None:
+            searchButton.config(fg=colors.ERROR, text=text)
+            dialog.after(1000, resetSearchButton)
+        
         def tryMakeSearch() -> None:
             if username.get() == "":
                 usernameSearch = None
@@ -171,10 +178,13 @@ class EmployeeViewer(tk.Tk):
                 
             if name.get() == "":
                 nameSearch = None
+            elif not name.get().isalpha():
+                error("Invalid name")
+                return
             else:
                 nameSearch = name.get().strip()
             
-            search = EmployeeSearch(username=usernameSearch, nameSearch=nameSearch)
+            search = EmployeeSearch(usernameSearch=usernameSearch, nameSearch=nameSearch)
             
             dialog.destroy()
             self.searchButton.config(state=tk.NORMAL)
@@ -267,7 +277,7 @@ class EmployeeViewer(tk.Tk):
                 passwords.add(selectedEmployee.username, password1.get())
                 
                 changePasswordButton.config(text="Success!", disabledforeground=colors.HIGHLIGHT, state=tk.DISABLED)
-                dialog.after(1000, dialog.destroy)
+                dialog.after(1000, close)
                 
         def close() -> None:
             self.changePasswordButton.config(state=tk.NORMAL)
